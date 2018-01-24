@@ -3,4 +3,7 @@
     <string name="Join_Room_Button">Join Room</string>
     <string name="Create_Room_Key">Create Room</string>
     <string name="Join_Random_Room_Button">Join Random Room</string>
+    <string name="room_nbr">Enter room number:</string>
+    <string name="user_name">Add username:</string>
+    <string name="confirm">Confirm</string>
 </resources>
