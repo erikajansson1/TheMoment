@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".JoinRoomActivity"></activity>
+        <activity android:name=".JoinRoomActivity" />
+        <activity android:name=".JoinRandomRoomActivity" />
+        <activity android:name=".CreateRoomActivity"></activity>
     </application>
 
 </manifest>

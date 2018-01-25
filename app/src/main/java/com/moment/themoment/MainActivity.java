@@ -20,4 +20,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, JoinRoomActivity.class);
         startActivity(intent);
     }
+
+    public void joinRandomRoom(View view) {
+        Intent intent = new Intent(this, JoinRandomRoomActivity.class);
+        startActivity(intent);
+    }
+
+    public void CreateRoom(View view) {
+        Intent intent = new Intent(this, CreateRoomActivity.class);
+        startActivity(intent);
+    }
 }
