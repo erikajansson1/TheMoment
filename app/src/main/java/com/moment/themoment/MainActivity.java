@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void CreateRoom(View view) {
+    public void createRoom(View view) {
         Intent intent = new Intent(this, CreateRoomActivity.class);
         startActivity(intent);
     }

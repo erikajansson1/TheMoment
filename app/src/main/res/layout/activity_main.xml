@@ -37,7 +37,7 @@
         android:layout_width="225dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:onClick="CreateRoom"
+        android:onClick="createRoom"
         android:text="@string/Create_Room_Key"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
