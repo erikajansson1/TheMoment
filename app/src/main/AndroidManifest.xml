@@ -20,7 +20,10 @@
         <activity android:name=".JoinRandomRoomActivity" />
         <activity android:name=".CreateRoomActivity" />
         <activity android:name=".WaitForPlayersActivity" />
-        <activity android:name=".waitForClaim"></activity>
+        <activity android:name=".waitForClaim" />
+        <activity android:name=".WriteClaim" />
+        <activity android:name=".VoteOnClaim" />
+        <activity android:name=".ResultPage"></activity>
     </application>
 
 </manifest>
