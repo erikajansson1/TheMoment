@@ -1,7 +1,9 @@
 package com.moment.themoment;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class CreateRoomActivity extends AppCompatActivity {
 
@@ -9,5 +11,10 @@ public class CreateRoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+    }
+
+    public void ConfirmCreateRoom(View view) {
+        Intent intent = new Intent(this, WaitForPlayersActivity.class);
+        startActivity(intent);
     }
 }
