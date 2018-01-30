@@ -6,7 +6,9 @@
     <string name="room_nbr">Enter room number:</string>
     <string name="user_name">Add username:</string>
     <string name="confirm">Confirm</string>
-    <string name="AmountChairs">Enter amount of chairs:</string>
-    <string name="createRoom">Create Room</string>
     <string name="YourRoomNbr">Your room number is:</string>
+    <string name="createRoom">Create Room</string>
+    <string name="AmountPlayers">Enter amount of players:</string>
+    <string name="RRNumber">Your random room number is:</string>
+    <string name="JoinG">Join Game</string>
 </resources>
