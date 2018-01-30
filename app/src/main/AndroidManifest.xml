@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".JoinRoomActivity" />
         <activity android:name=".JoinRandomRoomActivity" />
-        <activity android:name=".CreateRoomActivity"></activity>
+        <activity android:name=".CreateRoomActivity" />
+        <activity android:name=".WaitForPlayersActivity"></activity>
     </application>
 
 </manifest>
