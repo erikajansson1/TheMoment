@@ -34,7 +34,7 @@ public class JoinRoomActivity extends AppCompatActivity {
         jumpToWaitForClaim(view);
     }
     private void jumpToWaitForClaim(View view) {
-        Intent intent = new Intent(this, waitForClaim.class);
+        Intent intent = new Intent(this, WaitForClaim.class);
         startActivity(intent);
     }
 }

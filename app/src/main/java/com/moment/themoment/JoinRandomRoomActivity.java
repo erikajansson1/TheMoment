@@ -27,7 +27,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity {
     }
 
     private void jumpToWaitForClaim() {
-        //TODO Intent intent = new Intent(this, waitForClaim.class);
+        //TODO Intent intent = new Intent(this, WaitForClaim.class);
         //startActivity(intent);
     }
 }

@@ -22,7 +22,7 @@ public class WaitForClaim extends AppCompatActivity {
         setContentView(R.layout.activity_wait_for_claim);
         timeCount = findViewById(R.id.countDown);
         claimProgress = findViewById(R.id.progress);
-        queryDBWriteClaim();
+        //TODO queryDBWriteClaim();
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeCount.setText(""+String.format(FORMAT,
