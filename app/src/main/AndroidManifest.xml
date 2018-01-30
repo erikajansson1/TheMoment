@@ -19,7 +19,8 @@
         <activity android:name=".JoinRoomActivity" />
         <activity android:name=".JoinRandomRoomActivity" />
         <activity android:name=".CreateRoomActivity" />
-        <activity android:name=".WaitForPlayersActivity"></activity>
+        <activity android:name=".WaitForPlayersActivity" />
+        <activity android:name=".waitForClaim"></activity>
     </application>
 
 </manifest>
