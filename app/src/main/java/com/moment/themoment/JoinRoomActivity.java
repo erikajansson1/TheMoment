@@ -23,16 +23,12 @@ public class JoinRoomActivity extends AppCompatActivity {
         EditText userName = findViewById(R.id.userNameInput);
         String userNameString = userName.getText().toString();
 
-        Boolean joinedSuccesfully = FALSE;
-        //TODO Query server for room existence and if possible add client to Room. If succesfull return true, do a callback to jumpToWaitForClaim
-        if (joinedSuccesfully) {
-            jumpToWaitForClaim(view);
-        }
-        else {
-            //TODO if failure, handle failure, error message? response from server error message maybe?
-        }
+        //TODO Query server for room existence and if possible add client to Room. If succesfull do a callback to jumpToWaitForClaim
+        // TODO if failure, handle failure, error message? response from server error message maybe?
+
         jumpToWaitForClaim(view);
     }
+
     private void jumpToWaitForClaim(View view) {
         Intent intent = new Intent(this, WaitForClaim.class);
         startActivity(intent);

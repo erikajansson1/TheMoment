@@ -14,4 +14,6 @@
     <string name="WaitingForPlayers">Waiting for players to join the game</string>
     <string name="NbrOfJoined">Players has currently joined</string>
     <string name="waiting_claim">Waiting for claim...</string>
+    <string name="trueClaim">True</string>
+    <string name="falseClaim">False</string>
 </resources>
