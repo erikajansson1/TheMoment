@@ -17,4 +17,6 @@
     <string name="trueClaim">True</string>
     <string name="falseClaim">False</string>
     <string name="Claim">This should be the claim....</string>
+    <string name="TheClaim">Write a claim:</string>
+    <string name="CorrectAnsw">The correct answer is:</string>
 </resources>
