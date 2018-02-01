@@ -10,4 +10,6 @@ public class VoteOnClaim extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_on_claim);
     }
+
+    //TODO: Textsträngen ska läsa in claimen som den som fyller i claimen skrivit.
 }

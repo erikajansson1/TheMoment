@@ -16,4 +16,5 @@
     <string name="waiting_claim">Waiting for claim...</string>
     <string name="trueClaim">True</string>
     <string name="falseClaim">False</string>
+    <string name="Claim">This should be the claim....</string>
 </resources>
