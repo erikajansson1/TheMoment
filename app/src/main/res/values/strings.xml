@@ -16,9 +16,7 @@
     <string name="waiting_claim">Waiting for claim...</string>
     <string name="trueClaim">True</string>
     <string name="falseClaim">False</string>
-    <string name="input_claim">State your claim</string>
-    <string name="submit">Submit</string>
-    <string name="T_or_F">True or False?</string>
-    <string name="claim_present">Claim to vote on</string>
-    <string name="Current_Room">Room:</string>
+    <string name="Claim">This should be the claim....</string>
+    <string name="TheClaim">Write a claim:</string>
+    <string name="CorrectAnsw">The correct answer is:</string>
 </resources>
