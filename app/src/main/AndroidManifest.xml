@@ -23,7 +23,7 @@
         <activity android:name=".WaitForClaim" />
         <activity android:name=".WriteClaim" />
         <activity android:name=".VoteOnClaim" />
-        <activity android:name=".ResultPage"></activity>
+        <activity android:name=".ResultPageActivity"></activity>
     </application>
 
 </manifest>

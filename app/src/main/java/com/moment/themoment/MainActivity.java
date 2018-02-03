@@ -30,4 +30,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateRoomActivity.class);
         startActivity(intent);
     }
+
+    public void jumpToResult(View view) {
+        Intent intent = new Intent(this, ResultPageActivity.class);
+        startActivity(intent);
+    }
 }
