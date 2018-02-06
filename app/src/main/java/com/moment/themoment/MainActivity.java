@@ -35,4 +35,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ResultPageActivity.class);
         startActivity(intent);
     }
+
+    public void talkToServer(View view) {
+        BackgroundTask talk = new BackgroundTask(this);
+        talk.execute();
+    }
+
 }
