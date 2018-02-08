@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.moment.themoment.VoteOnClaim">
 
-    <ToggleButton
-        android:id="@+id/toggleButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/T_or_F"
-        android:textOff="@string/False"
-        android:textOn="@string/True"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
@@ -34,16 +20,57 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/ClaimToVote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:text="@string/Claim"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="63dp"
+        android:layout_marginTop="164dp"
+        android:duplicateParentState="false"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/True"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="220dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/False"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="267dp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

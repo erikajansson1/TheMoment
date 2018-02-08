@@ -46,4 +46,9 @@ public class MainActivity extends AppCompatActivity {
         //servercomm.SendToServer(superguy);
     }
 
+    public void writeClaimRoom(View view) {
+        Intent intent = new Intent(this, WriteClaim.class);
+        startActivity(intent);
+    }
+
 }

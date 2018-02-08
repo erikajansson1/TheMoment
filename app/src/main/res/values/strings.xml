@@ -117,4 +117,5 @@
     <string name="scores">Scores</string>
     <string name="False">False</string>
     <string name="True">True</string>
+    <string name="DebugWriteClaim">DebugWriteClaim</string>
 </resources>
