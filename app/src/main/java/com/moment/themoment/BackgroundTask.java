@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.*;
 
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class BackgroundTask extends AsyncTask<Void, Void,Void> {
     JSONObject obj;
     String temp;
     Context c;
+    String superguy;
     String json;
     String value;
     Handler h = new Handler();
@@ -42,8 +45,12 @@ public class BackgroundTask extends AsyncTask<Void, Void,Void> {
         try
         {
             //Make the JSON more generic
-            final String json = "{\"name\":\"Fredrik\",\"answer\":\"dinmamma\"}";
-            URL url2 = new URL("http://130.243.190.220/tes.php?jsonobj="+json);
+            Player guy = new Player("Fredrik", "dinmamma");
+            Gson g = new Gson();
+            superguy = g.toJson(guy); //This makes an JSON string of whatever object you give
+
+            URL url2 = new URL("http://188.166.91.53/test.php?jsonobj="+superguy);
+            //URL url2 = new URL("http://192.168.1.41/tes.php?jsonobj="+superguy);
             URLConnection conn = url2.openConnection();
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -57,7 +64,6 @@ public class BackgroundTask extends AsyncTask<Void, Void,Void> {
                     Toast.makeText(c, "Calculating result...", Toast.LENGTH_SHORT).show();
                     Toast.makeText(c, "Answer = " + temp, Toast.LENGTH_LONG).show();
                     Toast.makeText(c, "Data Saved in server...", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(c, "Current json send: " + json, Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (MalformedURLException e)
@@ -71,5 +77,3 @@ public class BackgroundTask extends AsyncTask<Void, Void,Void> {
 
 
 }
-
-

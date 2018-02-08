@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     public void talkToServer(View view) {
         BackgroundTask talk = new BackgroundTask(this);
         talk.execute();
+        //Player hi = new Player("Fredrik", "dinmamma");
+        //Gson g = new Gson();
+        //String superguy = g.toJson(hi);
+        //ServerCommunication servercomm = new ServerCommunication(this);
+        //servercomm.SendToServer(superguy);
     }
 
 }
