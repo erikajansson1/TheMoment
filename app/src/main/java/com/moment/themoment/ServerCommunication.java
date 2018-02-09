@@ -22,7 +22,7 @@ public class ServerCommunication {
      * @param json
      * @return
      */
-    public <T> void SendToServer(final String json) {
+    private <T> void SendToServer(final String json) {
         //TODO send json to server
         return;
     }
@@ -39,8 +39,8 @@ public class ServerCommunication {
     }
 
     /**
-     * Save a player to the database. Should return ID to the user that should be updated on the
-     * to keep track in the communication
+     * Saves a player to the database. Should return ID to the user that should be updated on the
+     * user to keep track in the communication from there on.
      * @param player
      * @return ID
      */
@@ -81,6 +81,16 @@ public class ServerCommunication {
     public Boolean SendClaimToServer(Player player, Room room, Claim claim){
         //TODO convert param to JSON and run sendTOServer
         return false;
+    }
+
+    /**
+     * Send request to server to respond a update of the room.
+     * @param player
+     * @param room
+     * @return room
+     */
+    public Room updateRoomRequest(Player player, Room room){
+        return null;
     }
 
 }
