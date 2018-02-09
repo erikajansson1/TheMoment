@@ -17,15 +17,6 @@ import java.net.URLConnection;
 
 public class ServerCommunication {
     /**
-     String temp;
-     Context c;
-     Handler h = new Handler();
-     ServerCommunication(Context c) {
-     this.c = c;
-     }
-    */
-
-    /**
      * Method to send JSON to the server, unless you have added a "type" to your JSON then you
      * should use another function that does this for you.
      * @param json
@@ -33,28 +24,6 @@ public class ServerCommunication {
      */
     public <T> void SendToServer(final String json) {
         //TODO send json to server
-        /** Handler handler = new Handler();
-         final Runnable r = new Runnable() {
-         public void run() {
-         try {
-         URL url = new URL("http://192.168.1.41/tes.php?jsonobj="+json);
-         URLConnection con = url.openConnection();
-         BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
-         String line;
-         while ((line = rd.readLine()) != null) {
-         temp += line;
-         }
-         rd.close();
-         } catch (MalformedURLException e) {
-         e.printStackTrace();
-         } catch (IOException e) {
-         e.printStackTrace();
-         }
-         Toast.makeText(c, "Calculating result...", Toast.LENGTH_SHORT).show();
-         Toast.makeText(c, "Here: " + temp, Toast.LENGTH_SHORT).show();
-         };
-         };
-         */
         return;
     }
 
@@ -64,7 +33,7 @@ public class ServerCommunication {
      * @param whatCase
      * @return json
      */
-    public String requestFromServer(final String json, Integer whatCase){
+    private String requestFromServer(final String json, Integer whatCase){
         //TODO request server for response
         return null;
     }
