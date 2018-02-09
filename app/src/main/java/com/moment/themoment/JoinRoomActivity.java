@@ -23,7 +23,7 @@ public class JoinRoomActivity extends AppCompatActivity {
         EditText userName = findViewById(R.id.userNameInput);
         String userNameString = userName.getText().toString();
 
-        //TODO Query server for room existence and if possible add client to Room. If succesfull do a callback to jumpToWaitForClaim
+        //TODO Query server for room existence and if possible add client to ROOM. If succesfull do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
 
         jumpToWaitForClaim(view);

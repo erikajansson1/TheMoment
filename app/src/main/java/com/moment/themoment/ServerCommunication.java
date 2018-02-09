@@ -8,10 +8,15 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -22,9 +27,27 @@ public class ServerCommunication {
      * @param json
      * @return
      */
-    private <T> void SendToServer(final String json) {
+    public <T> String SendToServer(final String json) {
+        final int portnr = 80;
+        String temp = null;
+        String host = "188.166.91.53";
+        try {
+            Socket sender = new Socket(host, portnr);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sender.getOutputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
+            writer.write(json);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                temp.concat(line);
+            }
+            sender.close();
+            reader.close();
+            writer.close();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
         //TODO send json to server
-        return;
+        return temp;
     }
 
     /**

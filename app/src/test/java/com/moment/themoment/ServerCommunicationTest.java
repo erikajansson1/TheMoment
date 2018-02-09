@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for the class ServerCommunication, still in early phase
+ */
 public class ServerCommunicationTest {
     @Test
     public void sendJson() throws Exception{
