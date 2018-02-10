@@ -44,32 +44,21 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... args0){
-        //final int portnr = 80;
         String temp = null;
-        //String host = "188.166.91.53";
-        //String host = "192.168.1.5";
         try {
-            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
-            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+            URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
+            //URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
-            //Socket sender = new Socket(host, portnr);
-            //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sender.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
-            //writer.write(json);
             String line;
             while ((line = reader.readLine()) != null) {
                 temp = line;//.concat(line);
             }
             this.newJson = temp;
-            //sender.close();
             reader.close();
-            //writer.close();
         }catch(IOException e) {
             e.printStackTrace();
         }
-
-        //TODO send json to server
-        //return temp;
         return null;
     }
 
