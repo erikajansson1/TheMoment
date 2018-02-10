@@ -10,16 +10,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class ServerCommunicationTest {
     @Test
-    public void sendJson() throws Exception{
+    public void sendJson(){
         Player guy = new Player("Fredrik");
-        Gson g = new Gson();
-        String superguy = g.toJson(guy);
+        Gson gg = new Gson();
+        String superguy = gg.toJson(guy);
         Player tester = new Player("Henri");
+        String testerJson = gg.toJson(tester);
         // Context of the app under test.
         ServerCommunication serverComm = new ServerCommunication();
         String returnString = serverComm.SendToServer(superguy);
-        g.fromJson(returnString, Player.class);
-        assertEquals(tester, returnString);
+        //g.fromJson(returnString, Player.class);
+        assertEquals(testerJson, returnString);
     }
 
     @Test
