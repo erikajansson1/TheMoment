@@ -38,15 +38,15 @@ public class WaitForPlayersActivity extends AppCompatActivity {
             }
             public void onFinish() {
                 timeCount.setText("Starting!");
+                //TODO: When if statement above works i.e. one can read from server how many player has connected and if the room is full the game starts, the out commentation can be removed.
+              //  jumpToWaitForClaim();
             }
         }.start();
     }
 
     private void jumpToWaitForClaim() {
-        //TODO Remove finish and implement waitForClaim
-        finish();
-        //TODO Intent intent = new Intent(this, waitForClaim.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, WriteClaim.class);
+        startActivity(intent);
     }
 
 }
