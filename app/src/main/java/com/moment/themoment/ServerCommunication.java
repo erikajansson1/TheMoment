@@ -1,6 +1,7 @@
 package com.moment.themoment;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -20,35 +21,70 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class ServerCommunication {
+public class ServerCommunication extends AsyncTask<Void, Void, Void> {
+
+    private String json;
+    private String newJson;
+
+    ServerCommunication(){
+        this.json = null;
+    }
+
     /**
-     * Method to send JSON to the server, unless you have added a "type" to your JSON then you
-     * should use another function that does this for you.
-     * @param json
+     * Return json object from the class
      * @return
      */
-    public <T> String SendToServer(final String json) {
-        final int portnr = 80;
+    public String getJson(){
+        return this.json;
+    }
+
+    public String getNewJson(){
+        return this.newJson;
+    }
+
+    @Override
+    protected Void doInBackground(Void... args0){
+        //final int portnr = 80;
         String temp = null;
-        String host = "188.166.91.53";
+        //String host = "188.166.91.53";
         //String host = "192.168.1.5";
         try {
-            Socket sender = new Socket(host, portnr);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sender.getOutputStream()));
+            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
+            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+            URLConnection sender = url.openConnection();
+            //Socket sender = new Socket(host, portnr);
+            //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sender.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
-            writer.write(json);
+            //writer.write(json);
             String line;
             while ((line = reader.readLine()) != null) {
                 temp = line;//.concat(line);
             }
-            sender.close();
+            this.newJson = temp;
+            //sender.close();
             reader.close();
-            writer.close();
+            //writer.close();
         }catch(IOException e) {
             e.printStackTrace();
         }
+
         //TODO send json to server
-        return temp;
+        //return temp;
+        return null;
+    }
+
+    /**
+     * Method to send JSON to the server, unless you have added a "type" to your JSON then you
+     * should use another function that does this for you.
+     * @param sentJson
+     * @return
+     */
+    public String SendToServer(String sentJson) {
+        this.json = sentJson;
+        doInBackground();
+        //execute();
+        //TODO send json to server
+        return this.getNewJson();
     }
 
     /**
@@ -58,6 +94,8 @@ public class ServerCommunication {
      * @return json
      */
     private String requestFromServer(final String json, Integer whatCase){
+        execute();
+        doInBackground();
         //TODO request server for response
         return null;
     }
