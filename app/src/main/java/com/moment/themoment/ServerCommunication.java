@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -25,9 +28,12 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
 
     private String json;
     private String newJson;
+    private String type;
 
     ServerCommunication(){
         this.json = null;
+        this.newJson = null;
+        this.type = null;
     }
 
     /**
@@ -46,8 +52,9 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... args0){
         String temp = null;
         try {
-            URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
-            //URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+
+            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
+            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
             String line;
@@ -71,8 +78,6 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     public String SendToServer(String sentJson) {
         this.json = sentJson;
         doInBackground();
-        //execute();
-        //TODO send json to server
         return this.getNewJson();
     }
 

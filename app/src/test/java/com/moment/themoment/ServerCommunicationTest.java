@@ -3,6 +3,9 @@ package com.moment.themoment;
 import com.google.gson.Gson;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -15,11 +18,16 @@ public class ServerCommunicationTest {
         Gson gg = new Gson();
         String superguy = gg.toJson(guy);
         Player tester = new Player("Henri");
-        String testerJson = gg.toJson(tester);
-        // Context of the app under test.
+        //String testerJson = gg.toJson(tester);
+        type whatType = new type("basic");
+        //String newtype = gg.toJson(whatType);
+        List<Object> sendJSON = new ArrayList<Object>();
+        sendJSON.add(whatType);
+        sendJSON.add(tester);
+        String testerJson = gg.toJson(sendJSON);
         ServerCommunication serverComm = new ServerCommunication();
         String returnString = serverComm.SendToServer(superguy);
-        //g.fromJson(returnString, Player.class);
+        //gg.fromJson(returnString, Player.class);
         assertEquals(testerJson, returnString);
     }
 
