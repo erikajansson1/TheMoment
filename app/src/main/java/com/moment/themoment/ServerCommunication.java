@@ -31,6 +31,7 @@ public class ServerCommunication {
         final int portnr = 80;
         String temp = null;
         String host = "188.166.91.53";
+        //String host = "192.168.1.5";
         try {
             Socket sender = new Socket(host, portnr);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sender.getOutputStream()));
@@ -38,7 +39,7 @@ public class ServerCommunication {
             writer.write(json);
             String line;
             while ((line = reader.readLine()) != null) {
-                temp.concat(line);
+                temp = line;//.concat(line);
             }
             sender.close();
             reader.close();

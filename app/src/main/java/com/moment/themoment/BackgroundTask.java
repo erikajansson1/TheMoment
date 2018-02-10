@@ -45,7 +45,7 @@ public class BackgroundTask extends AsyncTask<Void, Void,Void> {
         try
         {
             //Make the JSON more generic
-            Player guy = new Player("Fredrik", "dinmamma");
+            Player guy = new Player("Fredrik");
             Gson g = new Gson();
             superguy = g.toJson(guy); //This makes an JSON string of whatever object you give
 

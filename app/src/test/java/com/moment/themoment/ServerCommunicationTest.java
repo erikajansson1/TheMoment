@@ -11,10 +11,10 @@ import static org.junit.Assert.assertEquals;
 public class ServerCommunicationTest {
     @Test
     public void sendJson() throws Exception{
-        Player guy = new Player("Fredrik", "dinmamma");
+        Player guy = new Player("Fredrik");
         Gson g = new Gson();
         String superguy = g.toJson(guy);
-        Player tester = new Player("Henri", "Something");
+        Player tester = new Player("Henri");
         // Context of the app under test.
         ServerCommunication serverComm = new ServerCommunication();
         String returnString = serverComm.SendToServer(superguy);

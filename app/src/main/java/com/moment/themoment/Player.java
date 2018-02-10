@@ -5,14 +5,14 @@ package com.moment.themoment;
 
 public class Player {
     private String name;
-    private String answer;
+    private Boolean answer;
 
     /*
     * Creates a person, used right now just for basic concept in Json building
      */
-    public Player(String name, String answer){
+    public Player(String name){
         this.name = name;
-        this.answer = answer;
+        this.answer = false;
 
     }
 }
