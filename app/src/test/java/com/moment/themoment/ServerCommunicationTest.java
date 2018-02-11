@@ -15,21 +15,19 @@ import static org.junit.Assert.assertEquals;
 public class ServerCommunicationTest {
     @Test
     public void sendJson(){
-        Player guy = new Player("Fredrik");
+        Player test1 = new Player("Fredrik");
+        Player test2 = new Player("Henri");
         Gson gg = new Gson();
-        String superguy = gg.toJson(guy);
-        Player tester = new Player("Henri");
-        //String testerJson = gg.toJson(tester);
-        type whatType = new type("basic");
-        //String newtype = gg.toJson(whatType);
         List<Object> sendJSON = new ArrayList<Object>();
-        sendJSON.add(tester);
-        sendJSON.add(whatType);
+        String whattype = "basic";
+        sendJSON.add(test1);
+        sendJSON.add(whattype);
         String testerJson = gg.toJson(sendJSON);
+        String testagainst = gg.toJson(test2);
         ServerCommunication serverComm = new ServerCommunication();
         String returnString = serverComm.SendToServer(testerJson);
         //gg.fromJson(returnString, Player.class);
-        assertEquals(testerJson, returnString);
+        assertEquals(testagainst, returnString);
     }
 
     @Test

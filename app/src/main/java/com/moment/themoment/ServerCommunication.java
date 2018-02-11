@@ -53,8 +53,8 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
         String temp = null;
         try {
 
-            URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
-            //URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
+            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
             String line;
