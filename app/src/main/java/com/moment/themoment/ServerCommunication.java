@@ -70,7 +70,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Method to send JSON to the server, unless you have added a "type" to your JSON then you
+     * Method to send JSON to the server, unless you have added a "Type" to your JSON then you
      * should use another function that does this for you.
      * @param sentJson
      * @return

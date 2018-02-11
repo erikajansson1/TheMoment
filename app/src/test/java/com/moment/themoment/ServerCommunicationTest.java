@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Test for the class ServerCommunication, still in early phase
+ * this tests send a json that wants to have returned a player
  */
 public class ServerCommunicationTest {
     @Test
@@ -22,8 +23,8 @@ public class ServerCommunicationTest {
         type whatType = new type("basic");
         //String newtype = gg.toJson(whatType);
         List<Object> sendJSON = new ArrayList<Object>();
-        sendJSON.add(whatType);
         sendJSON.add(tester);
+        sendJSON.add(whatType);
         String testerJson = gg.toJson(sendJSON);
         ServerCommunication serverComm = new ServerCommunication();
         String returnString = serverComm.SendToServer(superguy);
@@ -34,6 +35,26 @@ public class ServerCommunicationTest {
     @Test
     public void savePlayertodb() throws Exception{
         assertEquals("", "");
+    }
+
+    @Test
+    public void saveRoomToDB(){
+        assertEquals("","");
+    }
+
+    @Test
+    public void joinRoomInServer(){
+        assertEquals("","");
+    }
+
+    @Test
+    public void sendClaimToServer(){
+        assertEquals("","");
+    }
+
+    @Test
+    public void updateRoomRequest(){
+        assertEquals("","");
     }
 
 }

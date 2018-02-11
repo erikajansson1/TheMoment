@@ -5,9 +5,9 @@ package com.moment.themoment;
  */
 
 public class type {
-    String type;
+    String typeInSever;
 
     type(String whichType){
-        this.type = whichType;
+        this.typeInSever = whichType;
     }
 }

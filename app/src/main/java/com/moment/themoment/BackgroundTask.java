@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-//TODO: Add that you send with the JSON what type the Json is.
+//TODO: Add that you send with the JSON what Type the Json is.
 public class BackgroundTask extends AsyncTask<Void, Void,Void> {
     JSONObject obj;
     String temp;
