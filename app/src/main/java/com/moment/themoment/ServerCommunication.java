@@ -23,6 +23,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerCommunication extends AsyncTask<Void, Void, Void> {
 
@@ -53,8 +55,8 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
         String temp = null;
         try {
 
-            URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
-            //URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
+            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
             String line;
@@ -102,7 +104,15 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return ID
      */
     public Integer SavePlayerToDB(Player player){
-        //TODO convert param to JSON and run sendTOServer
+        Gson g = new Gson();
+        List<Object> sendJSON = new ArrayList<Object>();
+        String type = "saveplayer";
+        sendJSON.add(player);
+        sendJSON.add(type);
+        String sendJson = g.toJson(sendJSON);
+        this.json = sendJson;
+        String recvJSON = SendToServer(sendJson);
+        //TODO convert back what is recieved
         return 0;
     }
 
@@ -113,7 +123,15 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return ID
      */
     public Integer SaveRoomToDB(Room room) {
-        //TODO convert param to JSON and run sendTOServer
+        Gson g = new Gson();
+        List<Object> sendJSON = new ArrayList<Object>();
+        String type = "saveRoom";
+        sendJSON.add(room);
+        sendJSON.add(type);
+        String sendJson = g.toJson(sendJSON);
+        this.json = sendJson;
+        String recvJSON = SendToServer(sendJson);
+        //TODO convert back what is recieved
         return 0;
     }
 
@@ -124,7 +142,15 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return
      */
     public <T> void JoinRoomInServer(Player player, Integer roomID){
-        //TODO convert param to JSON and run sendTOServer
+        Gson g = new Gson();
+        List<Object> sendJSON = new ArrayList<Object>();
+        String type = "joinRoom";
+        sendJSON.add(player);
+        sendJSON.add(type);
+        String sendJson = g.toJson(sendJSON);
+        this.json = sendJson;
+        String recvJSON = SendToServer(sendJson);
+        //TODO convert back what is recieved
         return;
     }
 
@@ -136,7 +162,15 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return
      */
     public Boolean SendClaimToServer(Player player, Room room, Claim claim){
-        //TODO convert param to JSON and run sendTOServer
+        Gson g = new Gson();
+        List<Object> sendJSON = new ArrayList<Object>();
+        String type = "sendClaim";
+        sendJSON.add(player);
+        sendJSON.add(type);
+        String sendJson = g.toJson(sendJSON);
+        this.json = sendJson;
+        String recvJSON = SendToServer(sendJson);
+        //TODO convert back what is recieved
         return false;
     }
 
@@ -147,6 +181,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return room
      */
     public Room updateRoomRequest(Player player, Room room){
+        //TODO update the room information.
         return null;
     }
 
