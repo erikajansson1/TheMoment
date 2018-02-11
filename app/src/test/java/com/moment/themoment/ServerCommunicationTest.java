@@ -27,7 +27,7 @@ public class ServerCommunicationTest {
         sendJSON.add(whatType);
         String testerJson = gg.toJson(sendJSON);
         ServerCommunication serverComm = new ServerCommunication();
-        String returnString = serverComm.SendToServer(superguy);
+        String returnString = serverComm.SendToServer(testerJson);
         //gg.fromJson(returnString, Player.class);
         assertEquals(testerJson, returnString);
     }
