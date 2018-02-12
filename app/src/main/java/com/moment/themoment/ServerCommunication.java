@@ -31,11 +31,16 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     private String json;
     private String newJson;
     private String type;
+    private String phpFileName;
+    private String serverAdress;
 
     ServerCommunication(){
         this.json = null;
         this.newJson = null;
         this.type = null;
+        this.phpFileName = null;
+        this.serverAdress = "http://188.166.91.53/";
+
     }
 
     /**
@@ -54,9 +59,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... args0){
         String temp = null;
         try {
-
-            //URL url = new URL("http://188.166.91.53/test.php?jsonobj="+json);
-            URL url = new URL("http://192.168.1.6/tes.php?jsonobj="+json);
+            URL url = new URL(this.serverAdress+"tes.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
             String line;
@@ -186,4 +189,11 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    /**
+     * Checks if server with DB is online and responsive
+     * @return Boolean
+     */
+    private void checkConnection() {
+        this.phpFileName = "utils.php"
+    }
 }

@@ -4,7 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -14,6 +20,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ServerCommunication serverCom = new ServerCommunication();
+        checkServerConnection(serverCom);
+    }
+
+    private void checkServerConnection(ServerCommunication serverCom) {
+        Button JoinRoomBtn = findViewById(R.id.JoinRoom);
+        Button JRRBtn = findViewById(R.id.JRR);
+        Button CreateRoomBtn = findViewById(R.id.CreateRoom);
+
+        JoinRoomBtn.setEnabled(false);
+        JRRBtn.setEnabled(false);
+        CreateRoomBtn.setEnabled(false);
+
+        while not serverCom.checkConnection()
     }
 
     public void joinRoom(View view) {
@@ -31,19 +51,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Debug: NOT PERMANENT!
     public void jumpToResult(View view) {
         Intent intent = new Intent(this, ResultPageActivity.class);
         startActivity(intent);
-    }
-
-    public void talkToServer(View view) {
-        BackgroundTask talk = new BackgroundTask(this);
-        talk.execute();
-        //Player hi = new Player("Fredrik", "dinmamma");
-        //Gson g = new Gson();
-        //String superguy = g.toJson(hi);
-        //ServerCommunication servercomm = new ServerCommunication(this);
-        //servercomm.SendToServer(superguy);
     }
 
     public void writeClaimRoom(View view) {
