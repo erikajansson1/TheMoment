@@ -33,4 +33,12 @@ public class JoinRoomActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WaitForClaim.class);
         startActivity(intent);
     }
+
+    public void joinRoom(){
+        ServerCommunication server = new ServerCommunication();
+        //server.JoinRoomInServer(player, ID);
+        //TODO take in the arguments
+        //TODO get back room
+        return;
+    }
 }

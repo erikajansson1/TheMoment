@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public void createRoom(View view) {
         Intent intent = new Intent(this, CreateRoomActivity.class);
         startActivity(intent);
+        //TODO who are we as a player? Never created
+        //Room newRoom = new Room();
     }
 
     //Debug: NOT PERMANENT!

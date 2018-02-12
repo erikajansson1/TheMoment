@@ -17,4 +17,11 @@ public class CreateRoomActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
         startActivity(intent);
     }
+
+    public void CreateRoom(){
+        //TODO grab information from the input to create the room
+        //TODO create a room connected to the player
+        return;
+    }
+
 }

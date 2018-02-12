@@ -81,7 +81,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
             BufferedReader reader = new BufferedReader(stream);
             String line;
             while ((line = reader.readLine()) != null) {
-                temp = line;//.concat(line);
+                temp = temp.concat(line);
             }
             this.serverResponse = temp;
             reader.close();
@@ -184,6 +184,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
         this.json = sendJson;
         String recvJSON = SendToServer(sendJson);
         //TODO convert back what is recieved
+        //TODO return Room information
         return;
     }
 
