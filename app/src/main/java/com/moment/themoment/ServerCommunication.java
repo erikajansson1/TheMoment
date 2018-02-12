@@ -59,12 +59,12 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... args0){
         String temp = null;
         try {
-            URL url = new URL(this.serverAdress+"tes.php?jsonobj="+json);
+            URL url = new URL(this.serverAdress+"test.php?jsonobj="+json);
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                temp = line;//.concat(line);
+                temp = temp.concat(line);
             }
             this.newJson = temp;
             reader.close();
@@ -194,6 +194,6 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @return Boolean
      */
     private void checkConnection() {
-        this.phpFileName = "utils.php"
+        this.phpFileName = "utils.php";
     }
 }
