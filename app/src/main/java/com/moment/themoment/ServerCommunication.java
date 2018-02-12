@@ -151,6 +151,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
         this.json = sendJson;
         String recvJSON = SendToServer(sendJson);
         //TODO convert back what is recieved
+        //TODO return Room information
         return;
     }
 
