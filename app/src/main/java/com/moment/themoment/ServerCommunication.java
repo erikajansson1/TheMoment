@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,52 +27,74 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerCommunication extends AsyncTask<Void, Void, Void> {
+import static java.lang.Boolean.TRUE;
+
+public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
 
     private String json;
-    private String newJson;
+    private String serverResponse;
     private String type;
     private String phpFileName;
     private String serverAdress;
+    private String phpFunction;
 
     ServerCommunication(){
         this.json = null;
-        this.newJson = null;
+        this.serverResponse = null;
         this.type = null;
         this.phpFileName = null;
+        this.phpFunction = null;
         this.serverAdress = "http://188.166.91.53/";
 
     }
 
     /**
      * Return json object from the class
-     * @return
+     * No clue why this exists
+     * @return String
      */
     public String getJson(){
         return this.json;
     }
 
+    /**
+     * No clue why this exists
+     * @return serverResponse
+     */
     public String getNewJson(){
-        return this.newJson;
+        return this.serverResponse;
     }
 
     @Override
-    protected Void doInBackground(Void... args0){
+    protected Boolean doInBackground(Void... args0){
         String temp = null;
+        URL url = null;
         try {
-            URL url = new URL(this.serverAdress+"tes.php?jsonobj="+json);
+            if(this.json != null) {
+                // Use & sign in get methods to glue variables.
+                url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction+"&jsonobj="+json);
+            } else {
+                url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction);
+            }
             URLConnection sender = url.openConnection();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));
+            InputStreamReader stream = new InputStreamReader(sender.getInputStream());
+            BufferedReader reader = new BufferedReader(stream);
             String line;
             while ((line = reader.readLine()) != null) {
                 temp = line;//.concat(line);
             }
-            this.newJson = temp;
+            this.serverResponse = temp;
             reader.close();
-        }catch(IOException e) {
+        }catch(Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return null;
+        this.json = null;
+        this.type = null;
+        this.phpFileName = null;
+        this.phpFunction = null;
+
+        return true;
     }
 
     /**
@@ -80,10 +103,17 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
      * @param sentJson
      * @return
      */
-    public String SendToServer(String sentJson) {
+    private String SendToServer(String sentJson) {
         this.json = sentJson;
         doInBackground();
-        return this.getNewJson();
+        return this.serverResponse;
+    }
+    private String SendToServer() {
+        if(doInBackground()) {
+            return this.serverResponse;
+        } else {
+            return "Failed";
+        }
     }
 
     /**
@@ -189,10 +219,61 @@ public class ServerCommunication extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Checks if server with DB is online and responsive
+     * Checks if server with DB is online and responsive. If so enables main menu
+     * @param JoinRoomBtn
+     * @param JRRBtn
+     * @param CreateRoomBtn
+     * @param context
+     * @return Boolean depending on if server is up and running or not
+     */
+    public Boolean checkConnection(final Button JoinRoomBtn, final Button JRRBtn, final Button CreateRoomBtn,final Context context) {
+        int x = 0;
+        final Handler handler = new Handler();
+
+        if(checkConnectionAction()) {
+            JoinRoomBtn.setEnabled(true);
+            JRRBtn.setEnabled(true);
+            CreateRoomBtn.setEnabled(true);
+            return true;
+        } else {
+            checkConnectionActionRetry(context, handler);
+        }
+        return false;
+    }
+
+    /**
+     * Tries to reconnect to the server. With a delay on 8 sec.
+     * @param context
+     * @param handler
+     */
+    private void checkConnectionActionRetry(final Context context, final Handler handler) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Server connection failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Reconnecting...", Toast.LENGTH_SHORT).show();
+                if(!checkConnectionAction()) {
+                    // Not a good solution since it will consume memory slowly but steadily.
+                    checkConnectionActionRetry(context,handler);
+                }
+                return;
+            }
+        }, 8000);
+        return;
+    }
+
+    /**
+     * Asks the server if its up and running and if the database is responding.
      * @return Boolean
      */
-    private void checkConnection() {
-        this.phpFileName = "utils.php"
+    private Boolean checkConnectionAction() {
+        this.phpFileName = "utils.php";
+        this.phpFunction = "isServerAndDBUp";
+        String response = SendToServer();
+        if (response.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

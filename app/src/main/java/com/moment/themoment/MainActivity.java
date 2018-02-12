@@ -1,11 +1,15 @@
 package com.moment.themoment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,16 +28,14 @@ public class MainActivity extends AppCompatActivity {
         checkServerConnection(serverCom);
     }
 
-    private void checkServerConnection(ServerCommunication serverCom) {
-        Button JoinRoomBtn = findViewById(R.id.JoinRoom);
-        Button JRRBtn = findViewById(R.id.JRR);
-        Button CreateRoomBtn = findViewById(R.id.CreateRoom);
-
+    private void checkServerConnection(final ServerCommunication serverCom) {
+        final Button JoinRoomBtn = findViewById(R.id.JoinRoom);
+        final Button JRRBtn = findViewById(R.id.JRR);
+        final Button CreateRoomBtn = findViewById(R.id.CreateRoom);
         JoinRoomBtn.setEnabled(false);
         JRRBtn.setEnabled(false);
         CreateRoomBtn.setEnabled(false);
-
-        while not serverCom.checkConnection()
+        serverCom.checkConnection(JoinRoomBtn, JRRBtn, CreateRoomBtn, getApplicationContext());
     }
 
     public void joinRoom(View view) {
