@@ -18,14 +18,18 @@ public class JoinRoomActivity extends AppCompatActivity {
 
     public void confirmRoomSelect(View view) {
         EditText roomNumber = findViewById(R.id.roomNumberInput);
-        String roomNumberString = roomNumber.getText().toString();
+        //TODO use numberpicker instead of editText to enter the room
+        //int roomNumberString = Interger.parseInt(roomNumber.getText().toString());
 
         EditText userName = findViewById(R.id.userNameInput);
         String userNameString = userName.getText().toString();
 
+        Player player = new Player(userNameString);
+
+        ServerCommunication server = new ServerCommunication();
+        //server.joinRoomInServer(player, roomNumberString);
         //TODO Query server for room existence and if possible add client to ROOM. If succesfull do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
-
         jumpToWaitForClaim(view);
     }
 

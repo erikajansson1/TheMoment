@@ -7,7 +7,7 @@ public class Player {
     private String name;
     private Boolean answer;
     private int score;
-    private String claim;
+    private Claim claim;
 
     /*
     * Creates a person, used right now just for basic concept in Json building
@@ -31,7 +31,7 @@ public class Player {
         return this.score;
     }
 
-    public String getClaim(){
+    public Claim getClaim(){
         return this.claim;
     }
 
@@ -58,7 +58,7 @@ public class Player {
         return;
     }
 
-    public void setClaim(String givenClaim){
+    public void setClaim(Claim givenClaim){
         this.claim = givenClaim;
     }
 

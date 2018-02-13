@@ -5,4 +5,12 @@ package com.moment.themoment;
  */
 
 class Claim {
+    String claim;
+    Boolean correctAnswer;
+
+
+    public Claim(){
+        this.claim = null;
+        this.correctAnswer = null;
+    }
 }
