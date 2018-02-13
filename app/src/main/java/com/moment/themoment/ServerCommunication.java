@@ -153,9 +153,17 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param roomID
      * @return
      */
-    public Room joinRoomInServer(Player player, Integer roomID){
+    public String joinRoomInServer(Player player, Integer roomID){
         Room room = (Room) queryServer("joinRoom", roomID, player);
-        return room;
+        String roomResult = sendToServer();
+        if(roomResult.equals("Failed")){
+            return null;
+        }
+        else{
+            return roomResult;
+        }
+        //TODO, handle if the person is not allowed to join the room
+        //return room;
     }
 
     /**
