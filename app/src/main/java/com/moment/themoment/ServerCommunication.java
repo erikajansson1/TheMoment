@@ -100,15 +100,9 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
     /**
      * Method to send JSON to the server, unless you have added a "Type" to your JSON then you
      * should use another function that does this for you.
-     * @param sentJson
      * @return
      */
-    private String SendToServer(String sentJson) {
-        this.json = sentJson;
-        doInBackground();
-        return this.serverResponse;
-    }
-    private String SendToServer() {
+    private String sendToServer() {
         if(doInBackground()) {
             return this.serverResponse;
         } else {
@@ -123,6 +117,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @return json
      */
     private String requestFromServer(final String json, Integer whatCase){
+        //TODO: Is this needed?
         execute();
         doInBackground();
         //TODO create json here
@@ -136,17 +131,9 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param player
      * @return ID
      */
-    public Integer SavePlayerToDB(Player player){
-        Gson g = new Gson();
-        List<Object> sendJSON = new ArrayList<Object>();
-        String type = "saveplayer";
-        sendJSON.add(player);
-        sendJSON.add(type);
-        String sendJson = g.toJson(sendJSON);
-        this.json = sendJson;
-        String recvJSON = SendToServer(sendJson);
-        //TODO convert back what is recieved
-        return 0;
+    public Integer savePlayerToDB(Player player){
+        Integer playerID = (Integer) queryServer("savePlayer", player);
+        return playerID;
     }
 
     /**
@@ -155,17 +142,9 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param room
      * @return ID
      */
-    public Integer SaveRoomToDB(Room room) {
-        Gson g = new Gson();
-        List<Object> sendJSON = new ArrayList<Object>();
-        String type = "saveRoom";
-        sendJSON.add(room);
-        sendJSON.add(type);
-        String sendJson = g.toJson(sendJSON);
-        this.json = sendJson;
-        String recvJSON = SendToServer(sendJson);
-        //TODO convert back what is recieved
-        return 0;
+    public Integer saveRoomToDB(Room room) {
+        Integer roomID = (Integer) queryServer("saveRoom", room);
+        return roomID;
     }
 
     /**
@@ -174,18 +153,9 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param roomID
      * @return
      */
-    public <T> void JoinRoomInServer(Player player, Integer roomID){
-        Gson g = new Gson();
-        List<Object> sendJSON = new ArrayList<Object>();
-        String type = "joinRoom";
-        sendJSON.add(player);
-        sendJSON.add(type);
-        String sendJson = g.toJson(sendJSON);
-        this.json = sendJson;
-        String recvJSON = SendToServer(sendJson);
-        //TODO convert back what is recieved
-        //TODO return Room information
-        return;
+    public Room joinRoomInServer(Player player, Integer roomID){
+        Room room = (Room) queryServer("joinRoom", roomID, player);
+        return room;
     }
 
     /**
@@ -195,15 +165,28 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param claim
      * @return
      */
-    public Boolean SendClaimToServer(Player player, Room room, Claim claim){
+    public Boolean sendClaimToServer(Player player, Room room, Claim claim){
+        //TODO room should hold players and indicate locally which player is client's
+        Boolean succes = (Boolean) queryServer("sendClaim",room);
+        return false;
+    }
+
+    /**
+     * Creates a JSON holding both function call and necessary objects in objectV
+     * @param function
+     * @param objectV
+     * @return returns object from server response
+     */
+    private Object queryServer(String function, Object... objectV) {
         Gson g = new Gson();
         List<Object> sendJSON = new ArrayList<Object>();
-        String type = "sendClaim";
-        sendJSON.add(player);
-        sendJSON.add(type);
+        sendJSON.add(function);
+        for (Object object: sendJSON) {
+            sendJSON.add(object);
+        }
         String sendJson = g.toJson(sendJSON);
         this.json = sendJson;
-        String recvJSON = SendToServer(sendJson);
+        String recvJSON = sendToServer();
         //TODO convert back what is recieved
         return false;
     }
@@ -270,8 +253,8 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
     private Boolean checkConnectionAction() {
         this.phpFileName = "utils.php";
         this.phpFunction = "isServerAndDBUp";
-        String response = SendToServer();
-        if (response.equals("true")) {
+        String response = sendToServer();
+        if (response.equals("True")) {
             return true;
         } else {
             return false;

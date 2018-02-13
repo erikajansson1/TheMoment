@@ -11,7 +11,7 @@ public class Room {
         this.numOfPlayers = 1;
         this.playerList.add(player);
         ServerCommunication server = new ServerCommunication();
-        this.ID = server.SaveRoomToDB(this);
+        this.ID = server.saveRoomToDB(this);
     }
 
     public Room(Player player, Room room){
