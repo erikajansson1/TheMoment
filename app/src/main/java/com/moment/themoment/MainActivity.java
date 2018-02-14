@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ServerCommunication serverCom = new ServerCommunication();
+        ServerCommunication serverCom = new ServerCommunication(this);
         checkServerConnection(serverCom);
     }
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         JoinRoomBtn.setEnabled(false);
         JRRBtn.setEnabled(false);
         CreateRoomBtn.setEnabled(false);
-        serverCom.checkConnection(JoinRoomBtn, JRRBtn, CreateRoomBtn, getApplicationContext());
+        serverCom.checkConnection(getApplicationContext());
     }
 
     public void joinRoom(View view) {

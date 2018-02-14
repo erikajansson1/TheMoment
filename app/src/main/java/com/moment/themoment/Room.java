@@ -10,8 +10,9 @@ public class Room {
     public Room(Player player){
         this.numOfPlayers = 1;
         this.playerList.add(player);
-        ServerCommunication server = new ServerCommunication();
-        this.ID = server.saveRoomToDB(this);
+        //Sorry for redesign :(
+        //ServerCommunication server = new ServerCommunication(this);
+        //this.ID = server.saveRoomToDB(this);
     }
 
     public Room(Player player, Room room){

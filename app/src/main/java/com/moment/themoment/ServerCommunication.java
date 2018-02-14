@@ -1,9 +1,11 @@
 package com.moment.themoment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -29,131 +31,44 @@ import java.util.List;
 
 import static java.lang.Boolean.TRUE;
 
-public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
+public class ServerCommunication implements AsyncServerCall {
+    private Activity activity;
 
-    private String json;
-    private String serverResponse;
-    private String type;
-    private String phpFileName;
-    private String serverAdress;
-    private String phpFunction;
-
-    ServerCommunication(){
-        this.json = null;
-        this.serverResponse = null;
-        this.type = null;
-        this.phpFileName = null;
-        this.phpFunction = null;
-        this.serverAdress = "http://188.166.91.53/";
-
+    ServerCommunication(Activity activity) {
+        this.activity = activity;
     }
-
-    /**
-     * Return json object from the class
-     * No clue why this exists
-     * @return String
-     */
-    public String getJson(){
-        return this.json;
-    }
-
-    /**
-     * No clue why this exists
-     * @return serverResponse
-     */
-    public String getNewJson(){
-        return this.serverResponse;
-    }
-
-    @Override
-    protected Boolean doInBackground(Void... args0){
-        String temp = null;
-        URL url = null;
-        try {
-            if(this.json != null) {
-                // Use & sign in get methods to glue variables.
-                url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction+"&jsonobj="+json);
-            } else {
-                url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction);
-            }
-            URLConnection sender = url.openConnection();
-            InputStreamReader stream = new InputStreamReader(sender.getInputStream());
-            BufferedReader reader = new BufferedReader(stream);
-            String line;
-            while ((line = reader.readLine()) != null) {
-                temp = temp.concat(line);
-            }
-            this.serverResponse = temp;
-            reader.close();
-        }catch(Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        this.json = null;
-        this.type = null;
-        this.phpFileName = null;
-        this.phpFunction = null;
-
-        return true;
-    }
-
-    /**
-     * Method to send JSON to the server, unless you have added a "Type" to your JSON then you
-     * should use another function that does this for you.
-     * @return
-     */
-    private String sendToServer() {
-        if(doInBackground()) {
-            return this.serverResponse;
-        } else {
-            return "Failed";
-        }
-    }
-
-    /**
-     * Send a request to the server and depending on whatCase to different PHP files. Returns json
-     * @param json
-     * @param whatCase
-     * @return json
-     */
-    private String requestFromServer(final String json, Integer whatCase){
-        //TODO: Is this needed?
-        execute();
-        doInBackground();
-        //TODO create json here
-        //TODO request server for response
-        return null;
-    }
-
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
      * @param player
      * @return ID
      */
+    /*
     public Integer savePlayerToDB(Player player){
         Integer playerID = (Integer) queryServer("savePlayer", player);
         return playerID;
     }
-
+    */
     /**
      * When creating a room you should save in the database to be able to start the session and
      * so that people can enter the room, returns id number for room
      * @param room
      * @return ID
      */
+    /*
     public Integer saveRoomToDB(Room room) {
         Integer roomID = (Integer) queryServer("saveRoom", room);
         return roomID;
     }
-
+    */
     /**
      * Tries to add player to the room, will return room if succeeding.
      * @param player
      * @param roomID
      * @return
      */
-    public String joinRoomInServer(Player player, Integer roomID){
+    /*
+    public Room joinRoomInServer(Player player, Integer roomID){
         Room room = (Room) queryServer("joinRoom", roomID, player);
         String roomResult = sendToServer();
         if(roomResult.equals("Failed")){
@@ -165,7 +80,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
         //TODO, handle if the person is not allowed to join the room
         //return room;
     }
-
+    */
     /**
      * Sends claim to server, will return true or false depending on if sent.
      * @param player
@@ -173,18 +88,20 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param claim
      * @return
      */
+    /*
     public Boolean sendClaimToServer(Player player, Room room, Claim claim){
         //TODO room should hold players and indicate locally which player is client's
         Boolean succes = (Boolean) queryServer("sendClaim",room);
         return false;
     }
-
+    */
     /**
      * Creates a JSON holding both function call and necessary objects in objectV
      * @param function
      * @param objectV
      * @return returns object from server response
      */
+    /*
     private Object queryServer(String function, Object... objectV) {
         Gson g = new Gson();
         List<Object> sendJSON = new ArrayList<Object>();
@@ -198,39 +115,36 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
         //TODO convert back what is recieved
         return false;
     }
-
+    */
     /**
      * Send request to server to respond a update of the room.
      * @param player
      * @param room
      * @return room
      */
+    /*
     public Room updateRoomRequest(Player player, Room room){
         //TODO update the room information.
         return null;
     }
-
+    */
     /**
      * Checks if server with DB is online and responsive. If so enables main menu
-     * @param JoinRoomBtn
-     * @param JRRBtn
-     * @param CreateRoomBtn
      * @param context
-     * @return Boolean depending on if server is up and running or not
      */
-    public Boolean checkConnection(final Button JoinRoomBtn, final Button JRRBtn, final Button CreateRoomBtn,final Context context) {
-        int x = 0;
-        final Handler handler = new Handler();
 
+    public void checkConnection(Context context) {
+        new CallServer(null,"utils","isServerAndDBUp",this).execute();
+        /*
         if(checkConnectionAction()) {
             JoinRoomBtn.setEnabled(true);
             JRRBtn.setEnabled(true);
             CreateRoomBtn.setEnabled(true);
-            return true;
         } else {
-            checkConnectionActionRetry(context, handler);
+           // checkConnectionActionRetry(context, handler);
         }
-        return false;
+        return;
+        */
     }
 
     /**
@@ -238,6 +152,7 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
      * @param context
      * @param handler
      */
+    /*
     private void checkConnectionActionRetry(final Context context, final Handler handler) {
         handler.postDelayed(new Runnable() {
             @Override
@@ -253,19 +168,54 @@ public class ServerCommunication extends AsyncTask<Void, Void, Boolean> {
         }, 8000);
         return;
     }
-
+    */
     /**
      * Asks the server if its up and running and if the database is responding.
      * @return Boolean
      */
+    /*
     private Boolean checkConnectionAction() {
-        this.phpFileName = "utils.php";
+        this.phpFileName = "utils";
         this.phpFunction = "isServerAndDBUp";
         String response = sendToServer();
+        Log.e("2 - DB says",response);
         if (response.equals("True")) {
             return true;
         } else {
             return false;
         }
+    }
+    */
+/*
+    private void unlockMainMenu(String result) {
+        if(result.equals("True")) {
+            Button JoinRoomBtn = findViewById(R.id.JoinRoom);
+            Button JRRBtn = findViewById(R.id.JRR);
+            Button CreateRoomBtn = findViewById(R.id.CreateRoom);
+            JoinRoomBtn.setEnabled(true);
+            JRRBtn.setEnabled(true);
+            CreateRoomBtn.setEnabled(true);
+        } else {
+            // checkConnectionActionRetry(context, handler);
+        }
+        return;
+    }
+*/
+    @Override
+    public void processFinish(String function, String output) {
+        switch (function) {
+            case "isServerAndDBUp":
+                processServerStatus(output);
+        }
+        return;
+    }
+
+    private void processServerStatus(String output) {
+        Button JoinRoomBtn = activity.findViewById(R.id.JoinRoom);
+        Button JRRBtn = activity.findViewById(R.id.JRR);
+        Button CreateRoomBtn = activity.findViewById(R.id.CreateRoom);
+        JoinRoomBtn.setEnabled(true);
+        JRRBtn.setEnabled(true);
+        CreateRoomBtn.setEnabled(true);
     }
 }

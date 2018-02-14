@@ -39,7 +39,7 @@ public class JoinRoomActivity extends AppCompatActivity {
     }
 
     public void joinRoom(){
-        ServerCommunication server = new ServerCommunication();
+        ServerCommunication server = new ServerCommunication(this);
         //server.JoinRoomInServer(player, ID);
         //TODO take in the arguments
         //TODO get back room
