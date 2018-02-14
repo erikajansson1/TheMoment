@@ -1,16 +1,16 @@
 package com.moment.themoment;
 
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-import static java.lang.Boolean.FALSE;
-
 public class WaitForClaim extends AppCompatActivity {
+    Player clientPlayer;
+    Room currentRoom;
     TextView timeCount;
     ProgressBar claimProgress;
     private static final String FORMAT = "%02d";
@@ -20,6 +20,11 @@ public class WaitForClaim extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_for_claim);
+
+        //To get the object from previous activity, must be sendt!
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
+        this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+
         timeCount = findViewById(R.id.countDown);
         claimProgress = findViewById(R.id.progress);
         //TODO queryDBWriteClaim();

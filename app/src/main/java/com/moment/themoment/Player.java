@@ -1,73 +1,89 @@
 package com.moment.themoment;
-/**
- * Created by Dess on 2018-02-06.
- */
 
-public class Player {
-    private String name;
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private int id;
-    private Boolean answer;
+    private String name;
     private int score;
+    private Boolean answer;
     private Claim claim;
+    private Boolean isPlayer;
 
-    /*
+    /**
     * Creates a person, used right now just for basic concept in Json building
-     */
-    public Player(String name){
+    */
+    Player(String name){
         this.name = name;
         this.answer = false;
         this.score = 0;
         this.claim = null;
+        this.isPlayer = true;
     }
 
-    public String getName(){
-        return this.name;
-    }
+    /**
+     * get method for player name
+     * @return name of player
+     */
+    public String getName(){return this.name; }
 
+    /**
+     * get method for player for answer
+     * @return answer player has choosen
+     */
     public Boolean getAnswer(){
         return this.answer;
     }
 
+    /**
+     * get method for player for score
+     * @return players current score
+     */
     public int getScore(){
         return this.score;
     }
 
+    /**
+     * get method for player claim
+     * @return claim currently using
+     */
     public Claim getClaim(){
         return this.claim;
     }
 
+    /**
+     * get method for player id
+     * @return player id
+     */
+    public int getID() { return this.id; }
 
-    public void setID(int id) {
-        this.id = id;
-        return;
-    }
+    /**
+     * set method for player id
+     * @param id to be set
+     */
+    public void setID(int id) { this.id = id; }
 
-    public void setAnswer(Boolean givenAnswer){
-        this.answer = givenAnswer;
-        return;
-    }
+    /**
+     * set method for player answer
+     * @param givenAnswer is the answer given
+     */
+    public void setAnswer(Boolean givenAnswer){ this.answer = givenAnswer; }
+
+    /**
+     * set method for player claim
+     * @param givenClaim is the claim given
+     */
+    public void setClaim(Claim givenClaim){ this.claim = givenClaim; }
 
     /**
      * Will change score to given int
-     * @param givenScore
+     * @param givenScore is the score to be set
      */
-    public void setScore(int givenScore){
-        this.score = givenScore;
-        return;
-    }
+    public void setScore(int givenScore){ this.score = givenScore; }
 
     /**
      * Adds one point to the score
      */
-    public void addScore(){
-        this.score += 1;
-        return;
-    }
-
-    public void setClaim(Claim givenClaim){
-        this.claim = givenClaim;
-    }
-
-
+    public void addScore(){ this.score += 1; }
 
 }

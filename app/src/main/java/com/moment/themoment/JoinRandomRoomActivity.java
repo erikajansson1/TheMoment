@@ -1,14 +1,15 @@
 package com.moment.themoment;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRandomRoomCallback, View.OnClickListener {
+public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRandomRoomCallback {
     Player clientPlayer;
     Room currentRoom;
 
@@ -17,31 +18,39 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_random_room);
         findViewById(R.id.joinButton).setEnabled(false);
-
-        Button saveUserButton = findViewById(R.id.saveUsername);
-        saveUserButton.setOnClickListener(this);
-        //TODO Make server call for random room
+        //TODO Guard for if the user uses back button!!
     }
 
-    @Override
-    public void onClick(final View v) {
-        switch(v.getId()){
-            case R.id.saveUsername:
-                    addUsername();
-                    break;
-            }
-
-    }
-
-
+    /**
+     * sets the client players id
+     * @param id is the new id of the player
+     */
     public void setClientPlayerID(int id) {
         clientPlayer.setID(id);
         Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
         Log.i("Server gave:",String.valueOf(id));
-        //TODO call server for room, once we have player id confirmed
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.getRandomRoom(this);
     }
 
-    private void addUsername() {
+    /**
+     * sets the room for the player
+     * @param room which is to be used by the player
+     */
+    public void setPlayersRoom(Room room) {
+        this.currentRoom = room;
+        this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+
+        TextView roomNumber = findViewById(R.id.roomNumber);
+        roomNumber.setText(String.valueOf(currentRoom.getID()));
+        findViewById(R.id.joinButton).setEnabled(true);
+    }
+
+    /**
+     * sends the name player has choosen to the server
+     * @param view current
+     */
+    public void addUsername(View view) {
         findViewById(R.id.saveUsername).setEnabled(false);
         EditText userNameToSave = findViewById(R.id.NameInput);
         //TODO gurad for empty input
@@ -52,9 +61,15 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
         serverCom.savePlayerToDB(clientPlayer,this);
     }
 
-    private void jumpToWaitForClaim() {
-        //TODO Intent intent = new Intent(this, WaitForClaim.class);
-        //startActivity(intent);
+    /**
+     * changes intent to WaitForClaim and sends the player object and the roomData
+     * @param view
+     */
+    public void jumpToWaitForClaim(View view) {
+        Intent intent = new Intent(this, WaitForClaim.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
+        startActivity(intent);
     }
 
 

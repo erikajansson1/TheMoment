@@ -1,6 +1,5 @@
 package com.moment.themoment;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,10 +24,15 @@ public class CallServer extends AsyncTask<Void, Void, String> {
 
     }
 
+    /**
+     * the thread method which is fired in the background
+     * @param args0 is a vector not in use currently
+     * @return sends server response to onPostExecute
+     */
     @Override
     protected String doInBackground(Void... args0){
         String temp = "";
-        URL url = null;
+        URL url;
         try {
             if(this.json == null) {
                 url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction);
@@ -57,6 +61,10 @@ public class CallServer extends AsyncTask<Void, Void, String> {
     return "";
     }
 
+    /**
+     * executes after do in background. Is run on UI-thread.
+     * @param result is the serveers response
+     */
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);

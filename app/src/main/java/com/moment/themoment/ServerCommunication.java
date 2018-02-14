@@ -3,14 +3,9 @@ package com.moment.themoment;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
 
 public class ServerCommunication implements ServerCommunicationCallback {
     private Activity activity;
@@ -20,7 +15,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * Constructor
-     * @param activity
+     * @param activity from where its created
      */
     ServerCommunication(Activity activity) {
         this.activity = activity;
@@ -28,40 +23,40 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * Creates a JSON from one or multiple objects given.
-     * @param objectV
+     * @param objectV a vector of objects which are to be serialised
      * @return returns JSON
      */
     private String packager(Object... objectV) {
         Gson g = new Gson();
-        List<Object> objectList = new ArrayList<Object>();
-        for (Object object: objectList) {
-            objectList.add(object);
-        }
-        String sendJson = g.toJson(objectList);
-        return sendJson;
+        return g.toJson(objectV);
     }
 
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
-     * @param player
-     * @return ID
+     * @param player whom are to be save to DB
      */
     public void savePlayerToDB(Player player, JoinRandomRoomCallback joinRandomRoomCallback){
-        String jsonString = packager(player);
         this.joinRandomRoomCallback = joinRandomRoomCallback;
-        new CallServer(jsonString,"storeToDB","storePlayer",this).execute();
-        return;
+        new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
 
     /**
      * Checks if server with DB is online and responsive. If so enables main menu
-     * @param context
+     * @param context c
      */
     public void checkConnection(Context context) {
         this.context = context;
         new CallServer(null,"utils","isServerAndDBUp",this).execute();
-        return;
+    }
+
+    /**
+     * Calls server for a random room number which server confirms is available.
+     * @param joinRandomRoomCallback is the callback class, needed for callback in this class.
+     */
+    public void getRandomRoom(JoinRandomRoomCallback joinRandomRoomCallback) {
+        this.joinRandomRoomCallback = joinRandomRoomCallback;
+        new CallServer(null,"getFromDB","getRandomRoom",this).execute();
     }
 
 
@@ -70,9 +65,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
 
     /**
-     *
-     * @param function
-     * @param output
+     * callback method which switches to correct handling method depending on the original caller.
+     * @param function which was called server side
+     * @param output answer from server
      */
     @Override
     public void processFinish(String function, String output) {
@@ -82,13 +77,27 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "storePlayer":
                 callBackSetPlayerID(output);
+                break;
+            case "getRandomRoom":
+                callBackReturnRoom(output);
+                break;
         }
         return;
     }
 
     /**
-     *
-     * @param output
+     * Handles the recieved room from server
+     * @param output is a JSON string containing room, player and claims
+     */
+    private void callBackReturnRoom(String output) {
+        Gson gson = new Gson();
+        Room room = gson.fromJson(output, Room.class);
+        joinRandomRoomCallback.setPlayersRoom(room);
+    }
+
+    /**
+     * handles the servers response in the form of a id
+     * @param output is a numerical value in string form
      */
     private void callBackSetPlayerID(String output) {
         Log.e("Got output to callback",output);
@@ -102,8 +111,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     /**
-     *
-     * @param output
+     * handles the response from server if its up and running or down
+     * @param output true or false in string format
      */
     private void callBackServerStatus(String output) {
         if (output.equals("True")) {
@@ -124,8 +133,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
     /**
      * When creating a room you should save in the database to be able to start the session and
      * so that people can enter the room, returns id number for room
-     * @param room
-     * @return ID
+     * @param room v
+     * @return ID v
      */
     /*
     public Integer saveRoomToDB(Room room) {
@@ -135,8 +144,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
     */
     /**
      * Tries to add player to the room, will return room if succeeding.
-     * @param player
-     * @param roomID
+     * @param player v
+     * @param roomID v
      * @return
      */
     /*
@@ -155,9 +164,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
     */
     /**
      * Sends claim to server, will return true or false depending on if sent.
-     * @param player
-     * @param room
-     * @param claim
+     * @param player v
+     * @param room v
+     * @param claim v
      * @return
      */
     /*
@@ -170,8 +179,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * Send request to server to respond a update of the room.
-     * @param player
-     * @param room
+     * @param player v
+     * @param room v
      * @return room
      */
     /*

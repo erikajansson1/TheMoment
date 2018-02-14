@@ -1,16 +1,18 @@
 package com.moment.themoment;
 
-/**
- * Created by Nhunter on 2018-02-13.
- */
+import java.io.Serializable;
 
-class Claim {
-    String claim;
-    Boolean correctAnswer;
+class Claim implements Serializable {
+    private String claim;
+    private Boolean correctAnswer;
 
-
-    public Claim(){
-        this.claim = null;
-        this.correctAnswer = null;
+    /**
+     * constructor
+     * @param claim related to player
+     * @param correctAnswer is the thruthfullnes of the claim
+     */
+    Claim(String claim, Boolean correctAnswer){
+        this.claim = claim;
+        this.correctAnswer = correctAnswer;
     }
 }

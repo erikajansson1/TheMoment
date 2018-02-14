@@ -1,22 +1,9 @@
 package com.moment.themoment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,27 +11,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ServerCommunication serverCom = new ServerCommunication(this);
-        checkServerConnection(serverCom);
+        checkServerConnection();
     }
 
-    private void checkServerConnection(final ServerCommunication serverCom) {
+    /**
+     * Locks inteface buttons until its confirmed server and db is up and running.
+     */
+    private void checkServerConnection() {
         findViewById(R.id.JoinRoom).setEnabled(false);
         findViewById(R.id.JRR).setEnabled(false);
         findViewById(R.id.CreateRoom).setEnabled(false);
+
+        ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.checkConnection(getApplicationContext());
     }
 
+    /**
+     * changes view to joinRoom
+     * @param view v
+     */
     public void joinRoom(View view) {
         Intent intent = new Intent(this, JoinRoomActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * changes view to joinRandomRoom
+     * @param view v
+     */
     public void joinRandomRoom(View view) {
         Intent intent = new Intent(this, JoinRandomRoomActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * changes view to createRoom
+     * @param view v
+     */
     public void createRoom(View view) {
         Intent intent = new Intent(this, CreateRoomActivity.class);
         startActivity(intent);
@@ -58,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * changes view to writeClaim
+     * @param view v
+     */
     public void writeClaimRoom(View view) {
         Intent intent = new Intent(this, WriteClaim.class);
         startActivity(intent);
