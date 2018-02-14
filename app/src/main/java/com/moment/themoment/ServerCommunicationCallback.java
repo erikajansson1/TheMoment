@@ -4,7 +4,7 @@ package com.moment.themoment;
  * Created by Nhunter on 2018-02-14.
  */
 
-public interface AsyncServerCall {
+public interface ServerCommunicationCallback {
     /**
      * Basically a generic callback function signature
      * @param function

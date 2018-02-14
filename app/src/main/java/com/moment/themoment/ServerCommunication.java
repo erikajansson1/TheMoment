@@ -2,53 +2,125 @@ package com.moment.themoment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
-import static java.lang.Boolean.TRUE;
-
-public class ServerCommunication implements AsyncServerCall {
+public class ServerCommunication implements ServerCommunicationCallback {
     private Activity activity;
+    private Context context;
+    //TODO what the hell is the generic type for interface callbacks?
+    private JoinRandomRoomCallback joinRandomRoomCallback;
 
+    /**
+     * Constructor
+     * @param activity
+     */
     ServerCommunication(Activity activity) {
         this.activity = activity;
     }
+
+    /**
+     * Creates a JSON from one or multiple objects given.
+     * @param objectV
+     * @return returns JSON
+     */
+    private String packager(Object... objectV) {
+        Gson g = new Gson();
+        List<Object> objectList = new ArrayList<Object>();
+        for (Object object: objectList) {
+            objectList.add(object);
+        }
+        String sendJson = g.toJson(objectList);
+        return sendJson;
+    }
+
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
      * @param player
      * @return ID
      */
-    /*
-    public Integer savePlayerToDB(Player player){
-        Integer playerID = (Integer) queryServer("savePlayer", player);
-        return playerID;
+    public void savePlayerToDB(Player player, JoinRandomRoomCallback joinRandomRoomCallback){
+        String jsonString = packager(player);
+        this.joinRandomRoomCallback = joinRandomRoomCallback;
+        new CallServer(jsonString,"storeToDB","storePlayer",this).execute();
+        return;
     }
-    */
+
+    /**
+     * Checks if server with DB is online and responsive. If so enables main menu
+     * @param context
+     */
+    public void checkConnection(Context context) {
+        this.context = context;
+        new CallServer(null,"utils","isServerAndDBUp",this).execute();
+        return;
+    }
+
+
+    /**
+     * ------------------ CALLBACKS BELOW -------------------------
+     */
+
+    /**
+     *
+     * @param function
+     * @param output
+     */
+    @Override
+    public void processFinish(String function, String output) {
+        switch (function) {
+            case "isServerAndDBUp":
+                callBackServerStatus(output);
+                break;
+            case "storePlayer":
+                callBackSetPlayerID(output);
+        }
+        return;
+    }
+
+    /**
+     *
+     * @param output
+     */
+    private void callBackSetPlayerID(String output) {
+        Log.e("Got output to callback",output);
+        if (output.equals("Failed")) {
+            activity.findViewById(R.id.saveUsername).setEnabled(true);
+            //TODO Handle Failure
+        } else {
+            int idToSet = Integer.parseInt(output);
+            joinRandomRoomCallback.setClientPlayerID(idToSet);
+        }
+    }
+
+    /**
+     *
+     * @param output
+     */
+    private void callBackServerStatus(String output) {
+        if (output.equals("True")) {
+            activity.findViewById(R.id.JoinRoom).setEnabled(true);
+            activity.findViewById(R.id.JRR).setEnabled(true);
+            activity.findViewById(R.id.CreateRoom).setEnabled(true);
+        } else {
+            Toast.makeText(context, "Server connection failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Reconnecting...", Toast.LENGTH_SHORT).show();
+            checkConnection(context);
+        }
+    }
+
+    /**
+     * ------------ Old and in need for redefintion methods below ------------
+     */
+
     /**
      * When creating a room you should save in the database to be able to start the session and
      * so that people can enter the room, returns id number for room
@@ -95,27 +167,7 @@ public class ServerCommunication implements AsyncServerCall {
         return false;
     }
     */
-    /**
-     * Creates a JSON holding both function call and necessary objects in objectV
-     * @param function
-     * @param objectV
-     * @return returns object from server response
-     */
-    /*
-    private Object queryServer(String function, Object... objectV) {
-        Gson g = new Gson();
-        List<Object> sendJSON = new ArrayList<Object>();
-        sendJSON.add(function);
-        for (Object object: sendJSON) {
-            sendJSON.add(object);
-        }
-        String sendJson = g.toJson(sendJSON);
-        this.json = sendJson;
-        String recvJSON = sendToServer();
-        //TODO convert back what is recieved
-        return false;
-    }
-    */
+
     /**
      * Send request to server to respond a update of the room.
      * @param player
@@ -128,84 +180,5 @@ public class ServerCommunication implements AsyncServerCall {
         return null;
     }
     */
-    /**
-     * Checks if server with DB is online and responsive. If so enables main menu
-     * @param context
-     */
 
-    public void checkConnection(Context context) {
-        new CallServer(null,"utils","isServerAndDBUp",this).execute();
-    }
-
-    /**
-     * Tries to reconnect to the server. With a delay on 8 sec.
-     * @param context
-     * @param handler
-     */
-    /*
-    private void checkConnectionActionRetry(final Context context, final Handler handler) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Server connection failed", Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Reconnecting...", Toast.LENGTH_SHORT).show();
-                if(!checkConnectionAction()) {
-                    // Not a good solution since it will consume memory slowly but steadily.
-                    checkConnectionActionRetry(context,handler);
-                }
-                return;
-            }
-        }, 8000);
-        return;
-    }
-    */
-    /**
-     * Asks the server if its up and running and if the database is responding.
-     * @return Boolean
-     */
-    /*
-    private Boolean checkConnectionAction() {
-        this.phpFileName = "utils";
-        this.phpFunction = "isServerAndDBUp";
-        String response = sendToServer();
-        Log.e("2 - DB says",response);
-        if (response.equals("True")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    */
-/*
-    private void unlockMainMenu(String result) {
-        if(result.equals("True")) {
-            Button JoinRoomBtn = findViewById(R.id.JoinRoom);
-            Button JRRBtn = findViewById(R.id.JRR);
-            Button CreateRoomBtn = findViewById(R.id.CreateRoom);
-            JoinRoomBtn.setEnabled(true);
-            JRRBtn.setEnabled(true);
-            CreateRoomBtn.setEnabled(true);
-        } else {
-            // checkConnectionActionRetry(context, handler);
-        }
-        return;
-    }
-*/
-    @Override
-    public void processFinish(String function, String output) {
-        switch (function) {
-            case "isServerAndDBUp":
-                processServerStatus(output);
-        }
-        return;
-    }
-
-    private void processServerStatus(String output) {
-        Button JoinRoomBtn = activity.findViewById(R.id.JoinRoom);
-        Button JRRBtn = activity.findViewById(R.id.JRR);
-        Button CreateRoomBtn = activity.findViewById(R.id.CreateRoom);
-        JoinRoomBtn.setEnabled(true);
-        JRRBtn.setEnabled(true);
-        CreateRoomBtn.setEnabled(true);
-    }
 }

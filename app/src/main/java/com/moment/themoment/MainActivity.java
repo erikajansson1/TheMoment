@@ -29,12 +29,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkServerConnection(final ServerCommunication serverCom) {
-        final Button JoinRoomBtn = findViewById(R.id.JoinRoom);
-        final Button JRRBtn = findViewById(R.id.JRR);
-        final Button CreateRoomBtn = findViewById(R.id.CreateRoom);
-        JoinRoomBtn.setEnabled(false);
-        JRRBtn.setEnabled(false);
-        CreateRoomBtn.setEnabled(false);
+        findViewById(R.id.JoinRoom).setEnabled(false);
+        findViewById(R.id.JRR).setEnabled(false);
+        findViewById(R.id.CreateRoom).setEnabled(false);
         serverCom.checkConnection(getApplicationContext());
     }
 

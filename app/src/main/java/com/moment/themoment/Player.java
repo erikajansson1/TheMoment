@@ -5,6 +5,7 @@ package com.moment.themoment;
 
 public class Player {
     private String name;
+    private int id;
     private Boolean answer;
     private int score;
     private Claim claim;
@@ -35,6 +36,11 @@ public class Player {
         return this.claim;
     }
 
+
+    public void setID(int id) {
+        this.id = id;
+        return;
+    }
 
     public void setAnswer(Boolean givenAnswer){
         this.answer = givenAnswer;

@@ -7,44 +7,6 @@
     tools:context="com.moment.themoment.MainActivity">
 
     <Button
-        android:id="@+id/JoinRoom"
-        android:layout_width="225dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="150dp"
-        android:onClick="joinRoom"
-        android:text="@string/Join_Room_Button"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/JRR"
-        android:layout_width="225dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:onClick="joinRandomRoom"
-        android:text="@string/Join_Random_Room_Button"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JoinRoom" />
-
-    <Button
-        android:id="@+id/CreateRoom"
-        android:layout_width="225dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:onClick="createRoom"
-        android:text="@string/Create_Room_Key"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JRR" />
-
-    <Button
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,13 +23,62 @@
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="8dp"
         android:onClick="writeClaimRoom"
         android:text="@string/DebugWriteClaim"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="304dp"
+        android:layout_height="165dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateRoom" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/JoinRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="joinRoom"
+            android:text="@string/Join_Room_Button"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="100dp" />
+
+        <Button
+            android:id="@+id/JRR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="joinRandomRoom"
+            android:text="@string/Join_Random_Room_Button"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/JoinRoom" />
+
+        <Button
+            android:id="@+id/CreateRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="createRoom"
+            android:text="@string/Create_Room_Key"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/JRR" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

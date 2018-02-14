@@ -2,9 +2,7 @@ package com.moment.themoment;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.BoringLayout;
 import android.util.Log;
-import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,14 +10,13 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class CallServer extends AsyncTask<Void, Void, String> {
-    private AsyncServerCall callback;
-    private Context context;
+    private ServerCommunicationCallback callback;
     private String json;
     private String phpFileName;
     private String serverAdress;
     private String phpFunction;
 
-    CallServer(String json, String phpFileName, String phpFunction, AsyncServerCall callback){
+    CallServer(String json, String phpFileName, String phpFunction, ServerCommunicationCallback callback){
         this.callback = callback;
         this.json = json;
         this.phpFileName = phpFileName;
