@@ -135,16 +135,6 @@ public class ServerCommunication implements AsyncServerCall {
 
     public void checkConnection(Context context) {
         new CallServer(null,"utils","isServerAndDBUp",this).execute();
-        /*
-        if(checkConnectionAction()) {
-            JoinRoomBtn.setEnabled(true);
-            JRRBtn.setEnabled(true);
-            CreateRoomBtn.setEnabled(true);
-        } else {
-           // checkConnectionActionRetry(context, handler);
-        }
-        return;
-        */
     }
 
     /**

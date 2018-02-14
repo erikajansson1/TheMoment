@@ -4,13 +4,12 @@
     <string name="Create_Room_Key">Create Room</string>
     <string name="Join_Random_Room_Button">Join Random Room</string>
     <string name="room_nbr">Enter room number:</string>
-    <string name="user_name">Add username:</string>
+    <string name="user_name">Add Username:</string>
     <string name="confirm">Confirm</string>
     <string name="YourRoomNbr">Your room number is:</string>
     <string name="createRoom">Create Room</string>
     <string name="AmountPlayers">Enter amount of players:</string>
-    <string name="RRNumber">Your random room number is:</string>
-    <string name="JoinG">Join Game</string>
+    <string name="RRNumber">There is an empty chair in the following room:</string>
     <string name="WaitingForPlayers">Waiting for players to join the game</string>
     <string name="NbrOfJoined">Players has currently joined</string>
     <string name="waiting_claim">Waiting for claim&#8230;</string>
@@ -118,4 +117,5 @@
     <string name="False">False</string>
     <string name="True">True</string>
     <string name="DebugWriteClaim">DebugWriteClaim</string>
+    <string name="saveUserName">Save Username</string>
 </resources>

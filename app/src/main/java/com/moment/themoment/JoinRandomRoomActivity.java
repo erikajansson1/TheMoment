@@ -15,6 +15,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_join_random_room);
         //TODO Add loading symbol
         //TODO Make server call for random room
+
         //TODO Handle failure by reacting on error message and kick user back to main menu
         Boolean foundRoom = FALSE;
 
