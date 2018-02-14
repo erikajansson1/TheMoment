@@ -26,7 +26,7 @@ public class JoinRoomActivity extends AppCompatActivity {
 
         Player player = new Player(userNameString);
 
-        ServerCommunication server = new ServerCommunication();
+        ServerCommunication server = new ServerCommunication(this);
         //server.joinRoomInServer(player, roomNumberString);
         //TODO Query server for room existence and if possible add client to ROOM. If succesfull do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
