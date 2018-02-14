@@ -12,6 +12,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private Context context;
     //TODO what the hell is the generic type for interface callbacks?
     private JoinRandomRoomCallback joinRandomRoomCallback;
+    private ResultPageActivityCallback resultPageActivityCallback;
 
     /**
      * Constructor
@@ -59,8 +60,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(null,"getFromDB","getRandomRoom",this).execute();
     }
 
+    public void updateResultRoom(int roomID,ResultPageActivityCallback resultPageActivityCallback) {
+        this.resultPageActivityCallback = resultPageActivityCallback;
+        new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
+    }
 
-    /**
+    /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
 
@@ -81,8 +86,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "getRandomRoom":
                 callBackReturnRoom(output);
                 break;
+            case "getRoomByID":
+                callBackReturnRoom(output);
         }
-        return;
     }
 
     /**
@@ -90,9 +96,14 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a JSON string containing room, player and claims
      */
     private void callBackReturnRoom(String output) {
+        Log.e("Got output to callback",output);
         Gson gson = new Gson();
         Room room = gson.fromJson(output, Room.class);
-        joinRandomRoomCallback.setPlayersRoom(room);
+        if (joinRandomRoomCallback != null) {
+            joinRandomRoomCallback.setPlayersRoom(room);
+        } else if (resultPageActivityCallback != null) {
+            resultPageActivityCallback.updateResultList(room);
+        }
     }
 
     /**
@@ -126,7 +137,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         }
     }
 
-    /**
+
+    /*
      * ------------ Old and in need for redefintion methods below ------------
      */
 

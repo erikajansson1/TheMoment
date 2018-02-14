@@ -118,4 +118,6 @@
     <string name="True">True</string>
     <string name="DebugWriteClaim">DebugWriteClaim</string>
     <string name="saveUserName">Save Username</string>
+    <string name="NewRound">New Round</string>
+    <string name="Quit">Quit</string>
 </resources>

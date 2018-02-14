@@ -57,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Debug: NOT PERMANENT!
     public void jumpToResult(View view) {
+        Room currentRoom = new Room(new Player("TorkelKonkel"));
+        Player clientPlayer = new Player("FIA");
         Intent intent = new Intent(this, ResultPageActivity.class);
+        intent.putExtra("roomData", currentRoom);
+        intent.putExtra("playerData", clientPlayer);
         startActivity(intent);
     }
 

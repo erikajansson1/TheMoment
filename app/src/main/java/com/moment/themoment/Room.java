@@ -28,6 +28,7 @@ public class Room implements Serializable {
      * @param player whom should be included
      */
     Room(Player player){
+        this.playerList = new ArrayList<>();
         this.playerList.add(player);
     }
 
@@ -72,6 +73,9 @@ public class Room implements Serializable {
         for (int i = 0; i < this.playerList.size(); i++) {
             if (playerID == playerList.get(i).getID()) {
                 playerList.set(i,clientPlayer);
+                playerList.get(i).setIsPlayer(true);
+            } else {
+                playerList.get(i).setIsPlayer(false);
             }
         }
     }

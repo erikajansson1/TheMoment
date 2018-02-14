@@ -82,6 +82,13 @@ public class Player implements Serializable {
     public void setScore(int givenScore){ this.score = givenScore; }
 
     /**
+     * set method for isplayer attribute
+     * @param bool which is true or false depending on client
+     */
+    public void setIsPlayer(boolean bool) {this.isPlayer = bool;}
+
+
+    /**
      * Adds one point to the score
      */
     public void addScore(){ this.score += 1; }

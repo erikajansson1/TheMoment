@@ -1,6 +1,6 @@
 package com.moment.themoment;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -9,28 +9,51 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ResultPageActivity extends AppCompatActivity {
+import com.google.gson.Gson;
+
+import java.util.Collections;
+
+public class ResultPageActivity extends AppCompatActivity implements ResultPageActivityCallback {
+    Player clientPlayer;
+    Room currentRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_page);
-        View nameLayout =  findViewById(R.id.NameList);
-        View scoreLayout =  findViewById(R.id.ScoreList);
-        addPlayerResult(nameLayout,scoreLayout);
+        findViewById(R.id.Quit).setEnabled(false);
+        findViewById(R.id.NewRound).setEnabled(false);
+
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
+        this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+
+        callRoomUpdate();
     }
 
-    private void addPlayerResult(View nameLayout, View scoreLayout) {
-        //TODO input should be player class object
-        String playerName = "TestDude";
-        Integer score = 100;
+    private void callRoomUpdate() {
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateResultRoom(currentRoom.getID(),this);
+    }
 
+    public void updateResultList(Room updatedRoom) {
+        Gson g = new Gson();
+        Collections.sort(updatedRoom.getPlayerList(), new PlayerComparator());
+        for (Player player: updatedRoom.getPlayerList()) {
+            addPlayerResult(player);
+        }
+        this.currentRoom = updatedRoom;
+        this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+        findViewById(R.id.Quit).setEnabled(true);
+        findViewById(R.id.NewRound).setEnabled(true);
+    }
+
+    private void addPlayerResult(Player player) {
         //TODO will we need name ID again, change in this function
-        TextView nameTV = createPlayerName(playerName, View.generateViewId());
+        TextView nameTV = createPlayerName(player.getName(), View.generateViewId());
         //TODO will we need score ID again, change in this function
-        TextView scoreTV = createPlayerScore(score, View.generateViewId());
-        ((LinearLayout) nameLayout).addView(nameTV);
-        ((LinearLayout) scoreLayout).addView(scoreTV);
+        TextView scoreTV = createPlayerScore(player.getScore(), View.generateViewId());
+        ((LinearLayout) findViewById(R.id.NameList)).addView(nameTV);
+        ((LinearLayout) findViewById(R.id.ScoreList)).addView(scoreTV);
     }
 
     private TextView createPlayerName(String name, Integer id) {
@@ -50,5 +73,17 @@ public class ResultPageActivity extends AppCompatActivity {
         playerScoreTV.setGravity(Gravity.CENTER);
         return playerScoreTV;
     }
-    //TODO Create playerclass object internally, if need arises make global
+
+    public void JumptoWriteClaim(View view) {
+        Intent intent = new Intent(this, WriteClaim.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
+        startActivity(intent);
+    }
+
+    public void JumptoMainMenu(View view) {
+        //TODO clean player from room at DB
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }
