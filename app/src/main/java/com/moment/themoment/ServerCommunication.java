@@ -13,6 +13,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     //TODO what the hell is the generic type for interface callbacks?
     private JoinRandomRoomCallback joinRandomRoomCallback;
     private ResultPageActivityCallback resultPageActivityCallback;
+    private CreateRoomCallback createRoomCallback;
 
     /**
      * Constructor
@@ -42,6 +43,13 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
 
+    //TODO Make savePlayerToDB generic so don't matter what callback
+    public void savePlayerToDBCreateRoom(Player player, CreateRoomCallback createRoomCallback){
+        this.createRoomCallback = createRoomCallback;
+        new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
+    }
+
+
     /**
      * Checks if server with DB is online and responsive. If so enables main menu
      * @param context c
@@ -63,6 +71,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
     public void updateResultRoom(int roomID,ResultPageActivityCallback resultPageActivityCallback) {
         this.resultPageActivityCallback = resultPageActivityCallback;
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
+    }
+
+    public void createRoom(CreateRoomCallback createRoomCallback){
+        this.createRoomCallback = createRoomCallback;
+        new CallServer(null, "storeToDB", "createRoom", this).execute();
+    }
+
+    //Should only be used in creation of room to add number of players and, might be deleted later depending on php
+    public void updateRoom(Room room, CreateRoomCallback createRoomCallback){
+        this.createRoomCallback = createRoomCallback;
+        new CallServer(packager(room), "storeToDB", "updateRoom", this).execute();
     }
 
     /*
@@ -88,6 +107,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "getRoomByID":
                 callBackReturnRoom(output);
+                break;
+            case "createRoom":
+                callBackReturnRoom(output);
+                break;
+            case "updateRoom":
+                callBackReturnRoom(output);
         }
     }
 
@@ -103,8 +128,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
             joinRandomRoomCallback.setPlayersRoom(room);
         } else if (resultPageActivityCallback != null) {
             resultPageActivityCallback.updateResultList(room);
+        }else if (createRoomCallback != null) {
+            createRoomCallback.setPlayersRoom(room);
         }
     }
+
 
     /**
      * handles the servers response in the form of a id
@@ -117,7 +145,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
             //TODO Handle Failure
         } else {
             int idToSet = Integer.parseInt(output);
-            joinRandomRoomCallback.setClientPlayerID(idToSet);
+            if(joinRandomRoomCallback != null) {
+                joinRandomRoomCallback.setClientPlayerID(idToSet);
+            }else if(createRoomCallback != null){
+                createRoomCallback.setClientPlayerID(idToSet);
+            }
         }
     }
 
@@ -189,17 +221,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
     */
 
-    /**
-     * Send request to server to respond a update of the room.
-     * @param player v
-     * @param room v
-     * @return room
-     */
-    /*
-    public Room updateRoomRequest(Player player, Room room){
-        //TODO update the room information.
-        return null;
-    }
-    */
+
 
 }

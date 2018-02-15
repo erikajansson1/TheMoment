@@ -10,9 +10,6 @@ public class Player implements Serializable {
     private Claim claim;
     private Boolean isPlayer;
 
-    /**
-    * Creates a person, used right now just for basic concept in Json building
-    */
     Player(String name){
         this.name = name;
         this.answer = false;
@@ -76,7 +73,7 @@ public class Player implements Serializable {
     public void setClaim(Claim givenClaim){ this.claim = givenClaim; }
 
     /**
-     * Will change score to given int
+     * Change score to given int
      * @param givenScore is the score to be set
      */
     public void setScore(int givenScore){ this.score = givenScore; }

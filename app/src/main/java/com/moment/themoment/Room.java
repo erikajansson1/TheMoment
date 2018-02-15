@@ -64,6 +64,24 @@ public class Room implements Serializable {
         this.ID = newID;
     }
 
+
+    /**
+     * set method for number of players
+     * @param numOfPlayers
+     */
+    public void setNumOfPlayers(int numOfPlayers){
+        this.numOfPlayers = numOfPlayers;
+    }
+
+    /**
+     * Adds player to the playerList of the room
+     * @param clientPlayer
+     */
+    public void addPlayer(Player clientPlayer){
+        this.playerList.add(clientPlayer);
+        return;
+    }
+
     /**
      * replaces clients player object in playerlist as for not having duplicates
      * @param clientPlayer is the clients player object
