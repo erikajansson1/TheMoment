@@ -3,6 +3,7 @@ package com.moment.themoment;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -65,6 +66,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
     }
 
+    public void saveClaimAndAnswer(Player player){
+
+    }
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
