@@ -70,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
      * @param view v
      */
     public void writeClaimRoom(View view) {
+        //Creates a player only for test
+        Player currentPlayer = new Player(("knasboll"));
         Intent intent = new Intent(this, WriteClaim.class);
+        intent.putExtra("PlayerName", currentPlayer);
         startActivity(intent);
     }
 

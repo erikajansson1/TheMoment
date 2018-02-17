@@ -1,5 +1,7 @@
 package com.moment.themoment;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -70,7 +72,7 @@ public class Player implements Serializable {
      * set method for player claim
      * @param givenClaim is the claim given
      */
-    public void setClaim(Claim givenClaim){ this.claim = givenClaim; }
+    public void setClaim(Claim givenClaim){ this.claim = givenClaim;}
 
     /**
      * Change score to given int

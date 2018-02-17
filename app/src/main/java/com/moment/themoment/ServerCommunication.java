@@ -15,6 +15,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private JoinRandomRoomCallback joinRandomRoomCallback;
     private ResultPageActivityCallback resultPageActivityCallback;
     private CreateRoomCallback createRoomCallback;
+    private WriteClaimCallback writeClaimCallback;
 
     /**
      * Constructor
@@ -85,8 +86,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(room), "storeToDB", "updateRoom", this).execute();
     }
 
-    public void saveClaimAndAnswer(Player player){
-
+    public void saveClaimAndAnswer(Player player, WriteClaimCallback writeClaimCallback){
+        Log.i("saveClaim", player.getName());
+        this.writeClaimCallback = writeClaimCallback;
+        new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
     }
     /*
      * ------------------ CALLBACKS BELOW -------------------------
@@ -154,6 +157,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
             }else if(createRoomCallback != null){
                 createRoomCallback.setClientPlayerID(idToSet);
             }
+                else if(writeClaimCallback != null){
+                writeClaimCallback.goToWaitForClaim();
+            }
         }
     }
 
@@ -172,6 +178,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
             checkConnection(context);
         }
     }
+
 
 
     /*
