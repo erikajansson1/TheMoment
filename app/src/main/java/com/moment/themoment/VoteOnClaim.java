@@ -1,67 +1,37 @@
 package com.moment.themoment;
 
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.TimeUnit;
 
-import static android.media.MediaExtractor.MetricsConstants.FORMAT;
-
-public class VoteOnClaim extends AppCompatActivity {
-   // TextView Counter;
+public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallback {
+    Player clientPlayer;
+    Room currentRoom;
+    Claim currentClaim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_on_claim);
 
-     /*   Counter = findViewById(R.id.Counter);
-        new CountDownTimer(30000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                Counter.setText("" + String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                //TODO query server for number of joined players and save into numberOfPlayers, if querys are to intense or callback missmatch increase to maybe every other second.
-                goToCorrectAnswer();
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("PlayerName");
+        this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+        this.currentClaim = (Claim) getIntent().getSerializableExtra("claimData");
 
-                */
-             /*   if (numberOfPlayers >= roomSize) {
-                    cancel();
-                    jumpToWaitForClaim();
-                } */
-        /*    }
-            public void onFinish() {
-                Counter.setText("Starting!");
-                //TODO: When if statement above works i.e. one can read from server how many player has connected and if the room is full the game starts, the out commentation can be removed.
-                //  jumpToWaitForClaim();
-            }
-        }.start();
-*/
-
-        //TODO: Textsträngen ska läsa in claimen som den som fyller i claimen skrivit.
-
-        // Get the Intent that started this activity and extract the string
-      /*
-      Intent intent = getIntent();
-      String message = intent.getStringExtra(WriteClaim.EXTRA_MESSAGE);
-       */
-
-        // Capture the layout's TextView and set the string as its text
-      /*
-      TextView textView = findViewById(R.id.ClaimToVote);
-        textView.setText(message);
-        */
+        String message = currentClaim.getClaim();
+        TextView ClaimToVote = findViewById(R.id.ClaimToVote);
+        ClaimToVote.setText(message);
     }
-    public void saveAnswer(View view) {
+
+
+    public void compareAnswer(View view) {
 
         RadioGroup stateGroup = findViewById(R.id.state);
 
@@ -70,14 +40,35 @@ public class VoteOnClaim extends AppCompatActivity {
         } else {
             int selectedId = stateGroup.getCheckedRadioButtonId();
             RadioButton selectedAnswButton = (RadioButton) findViewById(selectedId);
-            //TODO: Send selectedAnswButton to server as picked answer.
-            goToCorrectAnswer();
+            String answer = selectedAnswButton.getText().toString();
+            Boolean boolansw = setBool(answer);
+            clientPlayer.setAnswer(boolansw);
+            if(boolansw == currentClaim.getAnsw()) {
+                int currScore = clientPlayer.getScore();
+                //If correct answ. 5 points will be given.
+                clientPlayer.updateScore((currScore + 5));
+                ServerCommunication serverCom = new ServerCommunication(this);
+                serverCom.updateScore(clientPlayer, this);
+            }
+            else {
+                goToResult();
+            }
+
         }
      }
 
-    private void goToCorrectAnswer() {
-        Intent intent = new Intent(this, CorrectAnswer.class);
+    public void goToResult() {
+        Intent intent = new Intent(this, ResultPageActivity.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
         startActivity(intent);
+    }
+
+    private Boolean setBool(String message){
+        if (message.equals("true")){
+            return true;
+        }
+        else {return false; }
     }
 
 

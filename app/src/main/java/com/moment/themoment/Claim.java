@@ -8,11 +8,21 @@ class Claim implements Serializable {
 
     /**
      * constructor
-     * @param claim related to player
+     *
+     * @param claim         related to player
      * @param correctAnswer is the thruthfullnes of the claim
      */
-    Claim(String claim, Boolean correctAnswer){
+    Claim(String claim, Boolean correctAnswer) {
         this.claim = claim;
         this.correctAnswer = correctAnswer;
     }
+
+    public String getClaim() {
+        return this.claim;
+    }
+
+    public Boolean getAnsw() {
+        return this.correctAnswer;
+    }
+
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
     Player clientPlayer;
+    Room currentRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,8 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
         setContentView(R.layout.activity_write_claim);
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("PlayerName");
+        this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+
     }
 
     public void saveClaim(View view) {
@@ -64,6 +67,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
     public void goToWaitForClaim(){
         Intent intent = new Intent(this, WaitForClaim.class);
         intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
         startActivity(intent);
     }
 }

@@ -27,7 +27,6 @@
         <activity android:name=".WriteClaim" />
         <activity android:name=".VoteOnClaim" />
         <activity android:name=".ResultPageActivity" />
-        <activity android:name=".CorrectAnswer"></activity>
     </application>
 
 </manifest>

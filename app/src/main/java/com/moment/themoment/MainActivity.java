@@ -77,5 +77,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void voteOnClaimRoom(View view){
+        Player currentPlayer = new Player (("Noffff"));
+        currentPlayer.setClaim(new Claim("hej", true));
+        Room currRoom = new Room ();
+        Claim currClaim = new Claim("Solen är gul", true);
+        Intent intent = new Intent(this, VoteOnClaim.class);
+        intent.putExtra("PlayerName", currentPlayer);
+        intent.putExtra("roomData", currRoom);
+        intent.putExtra("claimData", currClaim);
+        startActivity(intent);
+    }
+
 
 }

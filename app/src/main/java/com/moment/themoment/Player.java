@@ -43,6 +43,14 @@ public class Player implements Serializable {
     }
 
     /**
+     * method for updating players score
+     * @param newScore to update the player with
+     */
+    public void updateScore(int newScore) {
+        this.score = newScore;
+    }
+
+    /**
      * get method for player claim
      * @return claim currently using
      */
