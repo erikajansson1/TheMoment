@@ -17,6 +17,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private CreateRoomCallback createRoomCallback;
     private WriteClaimCallback writeClaimCallback;
     private VoteOnClaimCallback voteOnClaimCallback;
+    private JoinRoomCallback joinRoomCallback;
 
     /**
      * Constructor
@@ -46,9 +47,24 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
 
+    /**
+     * Saves a player to the database. Should return ID to the user that should be updated on the
+     * user to keep track in the communication from there on.
+     * @param player whom are to be save to DB
+     */
     //TODO Make savePlayerToDB generic so don't matter what callback
     public void savePlayerToDBCreateRoom(Player player, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
+        new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
+    }
+
+    /**
+     * Saves a player to the database. Should return ID to the user that should be updated on the
+     * user to keep track in the communication from there on.
+     * @param player whom are to be save to DB
+     */
+    public void savePlayerToDBJoinRoom(Player player, JoinRoomCallback joinRoomCallback){
+        this.joinRoomCallback = joinRoomCallback;
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
 
@@ -76,6 +92,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
     }
 
+    public void joinRoom(int roomID, JoinRoomCallback joinRoomCallback){
+        this.joinRoomCallback = joinRoomCallback;
+        new CallServer(null, "getFromDB", "getRoomByID", this).execute();
+    }
+
     public void createRoom(CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
         new CallServer(null, "storeToDB", "createRoom", this).execute();
@@ -96,6 +117,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         this.voteOnClaimCallback = voteOnClaimCallback;
         new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
     }
+
+
+
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
@@ -142,6 +166,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
             resultPageActivityCallback.updateResultList(room);
         }else if (createRoomCallback != null) {
             createRoomCallback.setPlayersRoom(room);
+        }else if (createRoomCallback != null) {
+            joinRoomCallback.setPlayersRoom(room);
         }
     }
 
@@ -161,12 +187,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 joinRandomRoomCallback.setClientPlayerID(idToSet);
             }else if(createRoomCallback != null){
                 createRoomCallback.setClientPlayerID(idToSet);
-            }
-                else if(writeClaimCallback != null){
+            }else if(writeClaimCallback != null){
                 writeClaimCallback.goToWaitForClaim();
-            }
-                 else if(voteOnClaimCallback != null){
-                    voteOnClaimCallback.goToResult();
+            }else if(voteOnClaimCallback != null){
+                voteOnClaimCallback.goToResult();
+            }else if(joinRoomCallback != null){
+                joinRoomCallback.setClientPlayerID(idToSet);
             }
         }
     }
@@ -186,60 +212,4 @@ public class ServerCommunication implements ServerCommunicationCallback {
             checkConnection(context);
         }
     }
-
-
-
-    /*
-     * ------------ Old and in need for redefintion methods below ------------
-     */
-
-    /**
-     * When creating a room you should save in the database to be able to start the session and
-     * so that people can enter the room, returns id number for room
-     * @param room v
-     * @return ID v
-     */
-    /*
-    public Integer saveRoomToDB(Room room) {
-        Integer roomID = (Integer) queryServer("saveRoom", room);
-        return roomID;
-    }
-    */
-    /**
-     * Tries to add player to the room, will return room if succeeding.
-     * @param player v
-     * @param roomID v
-     * @return
-     */
-    /*
-    public Room joinRoomInServer(Player player, Integer roomID){
-        Room room = (Room) queryServer("joinRoom", roomID, player);
-        String roomResult = sendToServer();
-        if(roomResult.equals("Failed")){
-            return null;
-        }
-        else{
-            return roomResult;
-        }
-        //TODO, handle if the person is not allowed to join the room
-        //return room;
-    }
-    */
-    /**
-     * Sends claim to server, will return true or false depending on if sent.
-     * @param player v
-     * @param room v
-     * @param claim v
-     * @return
-     */
-    /*
-    public Boolean sendClaimToServer(Player player, Room room, Claim claim){
-        //TODO room should hold players and indicate locally which player is client's
-        Boolean succes = (Boolean) queryServer("sendClaim",room);
-        return false;
-    }
-    */
-
-
-
 }

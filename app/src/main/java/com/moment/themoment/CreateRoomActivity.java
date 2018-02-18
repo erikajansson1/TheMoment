@@ -37,7 +37,6 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
 
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.updateRoom(this.currentRoom, this);
-
         return;
     }
 
@@ -58,7 +57,6 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
     /**
      * Will read the input from the editText lines and use this to create a new player
      * and room and after that if will send you to the WaitForPlayerActivity
-     * //TODO Add to notice if a editText is empty and complain about that
      * @param view
      */
     public void ConfirmCreateRoom(View view) {
@@ -69,7 +67,8 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
         ServerCommunication serverCom = new ServerCommunication(this);
         Log.e("name:",userNameToSave.getText().toString());
         serverCom.savePlayerToDBCreateRoom(roomLeader,this);
-
+        //TODO change the restrains of the looks
+        //TODO Add to notice if a editText is empty and complain about that
 
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
         intent.putExtra("playerData", clientPlayer);
