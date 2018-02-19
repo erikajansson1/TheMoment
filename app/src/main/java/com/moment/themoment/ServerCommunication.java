@@ -18,6 +18,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private WriteClaimCallback writeClaimCallback;
     private VoteOnClaimCallback voteOnClaimCallback;
     private JoinRoomCallback joinRoomCallback;
+    private WaitForPlayersActivityCallback waitForPlayersActivityCallback;
 
     /**
      * Constructor
@@ -118,6 +119,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
     }
 
+    public void countPlayers(Room currentRoom, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
+        this.waitForPlayersActivityCallback = waitForPlayersActivityCallback;
+        new CallServer(packager(currentRoom), "getFromDB", "getRoomByID", this).execute();
+    }
 
 
     /*
@@ -166,8 +171,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
             resultPageActivityCallback.updateResultList(room);
         }else if (createRoomCallback != null) {
             createRoomCallback.setPlayersRoom(room);
-        }else if (createRoomCallback != null) {
+        }else if (joinRoomCallback != null) {
             joinRoomCallback.setPlayersRoom(room);
+        }else if (waitForPlayersActivityCallback != null) {
+            waitForPlayersActivityCallback.updateNbrOfPlayers(room);
         }
     }
 

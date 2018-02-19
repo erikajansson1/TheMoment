@@ -56,6 +56,11 @@ public class Room implements Serializable {
         return this.playerList;
     }
 
+    public int getAmountOfPlayers() {
+        int amountOfPlayers = playerList.size();
+        return amountOfPlayers;
+    }
+
     /**
      * set method for rooms id
      * @param newID is the id to be set

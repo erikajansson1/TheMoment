@@ -21,7 +21,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_claim);
 
-        this.clientPlayer = (Player) getIntent().getSerializableExtra("PlayerName");
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
 
     }

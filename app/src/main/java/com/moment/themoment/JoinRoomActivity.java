@@ -26,8 +26,11 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
      * @param room which is to be used by the player
      */
     public void setPlayersRoom(Room room) {
+        Log.e("test",String.valueOf(room.getNumOfPlayers()));
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+        jumpToWaitForClaim();
+
     }
 
     /**
@@ -46,6 +49,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
 
 
     public void confirmRoomSelect(View view) {
+        //TODO: Set the button in offline mode so one can not create many players.
         EditText userName = findViewById(R.id.userNameInput);
         Player clientPlayer = new Player(userName.getText().toString());
         this.clientPlayer = clientPlayer;
@@ -55,10 +59,9 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         serverCom.savePlayerToDBJoinRoom(clientPlayer,this);
         //TODO Query server for room existence and if possible add client to ROOM. If successful do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
-        jumpToWaitForClaim(view);
     }
 
-    private void jumpToWaitForClaim(View view) {
+    private void jumpToWaitForClaim() {
         //TODO depending on if the room is full or not should go to either waitForPlayers or writeClaim
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
         intent.putExtra("playerData", clientPlayer);

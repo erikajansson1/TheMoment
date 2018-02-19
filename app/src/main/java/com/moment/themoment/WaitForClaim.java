@@ -25,7 +25,7 @@ public class WaitForClaim extends AppCompatActivity {
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
 
-        timeCount = findViewById(R.id.countDown);
+        timeCount = findViewById(R.id.timeCount);
         claimProgress = findViewById(R.id.progress);
         //TODO queryDBWriteClaim();
         new CountDownTimer(30000, 1000) {

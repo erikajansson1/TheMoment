@@ -3,6 +3,7 @@ package com.moment.themoment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,6 +88,19 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("roomData", currRoom);
         intent.putExtra("claimData", currClaim);
         startActivity(intent);
+    }
+
+    public void waitForPlayers(View view){
+        Log.i("i funk", "i funk         ");
+        Player currentPlayer = new Player (("Noffff"));
+        Room currRoom = new Room ();
+        currRoom.addPlayer(currentPlayer);
+        Intent intent = new Intent(this, WaitForPlayersActivity.class);
+        intent.putExtra("clientPlayer", currentPlayer);
+        intent.putExtra("roomData", currRoom);
+        Log.i("skapat", "skapat");
+        startActivity(intent);
+
     }
 
 

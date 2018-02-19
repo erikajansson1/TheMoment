@@ -4,49 +4,69 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-public class WaitForPlayersActivity extends AppCompatActivity {
+public class WaitForPlayersActivity extends AppCompatActivity implements WaitForPlayersActivityCallback {
     TextView timeCount, playerCount;
     private static final String FORMAT = "%02d";
-    int seconds , minutes, numberOfPlayers, roomSize;
+    Player clientPlayer;
+    Room currentRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_for_players);
 
-        timeCount= findViewById(R.id.countDown);
-        playerCount= findViewById(R.id.numberOfPlayersJoined);
-        numberOfPlayers = 0;
-        roomSize = 10;
+        timeCount = findViewById(R.id.timeCount);
+        playerCount = findViewById(R.id.numberOfPlayersJoined);
+
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("clientPlayer");
+        this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+        startTimer();
+
+    }
+
+    private void startTimer() {
+
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
-                timeCount.setText(""+String.format(FORMAT,
+                timeCount.setText("" + String.format(FORMAT,
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                //TODO query server for number of joined players and save into numberOfPlayers, if querys are to intense or callback missmatch increase to maybe every other second.
-                numberOfPlayers = numberOfPlayers + 1;
-                playerCount.setText(""+numberOfPlayers);
-                if (numberOfPlayers >= roomSize) {
+                playerCount.setText("" + currentRoom.getAmountOfPlayers());
+                if (currentRoom.getAmountOfPlayers() >= currentRoom.getNumOfPlayers()) {
                     cancel();
-                    jumpToWaitForClaim();
+                    jumpToWriteClaim();
+                } else {
+                    toServer(currentRoom);
                 }
 
             }
+
             public void onFinish() {
                 timeCount.setText("Starting!");
-                //TODO: When if statement above works i.e. one can read from server how many player has connected and if the room is full the game starts, the out commentation can be removed.
-              //  jumpToWaitForClaim();
+                jumpToWriteClaim();
             }
         }.start();
     }
 
-    private void jumpToWaitForClaim() {
+
+    private void jumpToWriteClaim() {
         Intent intent = new Intent(this, WriteClaim.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
         startActivity(intent);
     }
 
+    private void toServer(Room currentRoom) {
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.countPlayers(currentRoom, this);
+    }
+
+    public void updateNbrOfPlayers(final Room roomFromServer) {
+        currentRoom = roomFromServer;
+    }
 }

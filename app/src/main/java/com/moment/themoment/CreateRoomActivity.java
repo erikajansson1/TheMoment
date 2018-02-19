@@ -71,7 +71,7 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
         //TODO Add to notice if a editText is empty and complain about that
 
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("clientPlayer", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);
     }
