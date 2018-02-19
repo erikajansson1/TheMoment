@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CreateRoomActivity extends AppCompatActivity implements CreateRoomCallback{
     private Player clientPlayer;
@@ -17,6 +16,8 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+        findViewById(R.id.btnCreateRoom).setEnabled(false);
+        currentRoom = new Room();
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.createRoom(this);
     }
@@ -30,28 +31,28 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
         //Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
         Log.i("Server gave:",String.valueOf(id));
 
-        EditText numOfPlayers = (EditText)findViewById(R.id.editText4);
+        EditText numOfPlayers = findViewById(R.id.editText4);
         String numOfPlayersString = numOfPlayers.getText().toString();
         int numOfPlayersInt = Integer.parseInt(numOfPlayersString);
         this.currentRoom.setNumOfPlayers(numOfPlayersInt);
 
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.updateRoom(this.currentRoom, this);
-        return;
+        serverCom.updateRoomSize(this.currentRoom, this);
     }
 
-    /**
-     * sets the room for the player
-     * @param room which is to be used by the player
-     */
-    public void setPlayersRoom(Room room) {
-        if (this.currentRoom == null) {
-            this.currentRoom = room;
-            TextView roomNumber = findViewById(R.id.roomNumber);
-            roomNumber.setText(String.valueOf(currentRoom.getID()));
-        }else{
-            this.currentRoom = room;
-        }
+    public void setRoomID(int id) {
+        currentRoom.setID(id);
+        TextView roomNumber = findViewById(R.id.roomNumber);
+        roomNumber.setText(String.valueOf(currentRoom.getID()));
+        findViewById(R.id.btnCreateRoom).setEnabled(true);
+    }
+
+    public void confirmDone(String response) {
+        Log.i("response on save was!",response);
+        Intent intent = new Intent(this, WaitForPlayersActivity.class);
+        intent.putExtra("clientPlayer", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
+        startActivity(intent);
     }
 
     /**
@@ -60,19 +61,15 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
      * @param view
      */
     public void ConfirmCreateRoom(View view) {
-        findViewById(R.id.editText).setEnabled(false);
+        findViewById(R.id.btnCreateRoom).setEnabled(false);
         EditText userNameToSave = findViewById(R.id.editText);
         Player roomLeader = new Player(userNameToSave.getText().toString());
         this.clientPlayer = roomLeader;
+        currentRoom.addPlayer(roomLeader);
         ServerCommunication serverCom = new ServerCommunication(this);
         Log.e("name:",userNameToSave.getText().toString());
-        serverCom.savePlayerToDBCreateRoom(roomLeader,this);
+        serverCom.savePlayerToDBCreateRoom(roomLeader,this.currentRoom.getID(),this);
         //TODO change the restrains of the looks
         //TODO Add to notice if a editText is empty and complain about that
-
-        Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("clientPlayer", clientPlayer);
-        intent.putExtra("roomData", currentRoom);
-        startActivity(intent);
     }
 }

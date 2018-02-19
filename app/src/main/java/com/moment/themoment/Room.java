@@ -13,6 +13,7 @@ public class Room implements Serializable {
      * Constructor
      */
     Room(){
+        playerList = new ArrayList<Player>();
     }
 
     /**

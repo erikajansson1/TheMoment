@@ -3,7 +3,6 @@ package com.moment.themoment;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -54,9 +53,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param player whom are to be save to DB
      */
     //TODO Make savePlayerToDB generic so don't matter what callback
-    public void savePlayerToDBCreateRoom(Player player, CreateRoomCallback createRoomCallback){
+    public void savePlayerToDBCreateRoom(Player player, int roomID, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
-        new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
+        new CallServer(packager(player,roomID),"storeToDB","storePlayer",this).execute();
     }
 
     /**
@@ -103,10 +102,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(null, "storeToDB", "createRoom", this).execute();
     }
 
-    //Should only be used in creation of room to add number of players and, might be deleted later depending on php
-    public void updateRoom(Room room, CreateRoomCallback createRoomCallback){
+    public void updateRoomSize(Room room, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
-        new CallServer(packager(room), "storeToDB", "updateRoom", this).execute();
+        new CallServer(packager(room.getID(),room.getNumOfPlayers()), "storeToDB", "updateRoomSize", this).execute();
     }
 
     public void saveClaimAndAnswer(Player player, WriteClaimCallback writeClaimCallback){
@@ -150,11 +148,31 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 callBackReturnRoom(output);
                 break;
             case "createRoom":
-                callBackReturnRoom(output);
+                callBackReturnRoomID(output);
                 break;
             case "updateRoom":
                 callBackReturnRoom(output);
+                break;
+            case "updateRoomSize":
+                callBackResponse(output);
         }
+    }
+
+    private void callBackResponse(String output) {
+        Log.e("Got output to callback",output);
+        if (createRoomCallback != null) {
+            createRoomCallback.confirmDone(output);
+        }
+    }
+
+    private void callBackReturnRoomID(String output) {
+        Log.e("Got output to callback",output);
+        int idToSet = Integer.parseInt(output);
+        if (createRoomCallback != null) {
+            createRoomCallback.setRoomID(idToSet);
+        }
+
+
     }
 
     /**
@@ -170,7 +188,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
         } else if (resultPageActivityCallback != null) {
             resultPageActivityCallback.updateResultList(room);
         }else if (createRoomCallback != null) {
-            createRoomCallback.setPlayersRoom(room);
+            //createRoomCallback.setPlayersRoom(room);
         }else if (joinRoomCallback != null) {
             joinRoomCallback.setPlayersRoom(room);
         }else if (waitForPlayersActivityCallback != null) {

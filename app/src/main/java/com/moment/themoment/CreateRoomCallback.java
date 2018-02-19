@@ -4,6 +4,8 @@ public interface CreateRoomCallback {
 
     void setClientPlayerID(int id);
 
-    void setPlayersRoom(Room room);
+    void setRoomID(int id);
+
+    void confirmDone(String response);
 
 }

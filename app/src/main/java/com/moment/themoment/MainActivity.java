@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
      * Locks inteface buttons until its confirmed server and db is up and running.
      */
     private void checkServerConnection() {
+
         findViewById(R.id.JoinRoom).setEnabled(false);
         findViewById(R.id.JRR).setEnabled(false);
         findViewById(R.id.CreateRoom).setEnabled(false);
