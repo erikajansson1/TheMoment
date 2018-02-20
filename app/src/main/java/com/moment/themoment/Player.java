@@ -24,10 +24,6 @@ public class Player implements Serializable {
      */
     public String getName(){return this.name; }
 
-    public getClaim() {
-        return this.claim;
-    }
-
     /**
      * get method for player for answer
      * @return answer player has choosen
