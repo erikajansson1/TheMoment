@@ -1,9 +1,8 @@
 package com.moment.themoment;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,7 +20,7 @@ public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_on_claim);
 
-        this.clientPlayer = (Player) getIntent().getSerializableExtra("PlayerName");
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.currentClaim = (Claim) getIntent().getSerializableExtra("claimData");
 

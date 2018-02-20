@@ -147,9 +147,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param roomID to check if everybody is done.
      * @param resultPageActivityCallback  is the callback class, needed for callback in this class.
      */
-    public void checkIfRoundComplete(int roomID, ResultPageActivityCallback resultPageActivityCallback) {
+    public void checkIfRoundComplete(int roomID, int round, ResultPageActivityCallback resultPageActivityCallback) {
         this.resultPageActivityCallback = resultPageActivityCallback;
-        new CallServer(Integer.toString(roomID),"utils","isRoundDone",this).execute();
+        new CallServer(packager(roomID,round),"utils","isRoundDone",this).execute();
     }
 
 

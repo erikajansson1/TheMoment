@@ -37,12 +37,13 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         Log.e("reply: ",reply);
         //TODO guard for "failed" response
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.checkIfRoundComplete(currentRoom.getID(),this);
+        serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),this);
     }
 
     public void ifDoneCallRoomUpdate(String result) {
+        Log.e("reply if done: ",result);
         final ResultPageActivity thisObject = this;
-        if(result.equals("true")) {
+        if(Boolean.parseBoolean(result)) {
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.updateResultRoom(currentRoom.getID(),this);
         } else {
@@ -50,15 +51,18 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Log.e("ifDoneCallRoom","FIRE NEW CALL");
                     ServerCommunication serverCom = new ServerCommunication(thisObject);
-                    serverCom.checkIfRoundComplete(currentRoom.getID(),thisObject);
+                    serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),thisObject);
                 }
-            }, 1000);
+            }, 1500);
 
         }
     }
 
     public void updateResultList(Room updatedRoom) {
+        findViewById(R.id.progressWait).setVisibility(View.GONE);
+        findViewById(R.id.textViewWait).setVisibility(View.GONE);
         Collections.sort(updatedRoom.getPlayerList(), new PlayerComparator());
         for (Player player: updatedRoom.getPlayerList()) {
             if(player.getIsPlayer() && player.answeredCorrect()) {
@@ -107,8 +111,14 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         return playerScoreTV;
     }
 
-    public void JumptoWriteClaim(View view) {
-        Intent intent = new Intent(this, WriteClaim.class);
+    public void newRound(View view) {
+        Intent intent;
+        if (currentRoom.setNextClaim()) {
+            intent = new Intent(this, VoteOnClaim.class);
+            intent.putExtra("claimData", currentRoom.getCurrentClaim());
+        } else {
+            intent = new Intent(this, WriteClaim.class);
+        }
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);

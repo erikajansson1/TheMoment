@@ -7,6 +7,7 @@
     tools:context="com.moment.themoment.ResultPageActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="125dp"
@@ -72,7 +73,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
-        android:onClick="JumptoWriteClaim"
+        android:onClick="newRound"
         android:text="@string/NewRound"
         app:layout_constraintBottom_toTopOf="@+id/Quit"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -88,5 +89,35 @@
         android:text="@string/Quit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressWait"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewWait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/wait_for_players"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
