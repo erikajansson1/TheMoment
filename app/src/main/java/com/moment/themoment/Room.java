@@ -8,12 +8,14 @@ public class Room implements Serializable {
     private int ID;
     private int numOfPlayers;
     private ArrayList<Player> playerList;
+    private int currentClaimNo;
 
     /**
      * Constructor
      */
     Room(){
         playerList = new ArrayList<Player>();
+        this.currentClaimNo = 0;
     }
 
     /**
@@ -22,6 +24,7 @@ public class Room implements Serializable {
      */
     Room(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
+        this.currentClaimNo = 0;
     }
 
     /**
@@ -31,6 +34,30 @@ public class Room implements Serializable {
     Room(Player player){
         this.playerList = new ArrayList<>();
         this.playerList.add(player);
+        this.currentClaimNo = 0;
+    }
+
+    /**
+     * retrieves the currentClaim to be presented
+     * @return the claim based upon currentClaimNo
+     */
+    public Claim getCurrentClaim() {
+        return this.playerList.get(this.currentClaimNo).getClaim();
+    }
+
+    /**
+     * Increments the currentClaimNo if possible. If its not possible it will revert to zero.
+     * This indicates all claims have been presented and a new round of writeClaim should begin.
+     * @return boolean depending on if increment was sucesfull or failed.
+     */
+    public Boolean setNextClaim() {
+        if (this.currentClaimNo < (this.numOfPlayers-1)) {
+            this.currentClaimNo++;
+            return true;
+        } else {
+            this.currentClaimNo = 0;
+            return false;
+        }
     }
 
     /**

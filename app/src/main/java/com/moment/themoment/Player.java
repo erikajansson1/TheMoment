@@ -1,7 +1,5 @@
 package com.moment.themoment;
 
-import android.util.Log;
-
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -25,6 +23,10 @@ public class Player implements Serializable {
      * @return name of player
      */
     public String getName(){return this.name; }
+
+    public getClaim() {
+        return this.claim;
+    }
 
     /**
      * get method for player for answer

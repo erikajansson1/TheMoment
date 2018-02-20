@@ -3,6 +3,7 @@ package com.moment.themoment;
 import java.io.Serializable;
 
 class Claim implements Serializable {
+    private int ID;
     private String claim;
     private Boolean correctAnswer;
 
@@ -24,5 +25,6 @@ class Claim implements Serializable {
     public Boolean getAnsw() {
         return this.correctAnswer;
     }
+
 
 }
