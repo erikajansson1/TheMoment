@@ -1,5 +1,6 @@
 package com.moment.themoment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -46,19 +47,32 @@ public class WaitForClaim extends AppCompatActivity {
 
     private void queryDBWriteClaim() {
         //TODO query db for if player is tasked to write claim. callback to queryDBClaimReady if not otherwise jumptoWriteClaim
+       // new CallServer(packager(Claim),"storeToDB","storeClaim",this).execute();
     }
 
     private void jumptoWriteClaim() {
-        //TODO Intent intent = new Intent(this, writeClaim.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, WriteClaim.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
+        startActivity(intent);
     }
+
+
 
     private void queryDBClaimReady() {
         //TODO query function with a callback to jumpToClaim?
+
+
     }
 
+
+
     private void jumpToClaim () {
-        //TODO Intent intent = new Intent(this, writeClaim.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, Claim.class);
+        intent.putExtra("playerData", clientPlayer);
+        intent.putExtra("roomData", currentRoom);
+        startActivity(intent);
+        //skicka med det aktuella claimet, rummet och sidorna?
+
     }
 }

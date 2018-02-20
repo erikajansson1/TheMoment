@@ -46,8 +46,12 @@ public class WaitForClaim extends AppCompatActivity {
 
     private void queryDBWriteClaim() {
 	
-	
-        //TODO query db for if player is tasked to write claim. callback to queryDBClaimReady if not otherwise jumptoWriteClaim
+	if()
+	    
+	else jumptoWriteClaim;
+	    
+        //TODO query db for if player is tasked to write claim. callback to queryDBClaimReady
+	//if not otherwise jumptoWriteClaim
     }
 
     private void jumptoWriteClaim() {
