@@ -9,6 +9,7 @@ public class Player implements Serializable {
     private Boolean answer;
     private Claim claim;
     private Boolean isPlayer;
+    private int round;
 
     Player(String name){
         this.name = name;
@@ -16,6 +17,31 @@ public class Player implements Serializable {
         this.score = 0;
         this.claim = null;
         this.isPlayer = true;
+        this.round = 0;
+    }
+
+    /**
+     * increment method for the round value.
+     * Meant to be used by resutlt page to increment the round counter if needed.
+     */
+    public void incrementRound () {
+        this.round++;
+    }
+
+    /**
+     * set method for round
+     * @param val is the value to be set
+     */
+    public void setRound(int val) {
+        this.round = val;
+    }
+
+    /**
+     * get method for round.
+     * @return this.round.
+     */
+    public int getRound() {
+        return this.round;
     }
 
     /**

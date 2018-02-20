@@ -3,6 +3,7 @@ package com.moment.themoment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -25,7 +26,17 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
 
-        callRoomUpdate();
+        clientPlayer.incrementRound();
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.declareRoundAnswered(clientPlayer,this);
+        //callRoomUpdate();
+    }
+
+    public void checkIfRoundIsFinished (String reply) {
+        Log.e("reply: ",reply);
+        //TODO guard for "failed" response
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.checkIfRoundComplete(currentRoom.getID(),this);
     }
 
     private void callRoomUpdate() {

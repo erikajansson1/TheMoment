@@ -87,6 +87,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(null,"getFromDB","getRandomRoom",this).execute();
     }
 
+    /**
+     * ask server for a complete refresh of room from db
+     * @param roomID room to request
+     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     */
     public void updateResultRoom(int roomID,ResultPageActivityCallback resultPageActivityCallback) {
         this.resultPageActivityCallback = resultPageActivityCallback;
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
@@ -102,6 +107,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(null, "storeToDB", "createRoom", this).execute();
     }
 
+    /**
+     * tells the server to update room size in db
+     * @param room used to retrieve id and gives to server
+     * @param createRoomCallback is the callback class, needed for callback in this class.
+     */
     public void updateRoomSize(Room room, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
         new CallServer(packager(room.getID(),room.getNumOfPlayers()), "storeToDB", "updateRoomSize", this).execute();
@@ -120,6 +130,26 @@ public class ServerCommunication implements ServerCommunicationCallback {
     public void countPlayers(Room currentRoom, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
         this.waitForPlayersActivityCallback = waitForPlayersActivityCallback;
         new CallServer(packager(currentRoom), "getFromDB", "getRoomByID", this).execute();
+    }
+
+    /**
+     * tells the server to update the round counter for player ID in db.
+     * @param player used to retrieve id and gives to server
+     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     */
+    public void declareRoundAnswered(Player player, ResultPageActivityCallback resultPageActivityCallback) {
+        this.resultPageActivityCallback = resultPageActivityCallback;
+        new CallServer(packager(player.getID(),player.getRound()),"storeToDB","storePlayerRound",this).execute();
+    }
+
+    /**
+     * asks the server if all players in room is done with their current round.
+     * @param room used to retrieve id and gives to server
+     * @param resultPageActivityCallback  is the callback class, needed for callback in this class.
+     */
+    public void checkIfRoundComplete(Room room, ResultPageActivityCallback resultPageActivityCallback) {
+        this.resultPageActivityCallback = resultPageActivityCallback;
+        new CallServer(Integer.toString(room.getID()),"utils","isRoundDone",this).execute();
     }
 
 
@@ -155,6 +185,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "updateRoomSize":
                 callBackResponse(output);
+                break;
+            case "storePlayerRound":
+                callBackResponse(output);
         }
     }
 
@@ -162,6 +195,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Log.e("Got output to callback",output);
         if (createRoomCallback != null) {
             createRoomCallback.confirmDone(output);
+        } else if (resultPageActivityCallback != null) {
+            resultPageActivityCallback.checkIfRoundIsFinished(output);
         }
     }
 
