@@ -47,6 +47,7 @@ public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallbac
                 //If correct answ. 5 points will be given.
                 clientPlayer.updateScore((currScore + 5));
                 ServerCommunication serverCom = new ServerCommunication(this);
+                //TODO Potential bug if player is very quick and manages to update his score for the next round before other players have managed to update their rooms from server. i.e he will be a round ahead with his answer and points.
                 serverCom.updateScore(clientPlayer, this);
             }
             else {
