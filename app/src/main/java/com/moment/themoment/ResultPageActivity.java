@@ -2,6 +2,7 @@ package com.moment.themoment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,9 +40,22 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         serverCom.checkIfRoundComplete(currentRoom.getID(),this);
     }
 
-    private void callRoomUpdate() {
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.updateResultRoom(currentRoom.getID(),this);
+    public void ifDoneCallRoomUpdate(String result) {
+        final ResultPageActivity thisObject = this;
+        if(result.equals("true")) {
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.updateResultRoom(currentRoom.getID(),this);
+        } else {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ServerCommunication serverCom = new ServerCommunication(thisObject);
+                    serverCom.checkIfRoundComplete(currentRoom.getID(),thisObject);
+                }
+            }, 1000);
+
+        }
     }
 
     public void updateResultList(Room updatedRoom) {

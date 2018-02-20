@@ -5,4 +5,6 @@ public interface ResultPageActivityCallback {
     void updateResultList(Room room);
 
     void checkIfRoundIsFinished (String output);
+
+    void ifDoneCallRoomUpdate(String answer);
 }

@@ -144,12 +144,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * asks the server if all players in room is done with their current round.
-     * @param room used to retrieve id and gives to server
+     * @param roomID to check if everybody is done.
      * @param resultPageActivityCallback  is the callback class, needed for callback in this class.
      */
-    public void checkIfRoundComplete(Room room, ResultPageActivityCallback resultPageActivityCallback) {
+    public void checkIfRoundComplete(int roomID, ResultPageActivityCallback resultPageActivityCallback) {
         this.resultPageActivityCallback = resultPageActivityCallback;
-        new CallServer(Integer.toString(room.getID()),"utils","isRoundDone",this).execute();
+        new CallServer(Integer.toString(roomID),"utils","isRoundDone",this).execute();
     }
 
 
@@ -188,6 +188,16 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "storePlayerRound":
                 callBackResponse(output);
+                break;
+            case "isRoundDone":
+                callBackIsRoundDone(output);
+        }
+    }
+
+    private void callBackIsRoundDone(String output) {
+        Log.e("Got output to callback",output);
+        if (resultPageActivityCallback != null) {
+            resultPageActivityCallback.ifDoneCallRoomUpdate(output);
         }
     }
 
