@@ -25,6 +25,14 @@ public class Player implements Serializable {
     public String getName(){return this.name; }
 
     /**
+     * get method for attribute isPlayer
+     * @return this.isPlayer boolean
+     */
+    public Boolean getIsPlayer() {
+        return this.isPlayer;
+    }
+
+    /**
      * get method for player for answer
      * @return answer player has choosen
      */
@@ -98,4 +106,11 @@ public class Player implements Serializable {
      */
     public void addScore(){ this.score += 1; }
 
+    public boolean answeredCorrect() {
+        if (this.answer == this.claim.getAnsw()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

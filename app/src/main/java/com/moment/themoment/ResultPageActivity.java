@@ -9,8 +9,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.Collections;
 
 public class ResultPageActivity extends AppCompatActivity implements ResultPageActivityCallback {
@@ -36,10 +34,14 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
     }
 
     public void updateResultList(Room updatedRoom) {
-        Gson g = new Gson();
         Collections.sort(updatedRoom.getPlayerList(), new PlayerComparator());
         for (Player player: updatedRoom.getPlayerList()) {
-            addPlayerResult(player);
+            if(player.getIsPlayer() && player.answeredCorrect()) {
+                addPlayerResult(player,true);
+            } else {
+                addPlayerResult(player,false);
+            }
+
         }
         this.currentRoom = updatedRoom;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
@@ -47,11 +49,11 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         findViewById(R.id.NewRound).setEnabled(true);
     }
 
-    private void addPlayerResult(Player player) {
+    private void addPlayerResult(Player player, Boolean clientCorrect) {
         //TODO will we need name ID again, change in this function
         TextView nameTV = createPlayerName(player.getName(), View.generateViewId());
         //TODO will we need score ID again, change in this function
-        TextView scoreTV = createPlayerScore(player.getScore(), View.generateViewId());
+        TextView scoreTV = createPlayerScore(player.getScore(), View.generateViewId(),clientCorrect);
         ((LinearLayout) findViewById(R.id.NameList)).addView(nameTV);
         ((LinearLayout) findViewById(R.id.ScoreList)).addView(scoreTV);
     }
@@ -65,8 +67,14 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         return playerNameTV;
     }
 
-    private TextView createPlayerScore(Integer score, Integer id) {
+    private TextView createPlayerScore(Integer score, Integer id, Boolean clientCorrect) {
         TextView playerScoreTV = new TextView(this);
+        if(clientCorrect) {
+            playerScoreTV.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.arrowup, 0);
+        } else {
+            playerScoreTV.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.invisiblearrow, 0);
+        }
+
         playerScoreTV.setText(String.valueOf(score+" pts"));
         playerScoreTV.setId(id);
         playerScoreTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));

@@ -52,12 +52,12 @@
             android:onClick="joinRoom"
             android:text="@string/Join_Room_Button"
             android:textSize="18sp"
-            android:background="@drawable/buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="100dp" />
+        <!--android:background="@drawable/buttons"-->
 
         <Button
             android:id="@+id/JRR"
