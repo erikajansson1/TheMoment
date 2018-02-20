@@ -133,10 +133,6 @@ public class Player implements Serializable {
     public void addScore(){ this.score += 1; }
 
     public boolean answeredCorrect() {
-        if (this.answer == this.claim.getAnsw()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.answer == this.claim.getAnsw();
     }
 }

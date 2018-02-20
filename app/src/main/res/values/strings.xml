@@ -120,4 +120,5 @@
     <string name="saveUserName">Save Username</string>
     <string name="NewRound">New Round</string>
     <string name="Quit">Quit</string>
+    <string name="wait_for_players">Waiting for all to finish</string>
 </resources>

@@ -1,9 +1,8 @@
 package com.moment.themoment;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,7 +20,7 @@ public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_on_claim);
 
-        this.clientPlayer = (Player) getIntent().getSerializableExtra("PlayerName");
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.currentClaim = (Claim) getIntent().getSerializableExtra("claimData");
 
@@ -39,7 +38,7 @@ public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallbac
             Toast.makeText(getApplicationContext(), "Please pick a correct answer", Toast.LENGTH_SHORT).show();
         } else {
             int selectedId = stateGroup.getCheckedRadioButtonId();
-            RadioButton selectedAnswButton = (RadioButton) findViewById(selectedId);
+            RadioButton selectedAnswButton = findViewById(selectedId);
             String answer = selectedAnswButton.getText().toString();
             Boolean boolansw = setBool(answer);
             clientPlayer.setAnswer(boolansw);
@@ -65,10 +64,7 @@ public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallbac
     }
 
     private Boolean setBool(String message){
-        if (message.equals("true")){
-            return true;
-        }
-        else {return false; }
+        return message.equals("true");
     }
 
 

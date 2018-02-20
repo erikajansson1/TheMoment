@@ -1,10 +1,9 @@
 package com.moment.themoment;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -42,7 +41,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
             else
             {
                 int selectedId = theGroup.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = (RadioButton) findViewById(selectedId);
+                RadioButton selectedRadioButton = findViewById(selectedId);
                 String answer = selectedRadioButton.getText().toString();
                 Boolean boolansw = setBool(answer);
                 clientPlayer.setClaim(new Claim(message, boolansw));
@@ -58,10 +57,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
 
 
     private Boolean setBool(String message){
-        if (message.equals("true")){
-            return true;
-        }
-        else {return false; }
+        return message.equals("true");
     }
 
     public void goToWaitForClaim(){
