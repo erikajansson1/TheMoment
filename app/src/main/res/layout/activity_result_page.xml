@@ -85,7 +85,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
         android:layout_weight="1"
-        android:onClick="JumptoMainMenu"
+        android:onClick="exitGame"
         android:text="@string/Quit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

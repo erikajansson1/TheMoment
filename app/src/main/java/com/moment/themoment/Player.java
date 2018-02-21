@@ -135,4 +135,13 @@ public class Player implements Serializable {
     public boolean answeredCorrect() {
         return this.answer == this.claim.getAnsw();
     }
+
+    /**
+     * determines if players claim is the same as claimID
+     * @param claimID id to compare with
+     * @return bool telling if id's are the same
+     */
+    public boolean claimIsClients(int claimID) {
+        return this.claim.getID() == claimID;
+    }
 }

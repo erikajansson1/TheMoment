@@ -97,6 +97,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
     }
 
+    /**
+     * Calls server to remove player by id in db
+     * @param roomID room player is currently in
+     * @param playerID is the id of the player to be removed
+     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     */
+    public void removePlayerFromDb(int roomID, int playerID, ResultPageActivityCallback resultPageActivityCallback) {
+        this.resultPageActivityCallback = resultPageActivityCallback;
+        new CallServer(packager(roomID,playerID),"storeToDB","removePlayerByID",this).execute();
+    }
+
     public void joinRoom(int roomID, JoinRoomCallback joinRoomCallback){
         this.joinRoomCallback = joinRoomCallback;
         new CallServer(null, "getFromDB", "getRoomByID", this).execute();
@@ -191,9 +202,28 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "isRoundDone":
                 callBackIsRoundDone(output);
+                break;
+            case "removePlayerInRoom":
+                callBackRemovedPlayer(output);
+                break;
         }
     }
 
+    /**
+     * Handles callbacks from the removePlayer call. forwards to correct activity method.
+     * @param output boolean deciding outcome
+     */
+    private void callBackRemovedPlayer(String output) {
+        Log.e("Got output to callback",output);
+        if (resultPageActivityCallback != null) {
+            resultPageActivityCallback.JumptoMainMenu(output);
+        }
+    }
+
+    /**
+     * Handles callbacks from the isRoundDone call. forwards to correct activity method.
+     * @param output boolean deciding outcome
+     */
     private void callBackIsRoundDone(String output) {
         Log.e("Got output to callback",output);
         if (resultPageActivityCallback != null) {
@@ -201,6 +231,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
         }
     }
 
+    /**
+     * Handles callbacks from various response calls. forwards to correct activity method.
+     * @param output boolean deciding outcome
+     */
     private void callBackResponse(String output) {
         Log.e("Got output to callback",output);
         if (createRoomCallback != null) {
@@ -210,6 +244,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
         }
     }
 
+    /**
+     * Handles callbacks from the create room call. forwards to correct activity method.
+     * @param output string which contains room id
+     */
     private void callBackReturnRoomID(String output) {
         Log.e("Got output to callback",output);
         int idToSet = Integer.parseInt(output);

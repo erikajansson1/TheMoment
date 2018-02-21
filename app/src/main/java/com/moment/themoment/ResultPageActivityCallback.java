@@ -7,4 +7,6 @@ public interface ResultPageActivityCallback {
     void checkIfRoundIsFinished (String output);
 
     void ifDoneCallRoomUpdate(String answer);
+
+    void JumptoMainMenu(String output);
 }

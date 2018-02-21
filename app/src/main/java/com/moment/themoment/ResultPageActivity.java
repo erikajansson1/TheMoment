@@ -31,7 +31,6 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         clientPlayer.incrementRound();
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareRoundAnswered(clientPlayer,this);
-        //callRoomUpdate();
     }
 
     /**
@@ -88,7 +87,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
             }
 
         }
+        int claimCount = this.currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
+        this.currentRoom.setCurrentClaimNo(claimCount);
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         findViewById(R.id.Quit).setEnabled(true);
         findViewById(R.id.NewRound).setEnabled(true);
@@ -154,8 +155,13 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
      */
     public void newRound(View view) {
         //TODO if its ClientPlayers claim next user will be blocked here!
+
         Intent intent;
         if (currentRoom.setNextClaim()) {
+            if (clientPlayer.claimIsClients(currentRoom.getCurrentClaim().getID())) {
+                this.myClaimIsNow();
+                return;
+            }
             intent = new Intent(this, VoteOnClaim.class);
             intent.putExtra("claimData", currentRoom.getCurrentClaim());
         } else {
@@ -167,13 +173,44 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
     }
 
     /**
+     * method which loops the player if its his claim being voted on.
+     */
+    private void myClaimIsNow() {
+        TextView waitText = findViewById(R.id.textViewWait);
+        waitText.setText(R.string.myClaim);
+        waitText.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.progressWait).setVisibility(View.VISIBLE);
+
+        ((LinearLayout) findViewById(R.id.NameList)).removeAllViews();
+        ((LinearLayout) findViewById(R.id.ScoreList)).removeAllViews();
+
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.declareRoundAnswered(clientPlayer,this);
+
+    }
+
+    /**
+     * Callback function which checks if server succeded in removing player and if not retries, otherwise it goes to main menu
+     * @param output string that contains a boolean
+     */
+    public void JumptoMainMenu(String output) {
+        if(Boolean.parseBoolean(output)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.removePlayerFromDb(currentRoom.getID(),clientPlayer.getID(),this);
+        }
+    }
+
+    /**
      * if players decides to quit he or she presses the button quit and fires up this function.
      * Returns the user to the main menu, needs to be updated with a scrub method for player from rroom.
-     * @param view another neat view
      */
-    public void JumptoMainMenu(View view) {
-        //TODO clean player from room at DB
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void exitGame(View view) {
+        //TODO potential bug! if player exits, claim count will be of in cases
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.removePlayerFromDb(currentRoom.getID(),clientPlayer.getID(),this);
     }
 }

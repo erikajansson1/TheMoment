@@ -46,6 +46,22 @@ public class Room implements Serializable {
     }
 
     /**
+     * get method for currentClaimNo
+     * @return int, currentClaimNo
+     */
+    public int getCurrentClaimNo() {
+        return this.currentClaimNo;
+    }
+
+    /**
+     * set method for currentClaimNo
+     * @param currentClaimNo int to set
+     */
+    public void setCurrentClaimNo(int currentClaimNo) {
+        this.currentClaimNo = currentClaimNo;
+    }
+
+    /**
      * Increments the currentClaimNo if possible. If its not possible it will revert to zero.
      * This indicates all claims have been presented and a new round of writeClaim should begin.
      * @return boolean depending on if increment was sucesfull or failed.
@@ -100,7 +116,7 @@ public class Room implements Serializable {
 
     /**
      * set method for number of players
-     * @param numOfPlayers
+     * @param numOfPlayers int to set
      */
     public void setNumOfPlayers(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
@@ -108,7 +124,7 @@ public class Room implements Serializable {
 
     /**
      * Adds player to the playerList of the room
-     * @param clientPlayer
+     * @param clientPlayer to add to playerList
      */
     public void addPlayer(Player clientPlayer){
         this.playerList.add(clientPlayer);
@@ -130,4 +146,5 @@ public class Room implements Serializable {
             }
         }
     }
+
 }
