@@ -30,7 +30,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
         Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
         Log.i("Server gave:",String.valueOf(id));
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.getRandomRoom(this);
+        serverCom.getRandomRoom(id,this);
     }
 
     /**
@@ -46,7 +46,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
     }
 
     /**
-     * sends the name player has choosen to the server
+     * sends the name player has choose to the server
      * @param view current
      */
     public void addUsername(View view) {

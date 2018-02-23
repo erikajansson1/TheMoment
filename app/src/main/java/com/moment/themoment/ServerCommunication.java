@@ -53,13 +53,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * user to keep track in the communication from there on.
      * @param player
      * @param roomID
-     * @param roomSize
      * @param createRoomCallback
      */
     //TODO Make savePlayerToDB generic so don't matter what callback
-    public void savePlayerToDB(Player player, int roomID, int roomSize, CreateRoomCallback createRoomCallback){
+    public void savePlayerToDB(Player player, int roomID, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
-        new CallServer(packager(player,roomID,roomSize),"storeToDB","storePlayer",this).execute();
+        new CallServer(packager(player,roomID),"storeToDB","storePlayer",this).execute();
     }
 
     /**
@@ -85,11 +84,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * Calls server for a random room number which server confirms is available.
+     * @param playerID is the players id searching for a room.
      * @param joinRandomRoomCallback is the callback class, needed for callback in this class.
      */
-    public void getRandomRoom(JoinRandomRoomCallback joinRandomRoomCallback) {
+    public void getRandomRoom(int playerID,JoinRandomRoomCallback joinRandomRoomCallback) {
         this.joinRandomRoomCallback = joinRandomRoomCallback;
-        new CallServer(null,"getFromDB","getRandomRoom",this).execute();
+        new CallServer(packager(playerID),"getFromDB","getRandomRoom",this).execute();
     }
 
     /**
