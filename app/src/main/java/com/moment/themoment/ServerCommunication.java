@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class ServerCommunication implements ServerCommunicationCallback {
     private Activity activity;
     private Context context;
-    //TODO what the hell is the generic type for interface callbacks?
+    //TODO what the **** is the generic type for interface?
     private JoinRandomRoomCallback joinRandomRoomCallback;
     private ResultPageActivityCallback resultPageActivityCallback;
     private CreateRoomCallback createRoomCallback;
@@ -69,6 +69,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     public void savePlayerToDB(Player player, JoinRoomCallback joinRoomCallback){
         this.joinRoomCallback = joinRoomCallback;
+        Log.i("sending player",packager(player));
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
 
@@ -89,6 +90,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     public void getRandomRoom(int playerID,JoinRandomRoomCallback joinRandomRoomCallback) {
         this.joinRandomRoomCallback = joinRandomRoomCallback;
+        Log.i("sending playerID",String.valueOf(playerID));
         new CallServer(packager(playerID),"getFromDB","getRandomRoom",this).execute();
     }
 
@@ -111,6 +113,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
     public void removePlayerFromDb(int roomID, int playerID, ResultPageActivityCallback resultPageActivityCallback) {
         this.resultPageActivityCallback = resultPageActivityCallback;
         new CallServer(packager(roomID,playerID),"storeToDB","removePlayerByID",this).execute();
+    }
+
+    public void removePlayerFromDb(int playerID, JoinRandomRoomCallback joinRandomRoomCallback) {
+        this.joinRandomRoomCallback = joinRandomRoomCallback;
+        new CallServer(packager(playerID),"storeToDB","removePlayerByID",this).execute();
     }
 
     public void joinRoom(int roomID, JoinRoomCallback joinRoomCallback){
@@ -268,7 +275,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a JSON string containing room, player and claims
      */
     private void callBackReturnRoom(String output) {
-        Log.e("Got output to callback",output);
+        Log.e("Got output to callback:",output);
         Gson gson = new Gson();
         Room room = gson.fromJson(output, Room.class);
         if (joinRandomRoomCallback != null) {

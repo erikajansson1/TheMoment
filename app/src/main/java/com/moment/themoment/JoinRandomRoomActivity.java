@@ -38,11 +38,20 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
      * @param room which is to be used by the player
      */
     public void setPlayersRoom(Room room) {
-        this.currentRoom = room;
-        this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-        TextView roomNumber = findViewById(R.id.roomNumber);
-        roomNumber.setText(String.valueOf(currentRoom.getID()));
-        findViewById(R.id.joinButton).setEnabled(true);
+        if (room == null) {
+            TextView roomNumber = findViewById(R.id.roomNumber);
+            roomNumber.setText(R.string.noAvailableRooms);
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.removePlayerFromDb(clientPlayer.getID(),this);
+        } else {
+            Log.i("room nbr",String.valueOf(room.getID()));
+            this.currentRoom = room;
+            this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+            TextView roomNumber = findViewById(R.id.roomNumber);
+            roomNumber.setText(String.valueOf(currentRoom.getID()));
+            findViewById(R.id.joinButton).setEnabled(true);
+        }
+
     }
 
     /**
