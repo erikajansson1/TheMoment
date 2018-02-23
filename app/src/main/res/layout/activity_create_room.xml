@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/roomNumber" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/roomSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -44,7 +44,7 @@
         android:contentDescription="@string/RRNumber"
         android:ems="10"
         android:inputType="number"
-        android:labelFor="@id/editText4"
+        android:labelFor="@id/roomSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -59,7 +59,7 @@
         android:contentDescription="@string/RRNumber"
         android:ems="10"
         android:inputType="textPersonName"
-        android:labelFor="@id/editText4"
+        android:labelFor="@id/roomSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/roomSize" />
 
     <TextView
         android:id="@+id/roomNumber"

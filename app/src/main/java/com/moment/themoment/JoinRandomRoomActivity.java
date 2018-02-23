@@ -40,7 +40,6 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
     public void setPlayersRoom(Room room) {
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-
         TextView roomNumber = findViewById(R.id.roomNumber);
         roomNumber.setText(String.valueOf(currentRoom.getID()));
         findViewById(R.id.joinButton).setEnabled(true);

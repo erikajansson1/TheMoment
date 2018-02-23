@@ -31,7 +31,7 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
         //Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
         Log.i("Server gave:",String.valueOf(id));
 
-        EditText numOfPlayers = findViewById(R.id.editText4);
+        EditText numOfPlayers = findViewById(R.id.roomSize);
         String numOfPlayersString = numOfPlayers.getText().toString();
         int numOfPlayersInt = Integer.parseInt(numOfPlayersString);
         this.currentRoom.setNumOfPlayers(numOfPlayersInt);
@@ -63,12 +63,12 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
     public void ConfirmCreateRoom(View view) {
         findViewById(R.id.btnCreateRoom).setEnabled(false);
         EditText userNameToSave = findViewById(R.id.editText);
+        EditText sizeOfRoom = findViewById(R.id.roomSize);
         Player roomLeader = new Player(userNameToSave.getText().toString());
         this.clientPlayer = roomLeader;
         currentRoom.addPlayer(roomLeader);
         ServerCommunication serverCom = new ServerCommunication(this);
-        Log.e("name:",userNameToSave.getText().toString());
-        serverCom.savePlayerToDBCreateRoom(roomLeader,this.currentRoom.getID(),this);
+        serverCom.savePlayerToDB(roomLeader,this.currentRoom.getID(),Integer.valueOf(sizeOfRoom.getText().toString()),this);
         //TODO change the restrains of the looks
         //TODO Add to notice if a editText is empty and complain about that
     }

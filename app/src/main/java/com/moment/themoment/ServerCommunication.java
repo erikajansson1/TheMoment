@@ -41,6 +41,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
      * @param player whom are to be save to DB
+     * @param joinRandomRoomCallback is the callback class, needed for callback in this class.
      */
     public void savePlayerToDB(Player player, JoinRandomRoomCallback joinRandomRoomCallback){
         this.joinRandomRoomCallback = joinRandomRoomCallback;
@@ -50,20 +51,24 @@ public class ServerCommunication implements ServerCommunicationCallback {
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
-     * @param player whom are to be save to DB
+     * @param player
+     * @param roomID
+     * @param roomSize
+     * @param createRoomCallback
      */
     //TODO Make savePlayerToDB generic so don't matter what callback
-    public void savePlayerToDBCreateRoom(Player player, int roomID, CreateRoomCallback createRoomCallback){
+    public void savePlayerToDB(Player player, int roomID, int roomSize, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
-        new CallServer(packager(player,roomID),"storeToDB","storePlayer",this).execute();
+        new CallServer(packager(player,roomID,roomSize),"storeToDB","storePlayer",this).execute();
     }
 
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
-     * @param player whom are to be save to DB
+     * @param player
+     * @param joinRoomCallback
      */
-    public void savePlayerToDBJoinRoom(Player player, JoinRoomCallback joinRoomCallback){
+    public void savePlayerToDB(Player player, JoinRoomCallback joinRoomCallback){
         this.joinRoomCallback = joinRoomCallback;
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }

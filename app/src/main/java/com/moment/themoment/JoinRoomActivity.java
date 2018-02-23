@@ -1,15 +1,12 @@
 package com.moment.themoment;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import static java.lang.Boolean.FALSE;
 
 public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallback{
     private Player clientPlayer;
@@ -56,7 +53,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         //TODO add guard for empty input
         ServerCommunication serverCom = new ServerCommunication(this);
         Log.e("name:", userName.getText().toString());
-        serverCom.savePlayerToDBJoinRoom(clientPlayer,this);
+        serverCom.savePlayerToDB(clientPlayer,this);
         //TODO Query server for room existence and if possible add client to ROOM. If successful do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
     }
