@@ -140,9 +140,14 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(room.getID(),room.getNumOfPlayers()), "storeToDB", "updateRoomSize", this).execute();
     }
 
-    public void saveClaimAndAnswer(Player player, WriteClaimCallback writeClaimCallback){
+    public void updateClaimAndAnswer(Claim claim, WriteClaimCallback writeClaimCallback){
         this.writeClaimCallback = writeClaimCallback;
-        new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
+        new CallServer(packager(claim), "storeToDB", "updateClaim", this).execute();
+    }
+
+    public void newClaimAndAnswer(Claim claim, WriteClaimCallback writeClaimCallback){
+        this.writeClaimCallback = writeClaimCallback;
+        new CallServer(packager(claim), "storeToDB", "newClaim", this).execute();
     }
 
     public void updateScore(Player player, VoteOnClaimCallback voteOnClaimCallback){
@@ -218,6 +223,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "removePlayerInRoom":
                 callBackRemovedPlayer(output);
                 break;
+            case "updateClaim":
+                callBackSetPlayerID(output);
+                break;
+            case "newClaim":
+                callBackUpdatedClaim(output);
         }
     }
 
@@ -330,6 +340,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
             Toast.makeText(context, "Server connection failed", Toast.LENGTH_SHORT).show();
             Toast.makeText(context, "Reconnecting...", Toast.LENGTH_SHORT).show();
             checkConnection(context);
+        }
+    }
+
+    private void callBackUpdatedClaim(String output) {
+        Log.e("Got output to callback",output);
+        if (output.equals("Failed")) {
+            Log.i("CallBackUpdatedClaim", "failed!") ;           //TODO Handle Failure
+        } else {
+            if(writeClaimCallback != null){
+                writeClaimCallback.goToWaitForClaim();
+            }
         }
     }
 }

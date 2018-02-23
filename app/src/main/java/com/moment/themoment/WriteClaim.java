@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -44,15 +45,30 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
                 RadioButton selectedRadioButton = findViewById(selectedId);
                 String answer = selectedRadioButton.getText().toString();
                 Boolean boolansw = setBool(answer);
-                clientPlayer.setClaim(new Claim(message, boolansw));
-                sendToServer(clientPlayer);
+                if (clientPlayer.getClaim() == null) {
+                    clientPlayer.setClaim(new Claim(message, boolansw));
+                    Claim theClaim = clientPlayer.getClaim();
+                    //create new claim in DB
+                   sendNewClaimToServer(theClaim);
+                }
+                else {
+                Claim newClaim = clientPlayer.getClaim();
+                   newClaim.setClaim(message);
+                   newClaim.setCorrectAnswer(boolansw);
+                   //Update claim in DB
+                   sendToServer(newClaim);
+                }
             }
     }
 
-
-    private void sendToServer(Player clientPlayer){
+    private void sendNewClaimToServer(Claim theClaim){
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.saveClaimAndAnswer(clientPlayer, this);
+        serverCom.newClaimAndAnswer(theClaim, this);
+    }
+
+    private void sendToServer(Claim claim){
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateClaimAndAnswer(claim, this);
     }
 
 

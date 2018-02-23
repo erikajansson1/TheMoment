@@ -17,7 +17,9 @@ class Claim implements Serializable {
         this.claim = claim;
         this.correctAnswer = correctAnswer;
     }
+public void setClaim(String theClaim){this.claim = theClaim;}
 
+public void setCorrectAnswer(Boolean answ){this.correctAnswer = answ;}
     /**
      * set method for attribute ID
      * @param id representing id number in DB
