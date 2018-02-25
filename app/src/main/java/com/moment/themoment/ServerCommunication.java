@@ -150,9 +150,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(claim, player), "storeToDB", "newClaim", this).execute();
     }
 
-    public void updateScore(Player player, VoteOnClaimCallback voteOnClaimCallback){
+    public void updateScore(int playerID, int newScore, VoteOnClaimCallback voteOnClaimCallback){
         this.voteOnClaimCallback = voteOnClaimCallback;
-        new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
+        new CallServer(packager(playerID, newScore), "storeToDB", "updatePlayerScore", this).execute();
     }
 
     public void countPlayers(Room currentRoom, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
@@ -228,6 +228,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "newClaim":
                 callBackUpdatedClaim(output);
+                break;
+            case "updatePlayerScore":
+                callBackSetPlayerID(output);
+                break;
         }
     }
 
