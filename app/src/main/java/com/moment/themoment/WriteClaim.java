@@ -49,21 +49,25 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
                     clientPlayer.setClaim(new Claim(message, boolansw));
                     Claim theClaim = clientPlayer.getClaim();
                     //create new claim in DB
-                   sendNewClaimToServer(theClaim);
+                    //TODO: Guard for server failure
+                   sendNewClaimToServer(theClaim, clientPlayer);
+                   goToWaitForClaim();
                 }
                 else {
                 Claim newClaim = clientPlayer.getClaim();
                    newClaim.setClaim(message);
                    newClaim.setCorrectAnswer(boolansw);
-                   //Update claim in DB
-                   sendToServer(newClaim);
+                    //Update claim in DB
+                    // TODO: Guard for server failure
+                    sendToServer(newClaim);
+                   goToWaitForClaim();
                 }
             }
     }
 
-    private void sendNewClaimToServer(Claim theClaim){
+    private void sendNewClaimToServer(Claim theClaim, Player clientPlayer){
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.newClaimAndAnswer(theClaim, this);
+        serverCom.newClaimAndAnswer(theClaim, clientPlayer, this);
     }
 
     private void sendToServer(Claim claim){
@@ -83,5 +87,3 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
         startActivity(intent);
     }
 }
-
-

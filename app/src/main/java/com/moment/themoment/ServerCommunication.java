@@ -145,9 +145,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(claim), "storeToDB", "updateClaim", this).execute();
     }
 
-    public void newClaimAndAnswer(Claim claim, WriteClaimCallback writeClaimCallback){
+    public void newClaimAndAnswer(Claim claim, Player player, WriteClaimCallback writeClaimCallback){
         this.writeClaimCallback = writeClaimCallback;
-        new CallServer(packager(claim), "storeToDB", "newClaim", this).execute();
+        new CallServer(packager(claim, player), "storeToDB", "newClaim", this).execute();
     }
 
     public void updateScore(Player player, VoteOnClaimCallback voteOnClaimCallback){
