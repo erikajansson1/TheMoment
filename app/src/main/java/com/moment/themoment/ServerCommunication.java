@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class ServerCommunication implements ServerCommunicationCallback {
     private Activity activity;
     private Context context;
-    //TODO what the **** is the generic type for interface?
+    //TODO generic type for interface?
     private JoinRandomRoomCallback joinRandomRoomCallback;
     private ResultPageActivityCallback resultPageActivityCallback;
     private CreateRoomCallback createRoomCallback;
@@ -18,6 +18,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private VoteOnClaimCallback voteOnClaimCallback;
     private JoinRoomCallback joinRoomCallback;
     private WaitForPlayersActivityCallback waitForPlayersActivityCallback;
+   // private WaitForClaim waitForClaim;
 
     /**
      * Constructor
@@ -47,6 +48,15 @@ public class ServerCommunication implements ServerCommunicationCallback {
         this.joinRandomRoomCallback = joinRandomRoomCallback;
         new CallServer(packager(player),"storeToDB","storePlayer",this).execute();
     }
+
+
+    /**
+     query function with a callback to jumpToClaim
+     */
+    //public void claimReady(){
+       // this.claimReadyCallback = claimReadyCallback;
+        //check if claim is stored in DB
+       // new CallServer(packager(player),"storeToDB").execute();
 
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the

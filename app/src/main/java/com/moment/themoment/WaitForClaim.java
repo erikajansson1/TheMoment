@@ -48,6 +48,8 @@ public class WaitForClaim extends AppCompatActivity {
     private void queryDBWriteClaim() {
         //TODO query db for if player is tasked to write claim. callback to queryDBClaimReady if not otherwise jumptoWriteClaim
        // new CallServer(packager(Claim),"storeToDB","storeClaim",this).execute();
+
+
     }
 
     private void jumptoWriteClaim() {
@@ -61,6 +63,8 @@ public class WaitForClaim extends AppCompatActivity {
 
     private void queryDBClaimReady() {
         //TODO query function with a callback to jumpToClaim?
+
+        serverCom.savePlayerToDB(clientPlayer,this);
 
 
     }
