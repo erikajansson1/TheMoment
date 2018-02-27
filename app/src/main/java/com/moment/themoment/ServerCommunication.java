@@ -153,7 +153,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     public void newClaimAndAnswer(Claim claim, Player player, WriteClaimCallback writeClaimCallback){
         this.writeClaimCallback = writeClaimCallback;
+        Log.i("newClaimAndAnswer", "newClaimAndAnswer");
         new CallServer(packager(claim, player), "storeToDB", "newClaim", this).execute();
+        Log.i("packager", packager(claim, player));
     }
 
     public void updateScore(int playerID, int newScore, VoteOnClaimCallback voteOnClaimCallback){
@@ -161,9 +163,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(playerID, newScore), "storeToDB", "updatePlayerScore", this).execute();
     }
 
-    public void countPlayers(Room currentRoom, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
+    public void countPlayers(int currentRoomID, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
         this.waitForPlayersActivityCallback = waitForPlayersActivityCallback;
-        new CallServer(packager(currentRoom), "getFromDB", "getRoomByID", this).execute();
+        new CallServer(packager(currentRoomID), "getFromDB", "getRoomByID", this).execute();
     }
 
     /**

@@ -41,7 +41,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
                     cancel();
                     jumpToWriteClaim();
                 } else {
-                    toServer(currentRoom);
+                    toServer(currentRoom.getID());
                 }
 
             }
@@ -61,9 +61,9 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
         startActivity(intent);
     }
 
-    private void toServer(Room currentRoom) {
+    private void toServer(int currentRoomID) {
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.countPlayers(currentRoom, this);
+        serverCom.countPlayers(currentRoomID, this);
     }
 
     public void updateNbrOfPlayers(final Room roomFromServer) {
