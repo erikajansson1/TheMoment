@@ -170,7 +170,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     public void countPlayers(int currentRoomID, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
         this.waitForPlayersActivityCallback = waitForPlayersActivityCallback;
-        new CallServer(packager(currentRoomID), "getFromDB", "getRoomByID", this).execute();
+        new CallServer(String.valueOf(currentRoomID), "getFromDB", "getRoomByID", this).execute();
     }
 
     /**

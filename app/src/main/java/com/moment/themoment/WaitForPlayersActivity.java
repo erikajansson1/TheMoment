@@ -30,7 +30,8 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
     }
 
     private void startTimer() {
-
+    Log.e("NUMOFPLAYERS", String.valueOf(currentRoom.getNumOfPlayers()));
+    Log.e("ROOOOOOM", String.valueOf(currentRoom.getID()));
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeCount.setText("" + String.format(FORMAT,
@@ -67,6 +68,9 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
     }
 
     public void updateNbrOfPlayers(Room roomFromServer) {
+        Log.i("fromServer", String.valueOf(roomFromServer.getID()));
+        Log.i("NbrFromServer", String.valueOf(roomFromServer.getAmountOfPlayers()));
+
         currentRoom = roomFromServer;
     }
 }
