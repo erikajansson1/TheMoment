@@ -46,10 +46,12 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
                 String answer = selectedRadioButton.getText().toString();
                 Boolean boolansw = setBool(answer);
                 if (clientPlayer.getClaim() == null) {
+                    Log.i("inne", "inne");
                     clientPlayer.setClaim(new Claim(message, boolansw));
                     Claim theClaim = clientPlayer.getClaim();
                     //create new claim in DB
                     //TODO: Guard for server failure
+                    Log.i("send", "send");
                    sendNewClaimToServer(theClaim, clientPlayer);
                    goToWaitForClaim();
                 }
@@ -67,6 +69,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
 
     private void sendNewClaimToServer(Claim theClaim, Player clientPlayer){
         ServerCommunication serverCom = new ServerCommunication(this);
+        Log.i("servercom", "servercom");
         serverCom.newClaimAndAnswer(theClaim, clientPlayer, this);
     }
 
