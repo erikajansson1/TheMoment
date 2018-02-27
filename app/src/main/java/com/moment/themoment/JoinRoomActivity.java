@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallback{
@@ -23,11 +24,17 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
      * @param room which is to be used by the player
      */
     public void setPlayersRoom(Room room) {
-        Log.e("test",String.valueOf(room.getNumOfPlayers()));
+        if (room == null) {
+            TextView execfail = findViewById(R.id.execfail);
+            execfail.setText(R.string.notLegitRoomToJoin);
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.removePlayerFromDb(clientPlayer.getID(),this);
+        }else{
+        Log.e("test", String.valueOf(room.getNumOfPlayers()));
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         jumpToWaitForClaim();
-        //TODO depending on if the room is full or not should go to either waitForPlayers or writeClaim
+    }
     }
 
     /**

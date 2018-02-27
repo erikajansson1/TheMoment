@@ -123,4 +123,5 @@
     <string name="wait_for_players">Waiting for all to finish</string>
     <string name="myClaim">Your claim is being voted on</string>
     <string name="noAvailableRooms">Sorry no free rooms at this time!</string>
+    <string name="notLegitRoomToJoin">Sorry you cant join this room, try again</string>
 </resources>

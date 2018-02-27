@@ -119,6 +119,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(playerID),"storeToDB","removePlayerByID",this).execute();
     }
 
+    public void removePlayerFromDb(int playerID, JoinRoomCallback joinRoomCallback) {
+        this.joinRandomRoomCallback = joinRandomRoomCallback;
+        new CallServer(packager(playerID),"storeToDB","removePlayerByID",this).execute();
+    }
+
     /**
      * Calls server to check up room wished to joined in
      * @param roomID room player wishes to join
