@@ -66,7 +66,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
         serverCom.countPlayers(currentRoomID, this);
     }
 
-    public void updateNbrOfPlayers(final Room roomFromServer) {
+    public void updateNbrOfPlayers(Room roomFromServer) {
         currentRoom = roomFromServer;
     }
 }
