@@ -27,7 +27,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         jumpToWaitForClaim();
-
+        //TODO depending on if the room is full or not should go to either waitForPlayers or writeClaim
     }
 
     /**
@@ -41,7 +41,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         EditText roomNumberString = findViewById(R.id.roomNumberInput);
 
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.joinRoom(Integer.parseInt(roomNumberString.getText().toString()), this);
+        serverCom.joinRoom(Integer.parseInt(roomNumberString.getText().toString()), id, this);
     }
 
 
@@ -59,7 +59,6 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
     }
 
     private void jumpToWaitForClaim() {
-        //TODO depending on if the room is full or not should go to either waitForPlayers or writeClaim
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);

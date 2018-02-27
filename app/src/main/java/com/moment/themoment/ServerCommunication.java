@@ -55,7 +55,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param roomID
      * @param createRoomCallback
      */
-    //TODO Make savePlayerToDB generic so don't matter what callback
     public void savePlayerToDB(Player player, int roomID, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
         new CallServer(packager(player,roomID),"storeToDB","storePlayer",this).execute();
@@ -120,10 +119,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(playerID),"storeToDB","removePlayerByID",this).execute();
     }
 
-    public void joinRoom(int roomID, JoinRoomCallback joinRoomCallback){
+    /**
+     * Calls server to check up room wished to joined in
+     * @param roomID room player wishes to join
+     * @param playerID is the id of the player
+     * @param joinRoomCallback is the callback class, needed for callback in this class.
+     */
+    public void joinRoom(int roomID,int playerID, JoinRoomCallback joinRoomCallback){
         this.joinRoomCallback = joinRoomCallback;
-        new CallServer(null, "getFromDB", "getRoomByID", this).execute();
+        new CallServer(packager(roomID, playerID), "getFromDB", "getFreeRoom", this).execute();
     }
+
 
     public void createRoom(CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
@@ -203,6 +209,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 callBackReturnRoom(output);
                 break;
             case "getRoomByID":
+                callBackReturnRoom(output);
+                break;
+            case "getFreeRoom":
                 callBackReturnRoom(output);
                 break;
             case "createRoom":
@@ -296,8 +305,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
             joinRandomRoomCallback.setPlayersRoom(room);
         } else if (resultPageActivityCallback != null) {
             resultPageActivityCallback.updateResultList(room);
-        }else if (createRoomCallback != null) {
-            //createRoomCallback.setPlayersRoom(room);
         }else if (joinRoomCallback != null) {
             joinRoomCallback.setPlayersRoom(room);
         }else if (waitForPlayersActivityCallback != null) {
