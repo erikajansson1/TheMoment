@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 
-public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
+public class WriteClaimActivity extends AppCompatActivity implements WriteClaimCallback {
     Player clientPlayer;
     Room currentRoom;
 
@@ -84,7 +84,7 @@ public class WriteClaim extends AppCompatActivity implements WriteClaimCallback{
     }
 
     public void goToWaitForClaim(){
-        Intent intent = new Intent(this, WaitForClaim.class);
+        Intent intent = new Intent(this, WaitForClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);

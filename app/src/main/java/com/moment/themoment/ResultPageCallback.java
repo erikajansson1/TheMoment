@@ -1,6 +1,6 @@
 package com.moment.themoment;
 
-public interface ResultPageActivityCallback {
+public interface ResultPageCallback {
 
     void updateResultList(Room room);
 

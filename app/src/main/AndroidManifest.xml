@@ -23,9 +23,9 @@
         <activity android:name=".JoinRandomRoomActivity" />
         <activity android:name=".CreateRoomActivity" />
         <activity android:name=".WaitForPlayersActivity" />
-        <activity android:name=".WaitForClaim" />
-        <activity android:name=".WriteClaim" />
-        <activity android:name=".VoteOnClaim" />
+        <activity android:name=".WaitForClaimActivity" />
+        <activity android:name=".WriteClaimActivity" />
+        <activity android:name=".VoteOnClaimActivity" />
         <activity android:name=".ResultPageActivity" />
     </application>
 

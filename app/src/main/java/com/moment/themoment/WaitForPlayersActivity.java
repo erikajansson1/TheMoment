@@ -1,15 +1,15 @@
 package com.moment.themoment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-public class WaitForPlayersActivity extends AppCompatActivity implements WaitForPlayersActivityCallback {
+public class WaitForPlayersActivity extends AppCompatActivity implements WaitForPlayersCallback {
     TextView timeCount, playerCount;
     private static final String FORMAT = "%02d";
     Player clientPlayer;
@@ -56,7 +56,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
 
 
     private void jumpToWriteClaim() {
-        Intent intent = new Intent(this, WriteClaim.class);
+        Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);

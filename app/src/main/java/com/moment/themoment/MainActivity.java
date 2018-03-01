@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.CreateRoom).setEnabled(false);
 
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.checkConnection(getApplicationContext());
+        serverCom.checkConnection(this);
     }
 
     /**
@@ -74,17 +75,18 @@ public class MainActivity extends AppCompatActivity {
     public void writeClaimRoom(View view) {
         //Creates a player only for test
         Player currentPlayer = new Player(("knasboll"));
-        Intent intent = new Intent(this, WriteClaim.class);
+        Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("PlayerName", currentPlayer);
         startActivity(intent);
     }
+
 
     public void voteOnClaimRoom(View view){
         Player currentPlayer = new Player (("Noffff"));
         currentPlayer.setClaim(new Claim("hej", true));
         Room currRoom = new Room ();
         Claim currClaim = new Claim("Solen är gul", true);
-        Intent intent = new Intent(this, VoteOnClaim.class);
+        Intent intent = new Intent(this, VoteOnClaimActivity.class);
         intent.putExtra("PlayerName", currentPlayer);
         intent.putExtra("roomData", currRoom);
         intent.putExtra("claimData", currClaim);
@@ -104,5 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void unlockMenu() {
+        findViewById(R.id.JoinRoom).setEnabled(true);
+        findViewById(R.id.JRR).setEnabled(true);
+        findViewById(R.id.CreateRoom).setEnabled(true);
+    }
 
+    public void serverNotReachable() {
+        Toast.makeText(this, "Server connection failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Reconnecting...", Toast.LENGTH_SHORT).show();
+    }
 }

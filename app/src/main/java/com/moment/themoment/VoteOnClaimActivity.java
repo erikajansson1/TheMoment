@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class VoteOnClaim extends AppCompatActivity implements VoteOnClaimCallback {
+public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClaimCallback {
     Player clientPlayer;
     Room currentRoom;
     Claim currentClaim;

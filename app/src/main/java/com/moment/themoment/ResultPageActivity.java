@@ -14,9 +14,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ResultPageActivity extends AppCompatActivity implements ResultPageActivityCallback {
+public class ResultPageActivity extends AppCompatActivity implements ResultPageCallback {
     Player clientPlayer;
     Room currentRoom;
+    Boolean activityStopped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+        this.activityStopped = false;
 
         clientPlayer.incrementRound();
         ServerCommunication serverCom = new ServerCommunication(this);
@@ -56,7 +58,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
         if(Boolean.parseBoolean(result)) {
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.updateResultRoom(currentRoom.getID(),this);
-        } else {
+        } else if (!activityStopped){
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -68,6 +70,15 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
             }, 1500);
 
         }
+    }
+
+    /**
+     * The extremely cheapo way to stop the threads actions if looping
+     */
+    @Override
+    protected void onPause(){
+        super.onPause();
+        this.activityStopped = true;
     }
 
     /**
@@ -162,10 +173,10 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageA
                 this.myClaimIsNow();
                 return;
             }
-            intent = new Intent(this, VoteOnClaim.class);
+            intent = new Intent(this, VoteOnClaimActivity.class);
             intent.putExtra("claimData", currentRoom.getCurrentClaim());
         } else {
-            intent = new Intent(this, WriteClaim.class);
+            intent = new Intent(this, WriteClaimActivity.class);
         }
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);

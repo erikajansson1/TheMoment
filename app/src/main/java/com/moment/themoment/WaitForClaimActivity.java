@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-public class WaitForClaim extends AppCompatActivity {
+public class WaitForClaimActivity extends AppCompatActivity {
     Player clientPlayer;
     Room currentRoom;
     TextView timeCount;
@@ -53,7 +53,7 @@ public class WaitForClaim extends AppCompatActivity {
     }
 
     private void jumptoWriteClaim() {
-        Intent intent = new Intent(this, WriteClaim.class);
+        Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);
@@ -63,10 +63,6 @@ public class WaitForClaim extends AppCompatActivity {
 
     private void queryDBClaimReady() {
         //TODO query function with a callback to jumpToClaim?
-
-        serverCom.savePlayerToDB(clientPlayer,this);
-
-
     }
 
 

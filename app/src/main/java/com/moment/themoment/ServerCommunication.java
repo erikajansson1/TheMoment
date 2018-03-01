@@ -1,24 +1,22 @@
 package com.moment.themoment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 public class ServerCommunication implements ServerCommunicationCallback {
     private Activity activity;
-    private Context context;
     //TODO generic type for interface?
     private JoinRandomRoomCallback joinRandomRoomCallback;
-    private ResultPageActivityCallback resultPageActivityCallback;
+    private ResultPageCallback resultPageCallback;
     private CreateRoomCallback createRoomCallback;
     private WriteClaimCallback writeClaimCallback;
     private VoteOnClaimCallback voteOnClaimCallback;
     private JoinRoomCallback joinRoomCallback;
-    private WaitForPlayersActivityCallback waitForPlayersActivityCallback;
-   // private WaitForClaim waitForClaim;
+    private WaitForPlayersCallback waitForPlayersCallback;
+    private MainCallback mainCallback;
+    private WaitForClaimCallback waitForClaimCallback;
 
     /**
      * Constructor
@@ -63,7 +61,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * user to keep track in the communication from there on.
      * @param player
      * @param roomID
-     * @param createRoomCallback
+     * @param createRoomCallback is the callback class, needed for callback in this class.
      */
     public void savePlayerToDB(Player player, int roomID, CreateRoomCallback createRoomCallback){
         this.createRoomCallback = createRoomCallback;
@@ -74,7 +72,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
      * @param player
-     * @param joinRoomCallback
+     * @param joinRoomCallback is the callback class, needed for callback in this class.
      */
     public void savePlayerToDB(Player player, JoinRoomCallback joinRoomCallback){
         this.joinRoomCallback = joinRoomCallback;
@@ -85,10 +83,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * Checks if server with DB is online and responsive. If so enables main menu
-     * @param context c
+     * @param mainCallback  is the callback class, needed for callback in this class.
      */
-    public void checkConnection(Context context) {
-        this.context = context;
+    public void checkConnection(MainCallback mainCallback) {
+        this.mainCallback = mainCallback;
         new CallServer(null,"utils","isServerAndDBUp",this).execute();
     }
 
@@ -106,10 +104,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
     /**
      * ask server for a complete refresh of room from db
      * @param roomID room to request
-     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     * @param resultPageCallback is the callback class, needed for callback in this class.
      */
-    public void updateResultRoom(int roomID,ResultPageActivityCallback resultPageActivityCallback) {
-        this.resultPageActivityCallback = resultPageActivityCallback;
+    public void updateResultRoom(int roomID,ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
         new CallServer(Integer.toString(roomID),"getFromDB","getRoomByID",this).execute();
     }
 
@@ -117,10 +115,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * Calls server to remove player by id in db
      * @param roomID room player is currently in
      * @param playerID is the id of the player to be removed
-     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     * @param resultPageCallback is the callback class, needed for callback in this class.
      */
-    public void removePlayerFromDb(int roomID, int playerID, ResultPageActivityCallback resultPageActivityCallback) {
-        this.resultPageActivityCallback = resultPageActivityCallback;
+    public void removePlayerFromDb(int roomID, int playerID, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
         new CallServer(packager(roomID,playerID),"storeToDB","removePlayerByID",this).execute();
     }
 
@@ -168,9 +166,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     public void newClaimAndAnswer(Claim claim, Player player, WriteClaimCallback writeClaimCallback){
         this.writeClaimCallback = writeClaimCallback;
-        Log.i("newClaimAndAnswer", "newClaimAndAnswer");
+        Log.e("newClaimAndAnswer", "newClaimAndAnswer");
+        Log.e("packager", packager(claim, player));
         new CallServer(packager(claim, player), "storeToDB", "newClaim", this).execute();
-        Log.i("packager", packager(claim, player));
+
     }
 
     public void updateScore(int playerID, int newScore, VoteOnClaimCallback voteOnClaimCallback){
@@ -178,28 +177,28 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(playerID, newScore), "storeToDB", "updatePlayerScore", this).execute();
     }
 
-    public void countPlayers(int currentRoomID, WaitForPlayersActivityCallback waitForPlayersActivityCallback) {
-        this.waitForPlayersActivityCallback = waitForPlayersActivityCallback;
+    public void countPlayers(int currentRoomID, WaitForPlayersCallback waitForPlayersCallback) {
+        this.waitForPlayersCallback = waitForPlayersCallback;
         new CallServer(String.valueOf(currentRoomID), "getFromDB", "getRoomByID", this).execute();
     }
 
     /**
      * tells the server to update the round counter for player ID in db.
      * @param player used to retrieve id and gives to server
-     * @param resultPageActivityCallback is the callback class, needed for callback in this class.
+     * @param resultPageCallback is the callback class, needed for callback in this class.
      */
-    public void declareRoundAnswered(Player player, ResultPageActivityCallback resultPageActivityCallback) {
-        this.resultPageActivityCallback = resultPageActivityCallback;
+    public void declareRoundAnswered(Player player, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
         new CallServer(packager(player.getID(),player.getRound()),"storeToDB","storePlayerRound",this).execute();
     }
 
     /**
      * asks the server if all players in room is done with their current round.
      * @param roomID to check if everybody is done.
-     * @param resultPageActivityCallback  is the callback class, needed for callback in this class.
+     * @param resultPageCallback  is the callback class, needed for callback in this class.
      */
-    public void checkIfRoundComplete(int roomID, int round, ResultPageActivityCallback resultPageActivityCallback) {
-        this.resultPageActivityCallback = resultPageActivityCallback;
+    public void checkIfRoundComplete(int roomID, int round, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
         new CallServer(packager(roomID,round),"utils","isRoundDone",this).execute();
     }
 
@@ -267,8 +266,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     private void callBackRemovedPlayer(String output) {
         Log.e("Got output to callback",output);
-        if (resultPageActivityCallback != null) {
-            resultPageActivityCallback.JumptoMainMenu(output);
+        if (resultPageCallback != null) {
+            resultPageCallback.JumptoMainMenu(output);
         }
     }
 
@@ -278,8 +277,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     private void callBackIsRoundDone(String output) {
         Log.e("Got output to callback",output);
-        if (resultPageActivityCallback != null) {
-            resultPageActivityCallback.ifDoneCallRoomUpdate(output);
+        if (resultPageCallback != null) {
+            resultPageCallback.ifDoneCallRoomUpdate(output);
         }
     }
 
@@ -291,8 +290,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Log.e("Got output to callback",output);
         if (createRoomCallback != null) {
             createRoomCallback.confirmDone(output);
-        } else if (resultPageActivityCallback != null) {
-            resultPageActivityCallback.checkIfRoundIsFinished(output);
+        } else if (resultPageCallback != null) {
+            resultPageCallback.checkIfRoundIsFinished(output);
         }
     }
 
@@ -320,12 +319,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Room room = gson.fromJson(output, Room.class);
         if (joinRandomRoomCallback != null) {
             joinRandomRoomCallback.setPlayersRoom(room);
-        } else if (resultPageActivityCallback != null) {
-            resultPageActivityCallback.updateResultList(room);
+        } else if (resultPageCallback != null) {
+            resultPageCallback.updateResultList(room);
         }else if (joinRoomCallback != null) {
             joinRoomCallback.setPlayersRoom(room);
-        }else if (waitForPlayersActivityCallback != null) {
-            waitForPlayersActivityCallback.updateNbrOfPlayers(room);
+        }else if (waitForPlayersCallback != null) {
+            waitForPlayersCallback.updateNbrOfPlayers(room);
         }
     }
 
@@ -360,14 +359,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output true or false in string format
      */
     private void callBackServerStatus(String output) {
-        if (output.equals("True")) {
-            activity.findViewById(R.id.JoinRoom).setEnabled(true);
-            activity.findViewById(R.id.JRR).setEnabled(true);
-            activity.findViewById(R.id.CreateRoom).setEnabled(true);
+        if (output != null) {
+            this.mainCallback.unlockMenu();
         } else {
-            Toast.makeText(context, "Server connection failed", Toast.LENGTH_SHORT).show();
-            Toast.makeText(context, "Reconnecting...", Toast.LENGTH_SHORT).show();
-            checkConnection(context);
+            this.mainCallback.serverNotReachable();
+            checkConnection(this.mainCallback);
         }
     }
 
