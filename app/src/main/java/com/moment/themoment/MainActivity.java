@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
     //Debug: NOT PERMANENT!
     public void jumpToResult(View view) {
         Room currentRoom = new Room(new Player("TorkelKonkel"));
+        currentRoom.setID(58);
         Player clientPlayer = new Player("FIA");
         Intent intent = new Intent(this, ResultPageActivity.class);
         intent.putExtra("roomData", currentRoom);

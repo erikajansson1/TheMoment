@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room implements Serializable {
-    private int ID;
+    private int id;
     private int numOfPlayers;
     private ArrayList<Player> playerList;
     private int currentClaimNo;
@@ -81,7 +81,7 @@ public class Room implements Serializable {
      * @return numerical id
      */
     public int getID(){
-        return this.ID;
+        return this.id;
     }
 
     /**
@@ -110,7 +110,7 @@ public class Room implements Serializable {
      * @param newID is the id to be set
      */
     public void setID(int newID){
-        this.ID = newID;
+        this.id = newID;
     }
 
 

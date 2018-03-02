@@ -3,7 +3,7 @@ package com.moment.themoment;
 import java.io.Serializable;
 
 class Claim implements Serializable {
-    private int ID;
+    private int id;
     private String claim;
     private Boolean correctAnswer;
 
@@ -25,7 +25,7 @@ public void setCorrectAnswer(Boolean answ){this.correctAnswer = answ;}
      * @param id representing id number in DB
      */
     public void setID(int id) {
-        this.ID = id;
+        this.id = id;
     }
 
     /**
@@ -33,7 +33,7 @@ public void setCorrectAnswer(Boolean answ){this.correctAnswer = answ;}
      * @return this.ID
      */
     public int getID() {
-        return this.ID;
+        return this.id;
     }
 
     public String getClaim() {

@@ -55,7 +55,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     public void ifDoneCallRoomUpdate(String result) {
         Log.e("reply if done: ",result);
         final ResultPageActivity thisObject = this;
-        if(Boolean.parseBoolean(result)) {
+        if(result != null) {
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.updateResultRoom(currentRoom.getID(),this);
         } else if (!activityStopped){
@@ -68,7 +68,6 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
                     serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),thisObject);
                 }
             }, 1500);
-
         }
     }
 
@@ -79,6 +78,12 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     protected void onPause(){
         super.onPause();
         this.activityStopped = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.activityStopped = false;
     }
 
     /**
@@ -96,7 +101,6 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             } else {
                 addPlayerResult(player,false);
             }
-
         }
         int claimCount = this.currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
