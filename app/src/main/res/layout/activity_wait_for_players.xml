@@ -16,7 +16,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeCount" />
+        app:layout_constraintTop_toBottomOf="@+id/timeCountProgress" />
 
     <TextView
         android:id="@+id/textView9"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/numberOfPlayersJoined" />
 
     <TextView
-        android:id="@+id/timeCount"
+        android:id="@+id/timeCountProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
