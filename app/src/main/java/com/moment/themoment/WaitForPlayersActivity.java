@@ -20,7 +20,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_for_players);
 
-        timeCount = findViewById(R.id.timeCount);
+        timeCount = findViewById(R.id.timeCountProgress);
         playerCount = findViewById(R.id.numberOfPlayersJoined);
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("clientPlayer");
