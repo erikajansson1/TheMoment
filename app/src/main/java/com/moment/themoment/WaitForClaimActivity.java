@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,7 +39,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         TextView roomNumber = findViewById(R.id.roomNumberWaitFClaim);
         roomNumber.setText(String.valueOf(this.currentRoom.getID()));
 
-        timeCount = findViewById(R.id.timeCount);
+        timeCount = findViewById(R.id.timeCountProgress);
         claimProgress = findViewById(R.id.progress);
         isClaimsDone = false;
 
@@ -62,7 +61,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
             }
 
             public void onFinish() {
-                timeCount.setText("Starting!");
+                //timeCount.setText("Starting!");
                 getCurrentClaim();
             }
         }.start();
