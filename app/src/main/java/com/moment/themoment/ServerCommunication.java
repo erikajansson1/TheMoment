@@ -188,9 +188,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param currentRoomID
      * @param waitForClaimCallback
      */
-    public void isClaimsDone(int currentRoomID, WaitForClaimCallback waitForClaimCallback) {
+    public void isClaimsDone(int currentRoomID, int round, WaitForClaimCallback waitForClaimCallback) {
         this.waitForClaimCallback = waitForClaimCallback;
-        new CallServer(String.valueOf(currentRoomID), "getFromDB", "isClaimsDone", this).execute();
+        new CallServer(packager(currentRoomID, round), "utils", "isRoundDone", this).execute();
     }
 
     /**
@@ -278,9 +278,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "updatePlayerScore":
                 callBackSetPlayerID(output);
                 break;
-            case "isClaimsDone":
-                callBackResponse(output);
-                break;
             case "currentClaim":
                 callBackClaim(output);
                 break;
@@ -306,6 +303,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Log.e("Got output to callback", output);
         if (resultPageCallback != null) {
             resultPageCallback.ifDoneCallRoomUpdate(output);
+        }else if (waitForClaimCallback != null) {
+            waitForClaimCallback.updateWaitForClaim(output);
         }
     }
 
@@ -319,8 +318,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
             createRoomCallback.confirmDone(output);
         } else if (resultPageCallback != null) {
             resultPageCallback.checkIfRoundIsFinished(output);
-        } else if (waitForClaimCallback != null) {
-            waitForClaimCallback.updateWaitForClaim(output);
         }
     }
 
@@ -334,8 +331,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
         if (createRoomCallback != null) {
             createRoomCallback.setRoomID(idToSet);
         }
-
-
     }
 
     /**

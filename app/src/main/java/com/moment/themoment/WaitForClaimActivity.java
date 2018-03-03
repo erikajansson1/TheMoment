@@ -73,7 +73,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      */
     private void askServer(){
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.isClaimsDone(this.currentRoom.getID(), this);
+        serverCom.isClaimsDone(currentRoom.getID(), clientPlayer.getRound() , this);
     }
 
     /**
