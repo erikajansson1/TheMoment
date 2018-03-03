@@ -11,11 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * Wait for claim should work on Two different occasion:
- * 1. In the beginning men all players have entered the room and each should write a claim
- * For this we need to check if all players have answered, if they have we continue to the
- * voteOnClaim. With this we should send a list of what order the claims should be displayed
- * 2. -
+ * We check is everybody has answered a claim by checking if all our players are on the same round,
+ * After this we should update the room and grab the current claim from the claims in the room.
+ * The claim is determined on the player list in the room, so it starts on 0.
  */
 public class WaitForClaimActivity extends AppCompatActivity implements WaitForClaimCallback{
     TextView timeCount;
@@ -54,15 +52,14 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
                 claimProgress.setProgress(claimProgress.getProgress() + 1);
                 if (isClaimsDone) {
                     cancel();
-                    getCurrentClaim();
+                    getUpdatedClaimsRoom();
                 } else {
                     askServer();
                 }
             }
 
             public void onFinish() {
-                //timeCount.setText("Starting!");
-                getCurrentClaim();
+                getUpdatedClaimsRoom();
             }
         }.start();
 
@@ -77,7 +74,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     }
 
     /**
-     * Recieves answer if everyone has entered a claim or not
+     * Recieves answer if everyone has gotten to the same round
      * @param response
      */
     public void updateWaitForClaim(String response){
@@ -87,24 +84,28 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     }
 
     /**
-     * Ask server to get the current claim for the game
+     * Ask server to update the Room
      */
-    private void getCurrentClaim(){
+    private void getUpdatedClaimsRoom() {
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.getCurrentClaim(this.currentRoom.getID(), this);
-
+        serverCom.updateClaimsRoom(currentRoom.getID(), this);
     }
 
     /**
-     * Recieves the current claim for the game
-     * @param claim
+     * Updates the room from the response of the server. Then grabs first current claim
+     * that will then be sent to voteOnClaim.
+     * @param room
      */
-    public void updateCurrentClaim(Claim claim){
-        this.currentClaim = claim;
-        this.currentRoom.setCurrentClaimNo(claim.getID());
+    public void updateRoom(Room room) {
+        this.currentRoom = room;
+        currentRoom.setCurrentClaimNo(0);
+        currentClaim = currentRoom.getCurrentClaim();
         jumpToVoteOnClaim();
     }
 
+    /**
+     * Jumps to voteOnClaim and with that sends forward the player, currentRoom and currentClaim
+     */
     private void jumpToVoteOnClaim () {
         Intent intent = new Intent(this, VoteOnClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);

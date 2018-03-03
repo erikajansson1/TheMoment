@@ -111,6 +111,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(Integer.toString(roomID), "getFromDB", "getRoomByID", this).execute();
     }
 
+
+    public void updateClaimsRoom(int roomID, WaitForClaimCallback waitForClaimCallback){
+        this.waitForClaimCallback = waitForClaimCallback;
+        new CallServer(Integer.toString(roomID), "getFromDB", "getRoomByID", this).execute();
+    }
+
     /**
      * Calls server to remove player by id in db
      * @param roomID room player is currently in
@@ -183,24 +189,14 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     /**
-     * Will ask server if all players in the room have entered a claim, is not the callback will
+     * Will ask server if all players in the room have entered are on the same round, else it will
      * return false
-     * @param currentRoomID
-     * @param waitForClaimCallback
+     * @param currentRoomID used to determine room to get
+     * @param waitForClaimCallback is the callback class, needed for callback in this class.
      */
     public void isClaimsDone(int currentRoomID, int round, WaitForClaimCallback waitForClaimCallback) {
         this.waitForClaimCallback = waitForClaimCallback;
         new CallServer(packager(currentRoomID, round), "utils", "isRoundDone", this).execute();
-    }
-
-    /**
-     * Returns the current claim to be played
-     * @param currentRoomID
-     * @param waitForClaimCallback
-     */
-    public void getCurrentClaim(int currentRoomID, WaitForClaimCallback waitForClaimCallback){
-        this.waitForClaimCallback = waitForClaimCallback;
-        new CallServer(String.valueOf(currentRoomID), "getFromDB", "currentClaim", this).execute();
     }
 
     /**
@@ -278,9 +274,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "updatePlayerScore":
                 callBackSetPlayerID(output);
                 break;
-            case "currentClaim":
-                callBackClaim(output);
-                break;
         }
     }
 
@@ -349,9 +342,10 @@ public class ServerCommunication implements ServerCommunicationCallback {
             joinRoomCallback.setPlayersRoom(room);
         } else if (waitForPlayersCallback != null) {
             waitForPlayersCallback.updateNbrOfPlayers(room);
+        } else if (waitForClaimCallback != null) {
+            waitForClaimCallback.updateRoom(room);
         }
     }
-
 
     /**
      * handles the servers response in the form of a id
@@ -398,18 +392,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
         } else {
             if (writeClaimCallback != null) {
                 writeClaimCallback.goToWaitForClaim();
-            }
-        }
-    }
-
-    private void callBackClaim(String output) {
-        if(output.equals("Failed")) {
-            Log.i("CallBackClaim", "failed!");           //TODO Handle Failure
-        }else{
-            Gson gson = new Gson();
-            Claim claim = gson.fromJson(output, Claim.class);
-            if (waitForClaimCallback != null) {
-                waitForClaimCallback.updateCurrentClaim(claim);
             }
         }
     }
