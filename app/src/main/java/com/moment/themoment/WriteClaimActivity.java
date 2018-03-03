@@ -39,49 +39,55 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         else if(TextUtils.isEmpty(message)){
             Toast.makeText(getApplicationContext(), "Please write a claim", Toast.LENGTH_SHORT).show();
         }
-            else
-            {
-                int selectedId = theGroup.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = findViewById(selectedId);
-                String answer = selectedRadioButton.getText().toString();
-                Boolean boolansw = setBool(answer);
-                if (clientPlayer.getClaim() == null) {
-                    Log.i("inne", "inne");
-                    clientPlayer.setClaim(new Claim(message, boolansw));
-                    Claim theClaim = clientPlayer.getClaim();
-                    //create new claim in DB
-                    //TODO: Guard for server failure
-                    Log.i("send", "send");
-                   sendNewClaimToServer(theClaim, clientPlayer);
-                   goToWaitForClaim();
-                }
-                else {
-                Claim newClaim = clientPlayer.getClaim();
-                   newClaim.setClaim(message);
-                   newClaim.setCorrectAnswer(boolansw);
-                    //Update claim in DB
-                    // TODO: Guard for server failure
-                    sendToServer(newClaim);
-                   goToWaitForClaim();
-                }
+        else
+        {
+            int selectedId = theGroup.getCheckedRadioButtonId();
+            RadioButton selectedRadioButton = findViewById(selectedId);
+            String answer = selectedRadioButton.getText().toString();
+            Boolean boolansw = setBool(answer);
+            if (clientPlayer.getClaim() == null) {
+                Log.i("inne", "inne");
+                clientPlayer.setClaim(new Claim(message, boolansw));
+                Claim theClaim = clientPlayer.getClaim();
+                //create new claim in DB
+                //TODO: Guard for server failure
+                Log.i("send", "send");
+                sendNewClaimToServer(theClaim, clientPlayer);
             }
+            else {
+                Claim newClaim = clientPlayer.getClaim();
+                newClaim.setClaim(message);
+                newClaim.setCorrectAnswer(boolansw);
+                // TODO: Guard for server failure
+                sendUpdateToServer(newClaim);
+            }
+        }
     }
 
     private void sendNewClaimToServer(Claim theClaim, Player clientPlayer){
         ServerCommunication serverCom = new ServerCommunication(this);
-        Log.i("servercom", "servercom");
         serverCom.newClaimAndAnswer(theClaim, clientPlayer, this);
     }
 
-    private void sendToServer(Claim claim){
+    private void sendUpdateToServer(Claim claim){
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.updateClaimAndAnswer(claim, this);
     }
 
+    /**
+     * calls a server update declaring player now has
+     * given new claim and updates round counter to signal it
+     */
+    public void updatePlayerRound() {
+        clientPlayer.incrementRound();
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.declareClaimWritten(clientPlayer,this);
+    }
 
     private Boolean setBool(String message){
         return message.equals("true");
     }
+
 
     public void goToWaitForClaim(){
         Intent intent = new Intent(this, WaitForClaimActivity.class);
