@@ -172,8 +172,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     public void newClaimAndAnswer(Claim claim, Player player, WriteClaimCallback writeClaimCallback) {
         this.writeClaimCallback = writeClaimCallback;
-        Log.e("newClaimAndAnswer", "newClaimAndAnswer");
-        Log.e("packager", packager(claim, player));
         new CallServer(packager(claim, player), "storeToDB", "newClaim", this).execute();
 
     }
@@ -206,6 +204,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     public void declareRoundAnswered(Player player, ResultPageCallback resultPageCallback) {
         this.resultPageCallback = resultPageCallback;
+        new CallServer(packager(player.getID(), player.getRound()), "storeToDB", "storePlayerRound", this).execute();
+    }
+
+    public void declareClaimWritten(Player player, WriteClaimCallback writeClaimCallback) {
+        this.writeClaimCallback = writeClaimCallback;
         new CallServer(packager(player.getID(), player.getRound()), "storeToDB", "storePlayerRound", this).execute();
     }
 
@@ -311,6 +314,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
             createRoomCallback.confirmDone(output);
         } else if (resultPageCallback != null) {
             resultPageCallback.checkIfRoundIsFinished(output);
+        } else if (writeClaimCallback != null) {
+            writeClaimCallback.goToWaitForClaim();
         }
     }
 
@@ -363,7 +368,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
             } else if (createRoomCallback != null) {
                 createRoomCallback.setClientPlayerID(idToSet);
             } else if (writeClaimCallback != null) {
-                writeClaimCallback.goToWaitForClaim();
+                writeClaimCallback.updatePlayerRound();
             } else if (voteOnClaimCallback != null) {
                 voteOnClaimCallback.goToResult();
             } else if (joinRoomCallback != null) {
@@ -387,11 +392,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     private void callBackUpdatedClaim(String output) {
         Log.e("Got output to callback", output);
-        if (output.equals("Failed")) {
+        if (output == null) {
             Log.i("CallBackUpdatedClaim", "failed!");           //TODO Handle Failure
         } else {
             if (writeClaimCallback != null) {
-                writeClaimCallback.goToWaitForClaim();
+                writeClaimCallback.updatePlayerRound();
             }
         }
     }
