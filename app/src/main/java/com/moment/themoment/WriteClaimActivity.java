@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -22,7 +23,7 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
-
+        Log.e("answer ===",this.clientPlayer.toString());
     }
 
     public void saveClaim(View view) {
@@ -43,7 +44,6 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
             int selectedId = theGroup.getCheckedRadioButtonId();
             RadioButton selectedRadioButton = findViewById(selectedId);
             String answer = selectedRadioButton.getText().toString();
-            //Log.e("answer ===",answer);
             Boolean boolansw = setBool(answer);
             if (this.clientPlayer.getClaim() == null) {
                 this.clientPlayer.setClaim(new Claim(message, boolansw));

@@ -42,8 +42,8 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
      * @param id is the new id of the player
      */
     public void setClientPlayerID(int id) {
-        clientPlayer.setID(id);
-        Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
+        this.clientPlayer.setID(id);
+        //Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
         Log.i("Server gave:",String.valueOf(id));
         EditText roomNumberString = findViewById(R.id.roomNumberInput);
 
@@ -55,8 +55,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
     public void confirmRoomSelect(View view) {
         //TODO: Set the button in offline mode so one can not create many players.
         EditText userName = findViewById(R.id.userNameInput);
-        Player clientPlayer = new Player(userName.getText().toString());
-        this.clientPlayer = clientPlayer;
+        this.clientPlayer = new Player(userName.getText().toString());
         //TODO add guard for empty input
         ServerCommunication serverCom = new ServerCommunication(this);
         Log.e("name:", userName.getText().toString());
@@ -67,8 +66,9 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
 
     private void jumpToWaitForClaim() {
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("playerData", clientPlayer);
-        intent.putExtra("roomData", currentRoom);
+        intent.putExtra("playerData", this.clientPlayer);
+        Log.e("answer ===",this.clientPlayer.toString());
+        intent.putExtra("roomData", this.currentRoom);
         startActivity(intent);
     }
 }

@@ -23,7 +23,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
         timeCount = findViewById(R.id.timeCountProgress);
         playerCount = findViewById(R.id.numberOfPlayersJoined);
 
-        this.clientPlayer = (Player) getIntent().getSerializableExtra("clientPlayer");
+        this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         startTimer();
 
@@ -68,9 +68,9 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
     }
 
     public void updateNbrOfPlayers(Room roomFromServer) {
-        Log.i("fromServer", String.valueOf(roomFromServer.getID()));
-        Log.i("NbrFromServer", String.valueOf(roomFromServer.getAmountOfPlayers()));
+        //Log.i("fromServer", String.valueOf(roomFromServer.getID()));
+        //Log.i("NbrFromServer", String.valueOf(roomFromServer.getAmountOfPlayers()));
 
-        currentRoom = roomFromServer;
+        this.currentRoom = roomFromServer;
     }
 }

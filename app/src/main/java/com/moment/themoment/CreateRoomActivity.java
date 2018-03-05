@@ -47,7 +47,7 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
     public void confirmDone(String response) {
         //Log.i("response on save was!",response);
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("clientPlayer", this.clientPlayer);
+        intent.putExtra("playerData", this.clientPlayer);
         intent.putExtra("roomData", this.currentRoom);
         startActivity(intent);
     }

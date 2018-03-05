@@ -66,7 +66,7 @@ public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClai
     }
 
     private Boolean setBool(String message){
-        return message.equals("true");
+        return message.equals("True");
     }
 
 
