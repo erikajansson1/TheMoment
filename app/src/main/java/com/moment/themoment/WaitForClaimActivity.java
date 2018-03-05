@@ -40,6 +40,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         timeCount = findViewById(R.id.timeCountProgress);
         claimProgress = findViewById(R.id.progress);
         isClaimsDone = false;
+        startTimer();
 
     }
 
