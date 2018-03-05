@@ -33,6 +33,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     private String packager(Object... objectV) {
         Gson g = new Gson();
+        Log.e("sending: ",g.toJson(objectV));
         return g.toJson(objectV);
     }
 

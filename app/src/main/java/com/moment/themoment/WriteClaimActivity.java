@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -44,15 +43,14 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
             int selectedId = theGroup.getCheckedRadioButtonId();
             RadioButton selectedRadioButton = findViewById(selectedId);
             String answer = selectedRadioButton.getText().toString();
+            //Log.e("answer ===",answer);
             Boolean boolansw = setBool(answer);
-            if (clientPlayer.getClaim() == null) {
-                Log.i("inne", "inne");
-                clientPlayer.setClaim(new Claim(message, boolansw));
-                Claim theClaim = clientPlayer.getClaim();
+            if (this.clientPlayer.getClaim() == null) {
+                this.clientPlayer.setClaim(new Claim(message, boolansw));
+                Claim theClaim = this.clientPlayer.getClaim();
                 //create new claim in DB
                 //TODO: Guard for server failure
-                Log.i("send", "send");
-                sendNewClaimToServer(theClaim, clientPlayer);
+                sendNewClaimToServer(theClaim);
             }
             else {
                 Claim newClaim = clientPlayer.getClaim();
@@ -64,9 +62,9 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         }
     }
 
-    private void sendNewClaimToServer(Claim theClaim, Player clientPlayer){
+    private void sendNewClaimToServer(Claim claim){
         ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.newClaimAndAnswer(theClaim, clientPlayer, this);
+        serverCom.newClaimAndAnswer(claim, this.clientPlayer, this);
     }
 
     private void sendUpdateToServer(Claim claim){
@@ -85,7 +83,7 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
     }
 
     private Boolean setBool(String message){
-        return message.equals("true");
+        return message.equals("True");
     }
 
 

@@ -3,7 +3,6 @@ package com.moment.themoment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,8 +26,8 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
      * @param id is the new id of the player
      */
     public void setClientPlayerID(int id) {
-        clientPlayer.setID(id);
-        Log.i("Server gave:",String.valueOf(id));
+        this.clientPlayer.setID(id);
+        //Log.i("Server gave:",String.valueOf(id));
         EditText numOfPlayers = findViewById(R.id.roomSize);
         String numOfPlayersString = numOfPlayers.getText().toString();
         int numOfPlayersInt = Integer.parseInt(numOfPlayersString);
@@ -46,10 +45,10 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
     }
 
     public void confirmDone(String response) {
-        Log.i("response on save was!",response);
+        //Log.i("response on save was!",response);
         Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("clientPlayer", clientPlayer);
-        intent.putExtra("roomData", currentRoom);
+        intent.putExtra("clientPlayer", this.clientPlayer);
+        intent.putExtra("roomData", this.currentRoom);
         startActivity(intent);
     }
 
