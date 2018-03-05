@@ -42,10 +42,10 @@ public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClai
             String answer = selectedAnswButton.getText().toString();
             Boolean boolansw = setBool(answer);
             clientPlayer.setAnswer(boolansw);
-            if(boolansw == currentClaim.getAnsw()) {
+            if(boolansw.equals(currentClaim.getAnsw())) {
                 int currScore = clientPlayer.getScore();
                 //If correct answ. 5 points will be given.
-                clientPlayer.updateScore((currScore + 5));
+                clientPlayer.updateScore(currScore + 5);
                 int newScore = clientPlayer.getScore();
                 ServerCommunication serverCom = new ServerCommunication(this);
                 //TODO Potential bug if player is very quick and manages to update his score for the next round before other players have managed to update their rooms from server. i.e he will be a round ahead with his answer and points.

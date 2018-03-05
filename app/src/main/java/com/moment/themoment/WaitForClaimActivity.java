@@ -100,13 +100,19 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     public void updateRoom(Room room) {
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-        this.currentRoom.setCurrentClaimNo(0);
         this.currentClaim = this.currentRoom.getCurrentClaim();
+
+        //Log.e("myClaim: ",String.valueOf(this.currentClaim.getID() == clientPlayer.getClaim().getID()));
         if (this.currentClaim.getID() == clientPlayer.getClaim().getID()) {
             Boolean notAlone = this.currentRoom.setNextClaim();
-            if(!notAlone)jumpToResult();
+            if(!notAlone) {
+                this.jumpToResult();
+                return;
+            } else {
+                this.currentClaim = this.currentRoom.getCurrentClaim();
+            }
         }
-        jumpToVoteOnClaim();
+        this.jumpToVoteOnClaim();
     }
 
     /**
@@ -121,7 +127,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     }
 
     /**
-     * Jumps to voteOnClaim and with that sends forward the player, currentRoom and currentClaim
+     * Jumps to ResultPageActivity and with that sends forward the player, currentRoom and currentClaim
      */
     private void jumpToResult () {
         Intent intent = new Intent(this, ResultPageActivity.class);

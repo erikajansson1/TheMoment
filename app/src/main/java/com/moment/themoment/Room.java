@@ -67,7 +67,7 @@ public class Room implements Serializable {
      * @return boolean depending on if increment was sucesfull or failed.
      */
     public Boolean setNextClaim() {
-        if (this.currentClaimNo < (this.numOfPlayers-1)) {
+        if (this.currentClaimNo < (this.playerList.size()-1)) {
             this.currentClaimNo++;
             return true;
         } else {

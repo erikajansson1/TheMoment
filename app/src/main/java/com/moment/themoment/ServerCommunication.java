@@ -276,8 +276,19 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 callBackUpdatedClaim(output);
                 break;
             case "updatePlayerScore":
-                callBackSetPlayerID(output);
+                callBackUpdatedPlayer(output);
                 break;
+        }
+    }
+
+    /**
+     * Handles callbacks from the updatePlayers calls.
+     * @param output boolean deciding outcome
+     */
+    private void callBackUpdatedPlayer(String output) {
+        Log.e("Got output to callback", output);
+        if (voteOnClaimCallback != null) {
+            voteOnClaimCallback.goToResult();
         }
     }
 
@@ -370,8 +381,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 createRoomCallback.setClientPlayerID(idToSet);
             } else if (writeClaimCallback != null) {
                 writeClaimCallback.updatePlayerRound();
-            } else if (voteOnClaimCallback != null) {
-                voteOnClaimCallback.goToResult();
             } else if (joinRoomCallback != null) {
                 joinRoomCallback.setClientPlayerID(idToSet);
             }
