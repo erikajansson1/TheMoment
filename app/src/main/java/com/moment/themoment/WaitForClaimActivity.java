@@ -50,7 +50,8 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     }
 
     private void startTimer(){
-        new CountDownTimer(30000, 1000) {
+        final WaitForClaimActivity thisObject = this;
+        new CountDownTimer(90000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeCount.setText("" + String.format(FORMAT,
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
@@ -58,14 +59,15 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
                 claimProgress.setProgress(claimProgress.getProgress() + 1);
                 if (isClaimsDone) {
                     cancel();
-                    getUpdatedClaimsRoom();
+                    thisObject.getUpdatedClaimsRoom();
                 } else {
                     askServer();
                 }
             }
 
             public void onFinish() {
-                getUpdatedClaimsRoom();
+                ServerCommunication serverCom = new ServerCommunication(thisObject);
+                serverCom.removeStragglers(currentRoom.getID(),clientPlayer.getRound(),thisObject);
             }
         }.start();
 
@@ -92,7 +94,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
     /**
      * Ask server to update the Room
      */
-    private void getUpdatedClaimsRoom() {
+    public void getUpdatedClaimsRoom() {
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.updateClaimsRoom(this.currentRoom.getID(), this);
     }

@@ -235,6 +235,16 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(roomID, round), "storeToDB", "removeStragglers", this).execute();
     }
 
+    /**
+     * calls the server to remove people behind player
+     * @param roomID to check in
+     * @param round to remove everyone with lower
+     * @param waitForClaimCallback is the callback class, needed for callback in this class.
+     */
+    public void removeStragglers(int roomID, int round, WaitForClaimCallback waitForClaimCallback) {
+        this.waitForClaimCallback = waitForClaimCallback;
+        new CallServer(packager(roomID, round), "storeToDB", "removeStragglers", this).execute();
+    }
 
     /*
      * ------------------ CALLBACKS BELOW -------------------------
@@ -307,6 +317,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Log.e("callBackRemoStragglers", output);
         if (resultPageCallback != null) {
             resultPageCallback.callForRoomUpdate();
+        } else if (waitForClaimCallback != null) {
+            waitForClaimCallback.getUpdatedClaimsRoom();
         }
     }
 

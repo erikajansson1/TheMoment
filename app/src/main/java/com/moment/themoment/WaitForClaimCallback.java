@@ -15,4 +15,6 @@ public interface WaitForClaimCallback {
      */
     void updateRoom(Room room);
 
+    void getUpdatedClaimsRoom();
+
 }
