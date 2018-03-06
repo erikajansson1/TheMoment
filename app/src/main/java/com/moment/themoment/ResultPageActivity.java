@@ -30,9 +30,16 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.activityStopped = false;
 
-        clientPlayer.incrementRound();
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.declareRoundAnswered(clientPlayer,this);
+        if (getIntent().getSerializableExtra("myClaim") != null) {
+            this.myClaimIsNow();
+        } else {
+            clientPlayer.incrementRound();
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.declareRoundAnswered(clientPlayer,this);
+        }
+
+
+
     }
 
     /**

@@ -133,6 +133,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         Intent intent = new Intent(this, ResultPageActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
+        intent.putExtra("myClaim", true);
         startActivity(intent);
     }
 }
