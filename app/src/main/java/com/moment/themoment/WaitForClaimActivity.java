@@ -84,7 +84,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      * @param response
      */
     public void updateWaitForClaim(String response){
-        if (response != null) {
+        if (response.equals("")) {
             this.isClaimsDone = true;
         }
     }
@@ -106,8 +106,6 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         this.currentClaim = this.currentRoom.getCurrentClaim();
-
-        //Log.e("myClaim: ",String.valueOf(this.currentClaim.getID() == clientPlayer.getClaim().getID()));
         if (this.currentClaim.getID() == clientPlayer.getClaim().getID()) {
             Boolean notAlone = this.currentRoom.setNextClaim();
             if(!notAlone) {

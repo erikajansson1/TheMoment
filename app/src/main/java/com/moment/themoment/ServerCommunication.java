@@ -288,7 +288,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackUpdatedPlayer(String output) {
-        Log.e("Got output to callback", output);
+        Log.e("callBackUpdatedPlayer", output);
         if (voteOnClaimCallback != null) {
             voteOnClaimCallback.goToResult();
         }
@@ -299,7 +299,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackRemovedPlayer(String output) {
-        Log.e("Got output to callback", output);
+        Log.e("callBackRemovedPlayer", output);
         if (resultPageCallback != null) {
             resultPageCallback.JumptoMainMenu(output);
         }
@@ -310,7 +310,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackIsRoundDone(String output) {
-        Log.e("Got output to callback", output);
+        if(output == null) Log.e("callBackIsRoundDone:", "NULLLLL");
+        Log.e("callBackIsRoundDone:", output);
         if (resultPageCallback != null) {
             resultPageCallback.ifDoneCallRoomUpdate(output);
         }else if (waitForClaimCallback != null) {
@@ -323,7 +324,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackResponse(String output) {
-        Log.e("Got output to callback", output);
+        Log.e("callBackResponse", output);
         if (createRoomCallback != null) {
             createRoomCallback.confirmDone(output);
         } else if (resultPageCallback != null) {
@@ -350,7 +351,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a JSON string containing room, player and claims
      */
     private void callBackReturnRoom(String output) {
-        Log.e("Got output to callback:", output);
+        Log.e("callBackReturnRoom", output);
         Gson gson = new Gson();
         Room room = gson.fromJson(output, Room.class);
         if (joinRandomRoomCallback != null) {
@@ -371,7 +372,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a numerical value in string form
      */
     private void callBackSetPlayerID(String output) {
-        Log.e("Got output to callback", output);
+        Log.e("callBackSetPlayerID", output);
         if (output.equals("Failed")) {
             activity.findViewById(R.id.saveUsername).setEnabled(true);
             //TODO Handle Failure
@@ -403,7 +404,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     private void callBackUpdatedClaim(String output) {
-        Log.e("Got output to callback", output);
+        Log.e("callBackUpdatedClaim", output);
         if (output == null) {
             Log.i("CallBackUpdatedClaim", "failed!");           //TODO Handle Failure
         } else {
