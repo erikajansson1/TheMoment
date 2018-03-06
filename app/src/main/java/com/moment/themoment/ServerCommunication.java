@@ -215,12 +215,24 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     /**
      * asks the server if all players in room is done with their current round.
+     * @param round to compare with if people are behind
      * @param roomID to check if everybody is done.
      * @param resultPageCallback is the callback class, needed for callback in this class.
      */
     public void checkIfRoundComplete(int roomID, int round, ResultPageCallback resultPageCallback) {
         this.resultPageCallback = resultPageCallback;
         new CallServer(packager(roomID, round), "utils", "isRoundDone", this).execute();
+    }
+
+    /**
+     * calls the server to remove people behind player
+     * @param roomID to check in
+     * @param round to remove everyone with lower
+     * @param resultPageCallback is the callback class, needed for callback in this class.
+     */
+    public void removeStragglers(int roomID, int round, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
+        new CallServer(packager(roomID, round), "storeToDB", "removeStragglers", this).execute();
     }
 
 
@@ -280,6 +292,21 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 break;
             case "removePlayerByID":
                 callBackRemovedPlayer(output);
+                break;
+            case "removeStragglers":
+                callBackRemovedStragglers(output);
+                break;
+        }
+    }
+
+    /**
+     * callback method for when having removed stragglers
+     * @param output boolean deciding outcome
+     */
+    private void callBackRemovedStragglers(String output) {
+        Log.e("callBackRemoStragglers", output);
+        if (resultPageCallback != null) {
+            resultPageCallback.callForRoomUpdate();
         }
     }
 
@@ -310,10 +337,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackIsRoundDone(String output) {
-        if(output == null) Log.e("callBackIsRoundDone:", "NULLLLL");
-        Log.e("callBackIsRoundDone:", output);
+        Log.e("callBackIsRoundDone", output);
         if (resultPageCallback != null) {
-            resultPageCallback.ifDoneCallRoomUpdate(output);
+            resultPageCallback.setRoundComplete(output);
         }else if (waitForClaimCallback != null) {
             waitForClaimCallback.updateWaitForClaim(output);
         }
@@ -413,5 +439,4 @@ public class ServerCommunication implements ServerCommunicationCallback {
             }
         }
     }
-
 }

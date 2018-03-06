@@ -2,7 +2,7 @@ package com.moment.themoment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class ResultPageActivity extends AppCompatActivity implements ResultPageCallback {
     Player clientPlayer;
     Room currentRoom;
     Boolean activityStopped;
+    Boolean roundComplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.activityStopped = false;
+        this.roundComplete = false;
 
         if (getIntent().getSerializableExtra("myClaim") != null) {
             this.myClaimIsNow();
@@ -50,36 +51,44 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
 
     /**
      * Callback function next in line after player declared himself done. Starts the chain of calls to see if round is complete.
-     * @param reply from the server telling if call succeded
+     * @param reply from the server telling if call succeed
      */
-    public void checkIfRoundIsFinished (String reply) {
-        Log.e("reply to round DONE ",reply);
-        //TODO guard for "failed" response
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),this);
-    }
-
-    /**
-     * Callback function which recieves response if round is done. Job is to intepret answer.
-     * If done it calls server for a room update
-     * If not done it repeats check if round is complete after 1.5 seconds of delay
-     * @param result response from server if round is done
-     */
-    public void ifDoneCallRoomUpdate(String result) {
+    public void checkIfRoundIsFinished(String reply) {
         final ResultPageActivity thisObject = this;
-        if(!result.equals("")) {
-            ServerCommunication serverCom = new ServerCommunication(this);
-            serverCom.updateResultRoom(currentRoom.getID(),this);
-        } else if (!activityStopped){
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if (roundComplete) {
+                    cancel();
+                    thisObject.callForRoomUpdate();
+                } else if (!activityStopped) {
                     Log.e("ifDoneCallRoom","FIRE NEW CALL");
                     ServerCommunication serverCom = new ServerCommunication(thisObject);
                     serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),thisObject);
                 }
-            }, 1500);
+            }
+            public void onFinish() {
+                ServerCommunication serverCom = new ServerCommunication(thisObject);
+                serverCom.removeStragglers(currentRoom.getID(),clientPlayer.getRound(),thisObject);
+            }
+        }.start();
+    }
+
+    /**
+     * Calls server for a update of room object
+     */
+    public void callForRoomUpdate() {
+        //TODO implement if removeStragglers fails
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateResultRoom(this.currentRoom.getID(),this);
+    }
+
+    /**
+     * set method for roundComplete
+     * @param output containing 1 if true and "" if false
+     */
+    public void setRoundComplete(String output) {
+        if(!output.equals("")) {
+            this.roundComplete = true;
         }
     }
 
