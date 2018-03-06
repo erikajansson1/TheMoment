@@ -17,4 +17,8 @@ public interface WaitForClaimCallback {
 
     void getUpdatedClaimsRoom();
 
+    void stillInTheGame(Boolean reply);
+
+    void JumptoMainMenu(String output);
+
 }

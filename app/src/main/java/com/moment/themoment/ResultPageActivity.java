@@ -39,6 +39,12 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     @Override
     public void onBackPressed() {}
 
+    /**
+     * Gets if client is still in the game and reacts accordingly.
+     * if still in the game it checks if its been sent here because players claim is voted on.
+     * Otherwise it reacts as if client just voted.
+     * @param reply boolean telling if player been kicked or not
+     */
     public void stillInTheGame(Boolean reply) {
         if(reply) {
             if (getIntent().getSerializableExtra("myClaim") != null) {

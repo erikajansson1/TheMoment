@@ -40,8 +40,9 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         this.timeCount = findViewById(R.id.timeCountProgress);
         this.claimProgress = findViewById(R.id.progress);
         this.isClaimsDone = false;
-        this.startTimer();
 
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.imInTheGame(this.currentRoom.getID(),this.clientPlayer.getID(), this);
     }
 
     @Override
@@ -49,6 +50,47 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
 
     }
 
+    /**
+     * Gets if client is still in the game and reacts accordingly.
+     * If still in game starts the wait timer for the other players.
+     * @param reply boolean telling if player been kicked or not
+     */
+    public void stillInTheGame(Boolean reply) {
+        if(reply) {
+            this.startTimer();
+        } else {
+            this.exitGame();
+        }
+    }
+
+    /**
+     * if players decides to quit he or she presses the button quit and fires up this function.
+     * Returns the user to the main menu, needs to be updated with a scrub method for player from rroom.
+     */
+    public void exitGame() {
+        //TODO potential bug! if player exits, claim count will be of in cases
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.removePlayerFromDb(currentRoom.getID(),clientPlayer.getID(),this);
+    }
+
+    /**
+     * Callback function which checks if server succeded in removing player and if not retries, otherwise it goes to main menu
+     * @param output string that contains a boolean
+     */
+    public void JumptoMainMenu(String output) {
+        if(output != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.removePlayerFromDb(currentRoom.getID(),clientPlayer.getID(),this);
+        }
+    }
+
+    /**
+     * Starts a timer waiting for other players to finish their claim writing.
+     * If people timer reaches end client starts kicking idling players
+     */
     private void startTimer(){
         final WaitForClaimActivity thisObject = this;
         new CountDownTimer(90000, 1000) {

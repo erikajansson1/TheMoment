@@ -135,8 +135,13 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     public void removePlayerFromDb(int playerID, JoinRoomCallback joinRoomCallback) {
-        this.joinRandomRoomCallback = joinRandomRoomCallback;
+        this.joinRoomCallback = joinRoomCallback;
         new CallServer(packager(playerID), "storeToDB", "removePlayerByID", this).execute();
+    }
+
+    public void removePlayerFromDb(int roomID, int playerID, WaitForClaimCallback waitForClaimCallback) {
+        this.waitForClaimCallback = waitForClaimCallback;
+        new CallServer(packager(roomID, playerID), "storeToDB", "removePlayerByID", this).execute();
     }
 
     /**
@@ -257,6 +262,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(roomID, playerID), "getFromDB", "isPlayerInRoom", this).execute();
     }
 
+    /**
+     * checks if given player id is in room with given id.
+     * @param roomID to check in for player
+     * @param playerID belonging to player to check for
+     * @param waitForClaimCallback is the callback class, needed for callback in this class.
+     */
+    public void imInTheGame(int roomID, int playerID, WaitForClaimCallback waitForClaimCallback) {
+        this.waitForClaimCallback = waitForClaimCallback;
+        new CallServer(packager(roomID, playerID), "getFromDB", "isPlayerInRoom", this).execute();
+    }
+
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
@@ -334,7 +350,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
         if (resultPageCallback != null) {
             resultPageCallback.stillInTheGame(result);
         } else if (waitForClaimCallback != null) {
-           // waitForClaimCallback.getUpdatedClaimsRoom();
+            waitForClaimCallback.stillInTheGame(result);
         }
     }
 
@@ -370,6 +386,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
         Log.e("callBackRemovedPlayer", output);
         if (resultPageCallback != null) {
             resultPageCallback.JumptoMainMenu(output);
+        }  else if (waitForClaimCallback != null) {
+            waitForClaimCallback.JumptoMainMenu(output);
         }
     }
 
