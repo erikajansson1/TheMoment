@@ -32,21 +32,25 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.activityStopped = false;
         this.roundComplete = false;
 
-        if (getIntent().getSerializableExtra("myClaim") != null) {
-            this.myClaimIsNow();
-        } else {
-            clientPlayer.incrementRound();
-            ServerCommunication serverCom = new ServerCommunication(this);
-            serverCom.declareRoundAnswered(clientPlayer,this);
-        }
-
-
-
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.imInTheGame(this.currentRoom.getID(),this.clientPlayer.getID(), this);
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {}
 
+    public void stillInTheGame(Boolean reply) {
+        if(reply) {
+            if (getIntent().getSerializableExtra("myClaim") != null) {
+                this.myClaimIsNow();
+            } else {
+                clientPlayer.incrementRound();
+                ServerCommunication serverCom = new ServerCommunication(this);
+                serverCom.declareRoundAnswered(clientPlayer, this);
+            }
+        } else {
+            this.exitGame(null);
+        }
     }
 
     /**

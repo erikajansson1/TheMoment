@@ -11,4 +11,6 @@ public interface ResultPageCallback {
     void setRoundComplete(String output);
 
     void callForRoomUpdate();
+
+    void stillInTheGame(Boolean reply);
 }

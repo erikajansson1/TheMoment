@@ -246,6 +246,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(roomID, round), "storeToDB", "removeStragglers", this).execute();
     }
 
+    /**
+     * checks if given player id is in room with given id.
+     * @param roomID to check in for player
+     * @param playerID belonging to player to check for
+     * @param resultPageCallback is the callback class, needed for callback in this class.
+     */
+    public void imInTheGame(int roomID, int playerID, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
+        new CallServer(packager(roomID, playerID), "getFromDB", "isPlayerInRoom", this).execute();
+    }
+
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
@@ -306,6 +317,24 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "removeStragglers":
                 callBackRemovedStragglers(output);
                 break;
+            case "isPlayerInRoom":
+                callBackIsPlayerInRoom(output);
+                break;
+        }
+    }
+
+    /**
+     * handles callbacks from isPlayerInRoom
+     * @param output boolean deciding outcome
+     */
+    private void callBackIsPlayerInRoom(String output) {
+        Log.e("callBackIsPlayerInRoom", output);
+        Boolean result = false;
+        if(!output.equals("")) result = true;
+        if (resultPageCallback != null) {
+            resultPageCallback.stillInTheGame(result);
+        } else if (waitForClaimCallback != null) {
+           // waitForClaimCallback.getUpdatedClaimsRoom();
         }
     }
 
