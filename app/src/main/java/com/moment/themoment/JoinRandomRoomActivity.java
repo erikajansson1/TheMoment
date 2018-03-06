@@ -78,8 +78,8 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
      * changes intent to WaitForClaimActivity and sends the player object and the roomData
      * @param view
      */
-    public void jumpToWaitForClaim(View view) {
-        Intent intent = new Intent(this, WaitForClaimActivity.class);
+    public void jumpToWriteClaim(View view) {
+        Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);

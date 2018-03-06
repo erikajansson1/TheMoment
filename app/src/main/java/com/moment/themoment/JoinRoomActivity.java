@@ -38,7 +38,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         Log.e("test", String.valueOf(room.getNumOfPlayers()));
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-        jumpToWaitForClaim();
+        jumpToWriteClaim();
     }
     }
 
@@ -69,8 +69,8 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         // TODO if failure, handle failure, error message? response from server error message maybe?
     }
 
-    private void jumpToWaitForClaim() {
-        Intent intent = new Intent(this, WaitForPlayersActivity.class);
+    private void jumpToWriteClaim() {
+        Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", this.clientPlayer);
         Log.e("answer ===",this.clientPlayer.toString());
         intent.putExtra("roomData", this.currentRoom);
