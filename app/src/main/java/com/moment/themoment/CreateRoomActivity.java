@@ -21,6 +21,11 @@ public class CreateRoomActivity extends AppCompatActivity implements CreateRoomC
         serverCom.createRoom(this);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     /**
      * sets the client players id
      * @param id is the new id of the player

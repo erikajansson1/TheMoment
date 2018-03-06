@@ -26,6 +26,11 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         Log.e("answer ===",this.clientPlayer.toString());
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     /**
      * Checking whether a user has wrote a claim and chose a correct answer or not
      * When claim and answer is picked it checks if the player has created a claim before, if not it creates a new claim attached to the player and saves it and calls a send to server function.

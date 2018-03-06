@@ -19,6 +19,11 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         setContentView(R.layout.activity_join_room);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     /**
      * sets the room for the player
      * @param room which is to be used by the player

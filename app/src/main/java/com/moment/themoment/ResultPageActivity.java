@@ -42,6 +42,11 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     /**
      * Callback function next in line after player declared himself done. Starts the chain of calls to see if round is complete.
      * @param reply from the server telling if call succeded

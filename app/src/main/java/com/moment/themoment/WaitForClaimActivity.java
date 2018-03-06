@@ -44,6 +44,11 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void startTimer(){
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {

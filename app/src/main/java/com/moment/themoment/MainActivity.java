@@ -15,6 +15,10 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
         setContentView(R.layout.activity_main);
         checkServerConnection();
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 
     /**
      * Locks inteface buttons until its confirmed server and db is up and running.

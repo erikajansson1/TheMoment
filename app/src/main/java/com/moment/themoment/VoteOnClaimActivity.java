@@ -29,6 +29,11 @@ public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClai
         ClaimToVote.setText(message);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
 
     /**
      * Checks if a user has picked an answer, if one has, the answer will be compared to the correct answer.

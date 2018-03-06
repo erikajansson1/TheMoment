@@ -29,6 +29,11 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void startTimer() {
     Log.e("NUMOFPLAYERS", String.valueOf(currentRoom.getNumOfPlayers()));
     Log.e("ROOOOOOM", String.valueOf(currentRoom.getID()));
