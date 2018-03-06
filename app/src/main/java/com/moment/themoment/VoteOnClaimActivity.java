@@ -30,6 +30,12 @@ public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClai
     }
 
 
+    /**
+     * Checks if a user has picked an answer, if one has, the answer will be compared to the correct answer.
+     * If the answer is correct the players score will be updated.
+     * @param view the view where the function call is made from
+     */
+
     public void compareAnswer(View view) {
 
         RadioGroup stateGroup = findViewById(R.id.state);
@@ -58,12 +64,23 @@ public class VoteOnClaimActivity extends AppCompatActivity implements VoteOnClai
         }
      }
 
+    /**
+     * Function to send information and start the new activity
+     */
+
     public void goToResult() {
         Intent intent = new Intent(this, ResultPageActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);
     }
+
+
+    /**
+     * To convert a string to a Boolean
+     * @param message the string to be converted
+     * @return the converted boolean
+     */
 
     private Boolean setBool(String message){
         return message.equals("True");
