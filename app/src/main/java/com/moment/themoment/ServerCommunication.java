@@ -278,6 +278,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "updatePlayerScore":
                 callBackUpdatedPlayer(output);
                 break;
+            case "removePlayerByID":
+                callBackRemovedPlayer(output);
         }
     }
 

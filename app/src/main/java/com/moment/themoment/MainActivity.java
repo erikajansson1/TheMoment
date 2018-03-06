@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
     public void jumpToResult(View view) {
         Room currentRoom = new Room(new Player("TorkelKonkel"));
         currentRoom.setID(58);
-        Player clientPlayer = new Player("FIA");
+        Player clientPlayer = new Player("flufff");
+        clientPlayer.setID(72);
         Intent intent = new Intent(this, ResultPageActivity.class);
         intent.putExtra("roomData", currentRoom);
         intent.putExtra("playerData", clientPlayer);

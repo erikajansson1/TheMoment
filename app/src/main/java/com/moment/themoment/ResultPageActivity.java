@@ -217,7 +217,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * @param output string that contains a boolean
      */
     public void JumptoMainMenu(String output) {
-        if(Boolean.parseBoolean(output)) {
+        if(output != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
