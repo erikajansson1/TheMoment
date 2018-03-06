@@ -26,6 +26,13 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         Log.e("answer ===",this.clientPlayer.toString());
     }
 
+    /**
+     * Checking whether a user has wrote a claim and chose a correct answer or not
+     * When claim and answer is picked it checks if the player has created a claim before, if not it creates a new claim attached to the player and saves it and calls a send to server function.
+     * If the player already has a claim that claim will be updated with the new one, then a send to server method is called to update the DB.
+     * @param view the view where the function call is made from
+     */
+
     public void saveClaim(View view) {
         EditText claim = findViewById(R.id.theClaim);
         String message = claim.getText().toString();
@@ -62,10 +69,21 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         }
     }
 
+    /**
+     * Creates a server communication and sends the claim that is created together with the player that belongs to the claim, to a function that makes the actual server call
+     * @param claim the claim that is to be sent to the server
+     */
+
     private void sendNewClaimToServer(Claim claim){
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.newClaimAndAnswer(claim, this.clientPlayer, this);
     }
+
+
+    /**
+     * Creates a server communication and sends the claim that is to be updated to a function that makes the actual server call
+     * @param claim the claim that is to be sent to the server
+     */
 
     private void sendUpdateToServer(Claim claim){
         ServerCommunication serverCom = new ServerCommunication(this);
@@ -82,11 +100,21 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
         serverCom.declareClaimWritten(clientPlayer,this);
     }
 
+
+    /**
+     * To convert a string to a Boolean
+     * @param message the string to be converted
+     * @return the converted boolean
+     */
+
     private Boolean setBool(String message){
         return message.equals("True");
     }
 
 
+    /**
+     * Function to send information and start the new activity
+     */
     public void goToWaitForClaim(){
         Intent intent = new Intent(this, WaitForClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
