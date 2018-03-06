@@ -48,15 +48,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
     }
 
-
-    /**
-     query function with a callback to jumpToClaim
-     */
-    //public void claimReady(){
-    // this.claimReadyCallback = claimReadyCallback;
-    //check if claim is stored in DB
-    // new CallServer(packager(player),"storeToDB").execute();
-
     /**
      * Saves a player to the database. Should return ID to the user that should be updated on the
      * user to keep track in the communication from there on.
@@ -273,6 +264,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(roomID, playerID), "getFromDB", "isPlayerInRoom", this).execute();
     }
 
+    /**
+     * calls server and updates the rooms claimNo to the one sendt
+     * @param roomID affected room
+     * @param currentClaimNo int value to set
+     * @param resultPageCallback  is the callback class, needed for callback in this class.
+     */
+    public void updateClaimNo(int roomID, int currentClaimNo, ResultPageCallback resultPageCallback) {
+        this.resultPageCallback = resultPageCallback;
+        new CallServer(packager(roomID, currentClaimNo), "storeToDB", "updateClaimNo", this).execute();
+    }
+
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
@@ -336,6 +338,22 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "isPlayerInRoom":
                 callBackIsPlayerInRoom(output);
                 break;
+            case "updateClaimNo":
+                callBackUpdateClaimNo(output);
+                break;
+        }
+    }
+
+    /**
+     * handles the callbacks for update claim
+     * @param output
+     */
+    private void callBackUpdateClaimNo(String output) {
+        Log.e("callBackUpdateClaimNo", output);
+        Boolean result = false;
+        if(!output.equals("")) result = true;
+        if (resultPageCallback != null) {
+            resultPageCallback.callForRoomUpdate(null);
         }
     }
 
@@ -361,7 +379,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     private void callBackRemovedStragglers(String output) {
         Log.e("callBackRemoStragglers", output);
         if (resultPageCallback != null) {
-            resultPageCallback.callForRoomUpdate();
+            resultPageCallback.callForRoomUpdate(null);
         } else if (waitForClaimCallback != null) {
             waitForClaimCallback.getUpdatedClaimsRoom();
         }
@@ -442,7 +460,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
         if (joinRandomRoomCallback != null) {
             joinRandomRoomCallback.setPlayersRoom(room);
         } else if (resultPageCallback != null) {
-            resultPageCallback.updateResultList(room);
+            resultPageCallback.handleRoomUpdate(room);
         } else if (joinRoomCallback != null) {
             joinRoomCallback.setPlayersRoom(room);
         } else if (waitForPlayersCallback != null) {
@@ -498,4 +516,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
             }
         }
     }
+
+
 }

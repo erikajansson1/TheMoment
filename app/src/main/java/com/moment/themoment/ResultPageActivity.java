@@ -19,6 +19,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     Room currentRoom;
     Boolean activityStopped;
     Boolean roundComplete;
+    Boolean newRound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.activityStopped = false;
         this.roundComplete = false;
+        this.newRound = false;
 
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.imInTheGame(this.currentRoom.getID(),this.clientPlayer.getID(), this);
@@ -69,7 +71,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             public void onTick(long millisUntilFinished) {
                 if (roundComplete) {
                     cancel();
-                    thisObject.callForRoomUpdate();
+                    thisObject.updateClaimNo();
                 } else if (!activityStopped) {
                     Log.e("ifDoneCallRoom","FIRE NEW CALL");
                     ServerCommunication serverCom = new ServerCommunication(thisObject);
@@ -84,10 +86,20 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     }
 
     /**
-     * Calls server for a update of room object
+     * Calls server for a claimNo update
      */
-    public void callForRoomUpdate() {
+    public void updateClaimNo() {
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateClaimNo(currentRoom.getID(),currentRoom.getCurrentClaimNo(),this);
+    }
+
+    /**
+     * Calls server for a update of room object
+     * * @param view a nice view!
+     */
+    public void callForRoomUpdate(View view) {
         //TODO implement if removeStragglers fails
+        if(view != null) this.newRound = true;
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.updateResultRoom(this.currentRoom.getID(),this);
     }
@@ -118,6 +130,21 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     }
 
     /**
+     * Handles the room update and if it comes from the new round button then newRound will be true.
+     * Otherwise it will be initial call when constructing the leader board.
+     * @param updatedRoom
+     */
+    public void handleRoomUpdate(Room updatedRoom) {
+        if(this.newRound) {
+            this.updateResultList(updatedRoom);
+        } else {
+            this.currentRoom = updatedRoom;
+            this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+            newRound();
+        }
+    }
+
+    /**
      * Callback function which processes the now updated room from the server and display it for the client
      * @param updatedRoom from server
      */
@@ -133,9 +160,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
                 addPlayerResult(player,false);
             }
         }
-        int claimCount = this.currentRoom.getCurrentClaimNo();
+        //int claimCount = this.currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
-        this.currentRoom.setCurrentClaimNo(claimCount);
+        //this.currentRoom.setCurrentClaimNo(claimCount);
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         findViewById(R.id.Quit).setEnabled(true);
         findViewById(R.id.NewRound).setEnabled(true);
@@ -197,11 +224,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * checks if all claims have been said, if so sends client to write a new claim.
      * if claims are left, player is send to answer a new one.
      * if claim to be presented is players, he will be locked here while waiting for players to respond, ie he will be looped insided class.
-     * @param view a nice view!
      */
-    public void newRound(View view) {
+    public void newRound() {
         //TODO if its ClientPlayers claim next user will be blocked here!
-
         Intent intent;
         if (currentRoom.setNextClaim()) {
             if (clientPlayer.claimIsClients(currentRoom.getCurrentClaim().getID())) {
