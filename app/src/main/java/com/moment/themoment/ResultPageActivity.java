@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class ResultPageActivity extends AppCompatActivity implements ResultPageCallback {
     Player clientPlayer;
@@ -52,7 +53,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * @param reply from the server telling if call succeded
      */
     public void checkIfRoundIsFinished (String reply) {
-        Log.e("reply: ",reply);
+        Log.e("reply to round DONE ",reply);
         //TODO guard for "failed" response
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),this);
@@ -65,9 +66,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * @param result response from server if round is done
      */
     public void ifDoneCallRoomUpdate(String result) {
-        Log.e("reply if done: ",result);
         final ResultPageActivity thisObject = this;
-        if(result != null) {
+        if(!result.equals("")) {
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.updateResultRoom(currentRoom.getID(),this);
         } else if (!activityStopped){
