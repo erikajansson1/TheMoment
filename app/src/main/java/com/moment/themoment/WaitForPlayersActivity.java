@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.concurrent.TimeUnit;
 
 public class WaitForPlayersActivity extends AppCompatActivity implements WaitForPlayersCallback {
-    TextView timeCount, playerCount;
+    TextView timeCount, playerCount, roomNbr;
     private static final String FORMAT = "%02d";
     Player clientPlayer;
     Room currentRoom;
@@ -22,9 +22,11 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
 
         timeCount = findViewById(R.id.timeCountProgress);
         playerCount = findViewById(R.id.numberOfPlayersJoined);
+        roomNbr = findViewById(R.id.roomNBR);
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
+        roomNbr.setText(String.valueOf(currentRoom.getID()));
         startTimer();
 
     }
@@ -34,9 +36,11 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
 
     }
 
+    /**
+     * Counts down from 30 if not enough peoples already have joined the room.
+     */
+
     private void startTimer() {
-    Log.e("NUMOFPLAYERS", String.valueOf(currentRoom.getNumOfPlayers()));
-    Log.e("ROOOOOOM", String.valueOf(currentRoom.getID()));
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeCount.setText("" + String.format(FORMAT,
@@ -60,12 +64,22 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
     }
 
 
+    /**
+     * Function to send information and start the new activity
+     */
+
     private void jumpToWriteClaim() {
         Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", clientPlayer);
         intent.putExtra("roomData", currentRoom);
         startActivity(intent);
     }
+
+
+    /**
+     * Creates a server communication and sends the ID of the current room to a function that makes the actual server call
+     * @param currentRoomID the id of the current room that is to be sent to the server
+     */
 
     private void toServer(int currentRoomID) {
         ServerCommunication serverCom = new ServerCommunication(this);

@@ -15,4 +15,10 @@ public interface WaitForClaimCallback {
      */
     void updateRoom(Room room);
 
+    void getUpdatedClaimsRoom();
+
+    void stillInTheGame(Boolean reply);
+
+    void JumptoMainMenu(String output);
+
 }

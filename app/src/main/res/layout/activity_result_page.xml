@@ -73,7 +73,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
-        android:onClick="newRound"
+        android:onClick="callForRoomUpdate"
         android:text="@string/NewRound"
         app:layout_constraintBottom_toTopOf="@+id/Quit"
         app:layout_constraintEnd_toEndOf="parent" />

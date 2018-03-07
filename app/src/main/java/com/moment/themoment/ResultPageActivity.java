@@ -2,7 +2,7 @@ package com.moment.themoment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,12 +13,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class ResultPageActivity extends AppCompatActivity implements ResultPageCallback {
     Player clientPlayer;
     Room currentRoom;
     Boolean activityStopped;
+    Boolean roundComplete;
+    Boolean newRound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,56 +31,86 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
         this.activityStopped = false;
+        this.roundComplete = false;
+        this.newRound = false;
 
-        if (getIntent().getSerializableExtra("myClaim") != null) {
-            this.myClaimIsNow();
-        } else {
-            clientPlayer.incrementRound();
-            ServerCommunication serverCom = new ServerCommunication(this);
-            serverCom.declareRoundAnswered(clientPlayer,this);
-        }
-
-
-
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.imInTheGame(this.currentRoom.getID(),this.clientPlayer.getID(), this);
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {}
 
+    /**
+     * Gets if client is still in the game and reacts accordingly.
+     * if still in the game it checks if its been sent here because players claim is voted on.
+     * Otherwise it reacts as if client just voted.
+     * @param reply boolean telling if player been kicked or not
+     */
+    public void stillInTheGame(Boolean reply) {
+        if(reply) {
+            if (getIntent().getSerializableExtra("myClaim") != null) {
+                this.myClaimIsNow();
+            } else {
+                clientPlayer.incrementRound();
+                ServerCommunication serverCom = new ServerCommunication(this);
+                serverCom.declareRoundAnswered(clientPlayer, this);
+            }
+        } else {
+            this.exitGame(null);
+        }
     }
 
     /**
      * Callback function next in line after player declared himself done. Starts the chain of calls to see if round is complete.
-     * @param reply from the server telling if call succeded
+     * @param reply from the server telling if call succeed
      */
-    public void checkIfRoundIsFinished (String reply) {
-        Log.e("reply to round DONE ",reply);
-        //TODO guard for "failed" response
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),this);
-    }
-
-    /**
-     * Callback function which recieves response if round is done. Job is to intepret answer.
-     * If done it calls server for a room update
-     * If not done it repeats check if round is complete after 1.5 seconds of delay
-     * @param result response from server if round is done
-     */
-    public void ifDoneCallRoomUpdate(String result) {
+    public void checkIfRoundIsFinished(String reply) {
         final ResultPageActivity thisObject = this;
-        if(!result.equals("")) {
-            ServerCommunication serverCom = new ServerCommunication(this);
-            serverCom.updateResultRoom(currentRoom.getID(),this);
-        } else if (!activityStopped){
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        new CountDownTimer(90000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if (roundComplete) {
+                    cancel();
+                    thisObject.updateClaimNo();
+                } else if (!activityStopped) {
                     Log.e("ifDoneCallRoom","FIRE NEW CALL");
                     ServerCommunication serverCom = new ServerCommunication(thisObject);
                     serverCom.checkIfRoundComplete(currentRoom.getID(),clientPlayer.getRound(),thisObject);
                 }
-            }, 1500);
+            }
+            public void onFinish() {
+                ServerCommunication serverCom = new ServerCommunication(thisObject);
+                serverCom.removeStragglers(currentRoom.getID(),clientPlayer.getRound(),thisObject);
+            }
+        }.start();
+    }
+
+    /**
+     * Calls server for a claimNo update
+     */
+    public void updateClaimNo() {
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateClaimNo(currentRoom.getID(),currentRoom.getCurrentClaimNo(),this);
+    }
+
+    /**
+     * Calls server for a update of room object
+     * * @param view a nice view!
+     */
+    public void callForRoomUpdate(View view) {
+        //TODO implement if removeStragglers fails
+        if(view != null) this.newRound = true;
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateResultRoom(this.currentRoom.getID(),this);
+    }
+
+    /**
+     * set method for roundComplete
+     * @param output containing 1 if true and "" if false
+     */
+    public void setRoundComplete(String output) {
+        if(!output.equals("")) {
+            this.roundComplete = true;
         }
     }
 
@@ -99,6 +130,21 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     }
 
     /**
+     * Handles the room update and if it comes from the new round button then newRound will be true.
+     * Otherwise it will be initial call when constructing the leader board.
+     * @param updatedRoom
+     */
+    public void handleRoomUpdate(Room updatedRoom) {
+        if(this.newRound) {
+            this.updateResultList(updatedRoom);
+        } else {
+            this.currentRoom = updatedRoom;
+            this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+            newRound();
+        }
+    }
+
+    /**
      * Callback function which processes the now updated room from the server and display it for the client
      * @param updatedRoom from server
      */
@@ -114,9 +160,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
                 addPlayerResult(player,false);
             }
         }
-        int claimCount = this.currentRoom.getCurrentClaimNo();
+        //int claimCount = this.currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
-        this.currentRoom.setCurrentClaimNo(claimCount);
+        //this.currentRoom.setCurrentClaimNo(claimCount);
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         findViewById(R.id.Quit).setEnabled(true);
         findViewById(R.id.NewRound).setEnabled(true);
@@ -178,11 +224,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * checks if all claims have been said, if so sends client to write a new claim.
      * if claims are left, player is send to answer a new one.
      * if claim to be presented is players, he will be locked here while waiting for players to respond, ie he will be looped insided class.
-     * @param view a nice view!
      */
-    public void newRound(View view) {
+    public void newRound() {
         //TODO if its ClientPlayers claim next user will be blocked here!
-
         Intent intent;
         if (currentRoom.setNextClaim()) {
             if (clientPlayer.claimIsClients(currentRoom.getCurrentClaim().getID())) {

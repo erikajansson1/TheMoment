@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallback{
     private Player clientPlayer;
     private Room currentRoom;
@@ -35,11 +38,26 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.removePlayerFromDb(clientPlayer.getID(),this);
         }else{
-        Log.e("test", String.valueOf(room.getNumOfPlayers()));
-        this.currentRoom = room;
-        this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-        jumpToWriteClaim();
+            this.currentRoom = room;
+            this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+            int currLowRound = this.currentRoom.getLowestRound(clientPlayer);
+            this.clientPlayer.setRound(currLowRound);
+            Log.e("Current claim number", String.valueOf(room.getCurrentClaimNo()));
+            Log.e("Current Round number", String.valueOf(currLowRound));
+
+            Log.e("test", String.valueOf(room.getNumOfPlayers()));
+            ServerCommunication serverCom = new ServerCommunication(this);
+            serverCom.storeJoinRoomPlayersRound(clientPlayer, this);
+        }
     }
+
+    /**
+     * Wait for confirmation on update of round on player, after that call to jump to write claim activity
+     */
+    public void confirmRoundUpdate(){
+       // if (currentRoom.getCurrentClaimNo() == 0 ) {
+            jumpToWriteClaim();
+        //}
     }
 
     /**
@@ -58,7 +76,6 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
 
 
     public void confirmRoomSelect(View view) {
-        //TODO: Set the button in offline mode so one can not create many players.
         EditText userName = findViewById(R.id.userNameInput);
         this.clientPlayer = new Player(userName.getText().toString());
         //TODO add guard for empty input

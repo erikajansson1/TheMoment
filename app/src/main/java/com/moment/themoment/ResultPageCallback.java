@@ -1,12 +1,18 @@
 package com.moment.themoment;
 
-public interface ResultPageCallback {
+import android.view.View;
 
-    void updateResultList(Room room);
+public interface ResultPageCallback {
 
     void checkIfRoundIsFinished (String output);
 
-    void ifDoneCallRoomUpdate(String answer);
-
     void JumptoMainMenu(String output);
+
+    void setRoundComplete(String output);
+
+    void callForRoomUpdate(View view);
+
+    void stillInTheGame(Boolean reply);
+
+    void handleRoomUpdate(Room room);
 }
