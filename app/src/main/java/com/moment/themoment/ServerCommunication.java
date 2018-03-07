@@ -275,6 +275,11 @@ public class ServerCommunication implements ServerCommunicationCallback {
         new CallServer(packager(roomID, currentClaimNo), "storeToDB", "updateClaimNo", this).execute();
     }
 
+    public void storeJoinRoomPlayersRound(Player player, JoinRoomCallback joinRoomCallback){
+        this.joinRoomCallback = joinRoomCallback;
+        new CallServer(packager(player.getID(), player.getRound()), "storeToDB","storePlayerRound",this).execute();
+    }
+
     /*
      * ------------------ CALLBACKS BELOW -------------------------
      */
@@ -434,6 +439,8 @@ public class ServerCommunication implements ServerCommunicationCallback {
             resultPageCallback.checkIfRoundIsFinished(output);
         } else if (writeClaimCallback != null) {
             writeClaimCallback.goToWaitForClaim();
+        } else if (joinRoomCallback != null){
+            joinRoomCallback.confirmRoundUpdate();
         }
     }
 

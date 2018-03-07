@@ -4,4 +4,6 @@ public interface JoinRoomCallback {
     void setClientPlayerID(int id);
 
     void setPlayersRoom(Room room);
+
+    void confirmRoundUpdate();
 }
