@@ -113,7 +113,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      */
     public void callForRoomUpdate(View view) {
         //TODO implement if removeStragglers fails
-        if(view != null) this.newRound = true;
+        if(view != null) {
+            this.newRound = true;
+        }
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.updateResultRoom(this.currentRoom.getID(),this);
     }
@@ -142,11 +144,11 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      */
     public void handleRoomUpdate(Room updatedRoom) {
         if(this.newRound) {
-            this.updateResultList(updatedRoom);
-        } else {
             this.currentRoom = updatedRoom;
             this.currentRoom.replaceCurrPlayer(this.clientPlayer);
             newRound();
+        } else {
+            this.updateResultList(updatedRoom);
         }
     }
 
