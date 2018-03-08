@@ -53,7 +53,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             } else {
                 clientPlayer.incrementRound();
                 ServerCommunication serverCom = new ServerCommunication(this);
-                serverCom.declareRoundAnswered(clientPlayer, this);
+                serverCom.declareRoundDone(clientPlayer,currentRoom,this);
             }
         } else {
             this.exitGame(null);
@@ -70,7 +70,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             public void onTick(long millisUntilFinished) {
                 if (roundComplete) {
                     cancel();
-                    thisObject.updateClaimNo();
+                    //thisObject.updateClaimNo();
+                    thisObject.callForRoomUpdate(null);
                 } else if (!activityStopped) {
                    // Log.e("ifDoneCallRoom","FIRE NEW CALL");
                     ServerCommunication serverCom = new ServerCommunication(thisObject);
@@ -85,25 +86,6 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     }
 
     /**
-     * Calls server for a claimNo update
-     */
-    public void updateClaimNo() {
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.updateClaimNo(currentRoom.getID(),currentRoom.getCurrentClaimNo(),this);
-    }
-
-    /**
-     * Calls server for a update of room object
-     * * @param view a nice view!
-     */
-    public void callForRoomUpdate(View view) {
-        //TODO implement if removeStragglers fails
-        if(view != null) this.newRound = true;
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.updateResultRoom(this.currentRoom.getID(),this);
-    }
-
-    /**
      * set method for roundComplete
      * @param output containing 1 if true and "" if false
      */
@@ -112,6 +94,31 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             this.roundComplete = true;
         }
     }
+
+    /**
+     * Calls server for a claimNo update
+     */
+    /*
+    public void updateClaimNo() {
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateClaimNo(currentRoom.getID(),currentRoom.getCurrentClaimNo(),this);
+    }
+    */
+
+    /**
+     * Calls server for a update of room object.
+     * Is reachable from interface when calling for a
+     * new round and also fired when activity is loading
+     * @param view a nice view!
+     */
+    public void callForRoomUpdate(View view) {
+        //TODO implement if removeStragglers fails
+        if(view != null) this.newRound = true;
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.updateResultRoom(this.currentRoom.getID(),this);
+    }
+
+
 
     /**
      * The extremely cheapo way to stop the threads actions if looping
@@ -193,6 +200,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         playerNameTV.setId(id);
         playerNameTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         playerNameTV.setGravity(Gravity.CENTER);
+        playerNameTV.setTextSize(18);
         return playerNameTV;
     }
 
@@ -215,11 +223,12 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         playerScoreTV.setId(id);
         playerScoreTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         playerScoreTV.setGravity(Gravity.CENTER);
+        playerScoreTV.setTextSize(18);
         return playerScoreTV;
     }
 
     /**
-     * called when client presses button new round.
+     * called when new round is to be prepared for.
      * checks if all claims have been said, if so sends client to write a new claim.
      * if claims are left, player is send to answer a new one.
      * if claim to be presented is players, he will be locked here while waiting for players to respond, ie he will be looped insided class.
@@ -255,13 +264,31 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         ((LinearLayout) findViewById(R.id.NameList)).removeAllViews();
         ((LinearLayout) findViewById(R.id.ScoreList)).removeAllViews();
 
-        ServerCommunication serverCom = new ServerCommunication(this);
-        serverCom.declareRoundAnswered(clientPlayer,this);
+        //Needed because remove all deletes names and scores titles
+        TextView Names = new TextView(this);
+        Names.setText(R.string.names);
+        Names.setId(View.generateViewId());
+        Names.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+        Names.setGravity(Gravity.CENTER);
+        Names.setTextSize(24);
 
+        TextView Scores = new TextView(this);
+        Scores.setText(R.string.scores);
+        Scores.setId(View.generateViewId());
+        Scores.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+        Scores.setGravity(Gravity.CENTER);
+        Scores.setTextSize(24);
+
+        ((LinearLayout) findViewById(R.id.NameList)).addView(Names);
+        ((LinearLayout) findViewById(R.id.ScoreList)).addView(Scores);
+
+        ServerCommunication serverCom = new ServerCommunication(this);
+        serverCom.declareRoundDone(clientPlayer,currentRoom,this);
     }
 
     /**
-     * Callback function which checks if server succeded in removing player and if not retries, otherwise it goes to main menu
+     * Callback function which checks if server succeded in removing player
+     * and if not retries, otherwise it goes to main menu
      * @param output string that contains a boolean
      */
     public void JumptoMainMenu(String output) {

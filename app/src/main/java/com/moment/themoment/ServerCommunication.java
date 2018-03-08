@@ -199,9 +199,9 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param player used to retrieve id and gives to server
      * @param resultPageCallback is the callback class, needed for callback in this class.
      */
-    public void declareRoundAnswered(Player player, ResultPageCallback resultPageCallback) {
+    public void declareRoundDone(Player player, Room room, ResultPageCallback resultPageCallback) {
         this.resultPageCallback = resultPageCallback;
-        new CallServer(packager(player.getID(), player.getRound()), "storeToDB", "storePlayerRound", this).execute();
+        new CallServer(packager(room.getID(), player.getID(), room.getCurrentClaimNo(), player.getRound()), "storeToDB", "storeRoundAndClaimNo", this).execute();
     }
 
     public void declareClaimWritten(Player player, WriteClaimCallback writeClaimCallback) {
@@ -346,6 +346,20 @@ public class ServerCommunication implements ServerCommunicationCallback {
             case "updateClaimNo":
                 callBackUpdateClaimNo(output);
                 break;
+            case "storeRoundAndClaimNo":
+                callBackUpdateRoundClaimNo(output);
+                break;
+        }
+    }
+
+    /**
+     * Handles the callbacks from storeRoundAndClaimNo
+     * @param output returns currentClaimNo
+     */
+    private void callBackUpdateRoundClaimNo(String output) {
+        Log.e("callBackRoundClaimNo:", output);
+        if (resultPageCallback != null) {
+            resultPageCallback.checkIfRoundIsFinished(output);
         }
     }
 
