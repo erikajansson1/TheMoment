@@ -8,7 +8,7 @@ public interface ResultPageCallback {
 
     void JumptoMainMenu(String output);
 
-    void setRoundComplete(String output);
+    void setRoundComplete(Boolean result);
 
     void callForRoomUpdate(View view);
 

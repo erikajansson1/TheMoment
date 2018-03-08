@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      * @param reply boolean telling if player been kicked or not
      */
     public void stillInTheGame(Boolean reply) {
+        Log.e("log:","im in the game");
         if(reply) {
             this.startTimer();
         } else {
@@ -127,8 +129,8 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      * Recieves answer if everyone has gotten to the same round
      * @param response
      */
-    public void updateWaitForClaim(String response){
-        if (response.equals("")) {
+    public void updateWaitForClaim(Boolean response){
+        if (response) {
             this.isClaimsDone = true;
         }
     }

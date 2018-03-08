@@ -434,10 +434,12 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     private void callBackIsRoundDone(String output) {
         Log.e("callBackIsRoundDone", output);
+        Boolean result = false;
+        if(!output.equals("")) result = true;
         if (resultPageCallback != null) {
-            resultPageCallback.setRoundComplete(output);
+            resultPageCallback.setRoundComplete(result);
         }else if (waitForClaimCallback != null) {
-            waitForClaimCallback.updateWaitForClaim(output);
+            waitForClaimCallback.updateWaitForClaim(result);
         }
     }
 

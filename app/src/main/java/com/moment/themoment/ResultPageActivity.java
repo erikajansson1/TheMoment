@@ -89,8 +89,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      * set method for roundComplete
      * @param output containing 1 if true and "" if false
      */
-    public void setRoundComplete(String output) {
-        if(!output.equals("")) {
+    public void setRoundComplete(Boolean output) {
+        if(output) {
             this.roundComplete = true;
         }
     }
