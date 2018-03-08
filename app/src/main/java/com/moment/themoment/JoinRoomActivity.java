@@ -7,10 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallback{
     private Player clientPlayer;
@@ -40,10 +36,10 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         }else{
             this.currentRoom = room;
             this.currentRoom.replaceCurrPlayer(this.clientPlayer);
-            int currLowRound = this.currentRoom.getLowestRound(clientPlayer);
+            int currLowRound = this.currentRoom.getLowestRound();
             this.clientPlayer.setRound(currLowRound);
-            Log.e("Current claim number", String.valueOf(room.getCurrentClaimNo()));
-            Log.e("Current Round number", String.valueOf(currLowRound));
+     //       Log.e("Current claim number", String.valueOf(room.getCurrentClaimNo()));
+       //     Log.e("Current Round number", String.valueOf(currLowRound));
 
             Log.e("test", String.valueOf(room.getNumOfPlayers()));
             ServerCommunication serverCom = new ServerCommunication(this);
@@ -67,7 +63,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
     public void setClientPlayerID(int id) {
         this.clientPlayer.setID(id);
         //Toast.makeText(this, "Saved username", Toast.LENGTH_SHORT).show();
-        Log.i("Server gave:",String.valueOf(id));
+       // Log.i("Server gave:",String.valueOf(id));
         EditText roomNumberString = findViewById(R.id.roomNumberInput);
 
         ServerCommunication serverCom = new ServerCommunication(this);
@@ -80,7 +76,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
         this.clientPlayer = new Player(userName.getText().toString());
         //TODO add guard for empty input
         ServerCommunication serverCom = new ServerCommunication(this);
-        Log.e("name:", userName.getText().toString());
+       // Log.e("name:", userName.getText().toString());
         serverCom.savePlayerToDB(clientPlayer,this);
         //TODO Query server for room existence and if possible add client to ROOM. If successful do a callback to jumpToWaitForClaim
         // TODO if failure, handle failure, error message? response from server error message maybe?
@@ -89,7 +85,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
     private void jumpToWriteClaim() {
         Intent intent = new Intent(this, WriteClaimActivity.class);
         intent.putExtra("playerData", this.clientPlayer);
-        Log.e("answer ===",this.clientPlayer.toString());
+       // Log.e("answer ===",this.clientPlayer.toString());
         intent.putExtra("roomData", this.currentRoom);
         startActivity(intent);
     }

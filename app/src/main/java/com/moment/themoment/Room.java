@@ -133,16 +133,13 @@ public class Room implements Serializable {
 
     /**
      * Checks what the lowest round currently is in this game by checking other players rounds
-     * @param  clientPlayer is used to check that we don't look at that persons current round
-     * @return int that is lowest ID
+     * @return int that is lowest round
      */
-    public int getLowestRound(Player clientPlayer){
-        int currLow = this.playerList.get(0).getRound(); //TODO assumes someone at index 0 is in the room
-        for (int i = 1; i < this.getNumOfPlayers(); i++){
-            if(this.playerList.get(i).getID() != clientPlayer.getID()) {
-                if (this.playerList.get(i).getRound() < currLow) {
+    public int getLowestRound( ){
+        int currLow = playerList.get(0).getRound();
+        for (int i = 0; i < this.playerList.size(); i++){
+            if(this.playerList.get(i).getIsPlayer() && this.playerList.get(i).getRound() < currLow) {
                     currLow = this.playerList.get(i).getRound();
-                }
             }
         }
     return currLow;

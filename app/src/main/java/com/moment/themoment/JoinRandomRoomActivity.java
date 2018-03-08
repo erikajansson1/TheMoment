@@ -49,7 +49,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.removePlayerFromDb(clientPlayer.getID(),this);
         } else {
-            Log.i("room nbr",String.valueOf(room.getID()));
+            //Log.i("room nbr",String.valueOf(room.getID()));
             this.currentRoom = room;
             this.currentRoom.replaceCurrPlayer(this.clientPlayer);
             TextView roomNumber = findViewById(R.id.roomNumber);
@@ -70,7 +70,7 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
         Player clientPlayer = new Player(userNameToSave.getText().toString());
         this.clientPlayer = clientPlayer;
         ServerCommunication serverCom = new ServerCommunication(this);
-        Log.e("name:",userNameToSave.getText().toString());
+        //Log.e("name:",userNameToSave.getText().toString());
         serverCom.savePlayerToDB(clientPlayer,this);
     }
 
