@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,7 +22,7 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
-        Log.e("answer ===",this.clientPlayer.toString());
+       // Log.e("answer ===",this.clientPlayer.toString());
     }
 
     @Override
@@ -99,7 +98,8 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
      * calls a server update declaring player now has
      * given new claim and updates round counter to signal it
      */
-    public void updatePlayerRound() {
+    public void updatePlayerRound(int id) {
+        clientPlayer.getClaim().setID(id);
         clientPlayer.incrementRound();
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareClaimWritten(clientPlayer,this);

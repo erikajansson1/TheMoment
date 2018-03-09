@@ -21,10 +21,12 @@ public class JoinRandomRoomActivity extends AppCompatActivity implements JoinRan
         //TODO Guard for if the user uses back button!!
     }
 
+    /*
     @Override
     public void onBackPressed() {
 
     }
+    */
 
     /**
      * sets the client players id

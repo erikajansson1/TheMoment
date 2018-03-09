@@ -36,9 +36,9 @@ public class CallServer extends AsyncTask<Void, Void, String> {
         try {
             if(this.json == null) {
                 url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction);
-                Log.e("Call:",url.getHost());
-                Log.e("query: ",url.getQuery());
-                Log.e("query: ",url.toString());
+         //       Log.e("Call:",url.getHost());
+          //      Log.e("query: ",url.getQuery());
+          //      Log.e("query: ",url.toString());
             } else {
                 // Use "&" sign in GET methods to glue variables.
                 url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction+"&jsonobj="+json);

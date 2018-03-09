@@ -508,8 +508,6 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 joinRandomRoomCallback.setClientPlayerID(idToSet);
             } else if (createRoomCallback != null) {
                 createRoomCallback.setClientPlayerID(idToSet);
-            } else if (writeClaimCallback != null) {
-                writeClaimCallback.updatePlayerRound();
             } else if (joinRoomCallback != null) {
                 joinRoomCallback.setClientPlayerID(idToSet);
             }
@@ -535,7 +533,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
             Log.i("CallBackUpdatedClaim", "failed!");           //TODO Handle Failure
         } else {
             if (writeClaimCallback != null) {
-                writeClaimCallback.updatePlayerRound();
+                writeClaimCallback.updatePlayerRound(Integer.valueOf(output));
             }
         }
     }
