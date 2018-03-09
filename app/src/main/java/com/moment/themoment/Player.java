@@ -140,8 +140,8 @@ public class Player implements Serializable {
      * @return true or false if correct
      */
     public boolean answeredCorrect(Claim claim) {
-        Log.e("answeredCorrect",String.valueOf(this.answer == claim.getAnsw()));
-        return this.answer == claim.getAnsw();
+        Log.e("answeredCorrect",String.valueOf(this.answer.equals(claim.getAnsw())));
+        return this.answer.equals(claim.getAnsw());
     }
 
     /**
