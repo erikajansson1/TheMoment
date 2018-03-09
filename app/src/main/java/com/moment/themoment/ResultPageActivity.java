@@ -238,7 +238,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     public void newRound() {
         //TODO if its ClientPlayers claim next user will be blocked here!
         Intent intent;
-        if (currentRoom.getCurrentClaimNo() == 0) {
+        if (currentRoom.getCurrentClaimNo() != 0) {
             if (clientPlayer.claimIsClients(currentRoom.getCurrentClaim().getID())) {
                 this.myClaimIsNow();
                 return;
