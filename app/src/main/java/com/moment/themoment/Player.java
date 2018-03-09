@@ -132,8 +132,13 @@ public class Player implements Serializable {
      */
     public void addScore(){ this.score += 1; }
 
-    public boolean answeredCorrect() {
-        return this.answer == this.claim.getAnsw();
+    /**
+     * Compares if players answer is correct with claim given
+     * @param claim to compare to
+     * @return true or false if correct
+     */
+    public boolean answeredCorrect(Claim claim) {
+        return this.answer == claim.getAnsw();
     }
 
     /**

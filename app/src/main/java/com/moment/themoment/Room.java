@@ -68,7 +68,7 @@ public class Room implements Serializable {
      */
     public Boolean setNextClaim() {
         if (this.currentClaimNo < (this.playerList.size()-1)) {
-            this.currentClaimNo++;
+            this.currentClaimNo=+1;
             return true;
         } else {
             this.currentClaimNo = 0;
@@ -162,4 +162,19 @@ public class Room implements Serializable {
         }
     }
 
+    /**
+     * get previous claim
+     * @return previous claim
+     */
+    private Claim getPreviousClaim() {
+        int claimNo = 0;
+        if (this.currentClaimNo-1 > 0) {
+            claimNo = this.currentClaimNo-1;
+        }
+        return this.playerList.get(claimNo).getClaim();
+    }
+
+    public Boolean playerAnsweredCorrect(Player player) {
+        return player.answeredCorrect(this.getPreviousClaim());
+    }
 }

@@ -152,14 +152,12 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         this.currentRoom = room;
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         this.currentClaim = this.currentRoom.getCurrentClaim();
+        Log.e("myclaimID",String.valueOf(clientPlayer.getID()));
+        Log.e("TovoteOnID",String.valueOf(currentClaim.getID()));
         if (this.currentClaim.getID() == clientPlayer.getClaim().getID()) {
-            Boolean notAlone = this.currentRoom.setNextClaim();
-            if(!notAlone) {
+            Log.e("sendingTO:","TORESULT");
                 this.jumpToResult();
                 return;
-            } else {
-                this.currentClaim = this.currentRoom.getCurrentClaim();
-            }
         }
         this.jumpToVoteOnClaim();
     }

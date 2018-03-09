@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +56,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
                 this.clientPlayer.incrementRound();
                 this.currentRoom.setNextClaim();
                 ServerCommunication serverCom = new ServerCommunication(this);
-                serverCom.declareRoundDone(clientPlayer,currentRoom,this);
+                Log.e("sending claimNo",String.valueOf(this.currentRoom.getCurrentClaimNo()));
+                serverCom.declareRoundDone(this.clientPlayer,this.currentRoom,this);
             }
         } else {
             this.exitGame(null);
@@ -159,19 +163,37 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     public void updateResultList(Room updatedRoom) {
         findViewById(R.id.progressWait).setVisibility(View.GONE);
         findViewById(R.id.textViewWait).setVisibility(View.GONE);
+        updatedRoom.replaceCurrPlayer(this.clientPlayer);
+        Boolean iWasCorrect = updatedRoom.playerAnsweredCorrect(this.clientPlayer);
+
+        Gson g = new Gson();
+        Log.e("room before print",g.toJson(updatedRoom));
+
         ArrayList<Player> playerListClone = new ArrayList(updatedRoom.getPlayerList());
         Collections.sort(playerListClone, new PlayerComparator());
+
+        Gson g2 = new Gson();
+        Log.e("room before print",g2.toJson(updatedRoom));
+
+        Log.e("iwasCorrect",String.valueOf(iWasCorrect));
+
         for (Player player: playerListClone) {
-            if(player.getIsPlayer() && player.answeredCorrect()) {
+            if(player.getIsPlayer() && iWasCorrect) {
+               // Log.e("claim Bool",String.valueOf(updatedRoom.getPreviousClaim().getAnsw()));
+              //  Log.e("player Bool",String.valueOf(player.getAnswer()));
+              //  Log.e("answered","correct");
                 addPlayerResult(player,true);
             } else {
+               // Log.e("claim Bool",String.valueOf(updatedRoom.getPreviousClaim().getAnsw()));
+               // Log.e("player Bool",String.valueOf(player.getAnswer()));
+               // Log.e("answered","WRONG!!!");
                 addPlayerResult(player,false);
             }
         }
         //int claimCount = this.currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
         //this.currentRoom.setCurrentClaimNo(claimCount);
-        this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+        //this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         findViewById(R.id.Quit).setEnabled(true);
         findViewById(R.id.NewRound).setEnabled(true);
     }
