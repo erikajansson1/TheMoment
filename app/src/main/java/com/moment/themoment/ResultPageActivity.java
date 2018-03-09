@@ -32,7 +32,6 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.activityStopped = false;
         this.roundComplete = false;
         this.newRound = false;
-
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.imInTheGame(this.currentRoom.getID(),this.clientPlayer.getID(), this);
     }
@@ -51,7 +50,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             if (getIntent().getSerializableExtra("myClaim") != null) {
                 this.myClaimIsNow();
             } else {
-                clientPlayer.incrementRound();
+                this.clientPlayer.incrementRound();
+                this.currentRoom.setNextClaim();
                 ServerCommunication serverCom = new ServerCommunication(this);
                 serverCom.declareRoundDone(clientPlayer,currentRoom,this);
             }
@@ -238,7 +238,7 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     public void newRound() {
         //TODO if its ClientPlayers claim next user will be blocked here!
         Intent intent;
-        if (currentRoom.setNextClaim()) {
+        if (currentRoom.getCurrentClaimNo() == 0) {
             if (clientPlayer.claimIsClients(currentRoom.getCurrentClaim().getID())) {
                 this.myClaimIsNow();
                 return;
@@ -284,6 +284,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         ((LinearLayout) findViewById(R.id.NameList)).addView(Names);
         ((LinearLayout) findViewById(R.id.ScoreList)).addView(Scores);
 
+        this.clientPlayer.incrementRound();
+        this.currentRoom.setNextClaim();
+        this.newRound = false;
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareRoundDone(clientPlayer,currentRoom,this);
     }
