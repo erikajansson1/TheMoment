@@ -326,7 +326,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 callBackRemovedPlayer(output);
                 break;
             case "updateClaim":
-                callBackSetPlayerID(output);
+                callBackUpdatedClaim(output);
                 break;
             case "newClaim":
                 callBackUpdatedClaim(output);
