@@ -5,4 +5,5 @@
     <color name="colorAccent">#408cff</color>
     <color name="accent_material_light">#003df5</color>
     <color name="foreground_material_light">#0c3891</color>
+    <color name="nav">#208dbf</color>
 </resources>

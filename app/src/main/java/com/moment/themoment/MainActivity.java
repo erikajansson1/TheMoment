@@ -61,55 +61,6 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
         //Room newRoom = new Room();
     }
 
-    //Debug: NOT PERMANENT!
-    public void jumpToResult(View view) {
-        Room currentRoom = new Room(new Player("TorkelKonkel"));
-        currentRoom.setID(58);
-        Player clientPlayer = new Player("flufff");
-        clientPlayer.setID(72);
-        Intent intent = new Intent(this, ResultPageActivity.class);
-        intent.putExtra("roomData", currentRoom);
-        intent.putExtra("playerData", clientPlayer);
-        startActivity(intent);
-    }
-
-    /**
-     * changes view to writeClaim
-     * @param view v
-     */
-    public void writeClaimRoom(View view) {
-        //Creates a player only for test
-        Player currentPlayer = new Player(("knasboll"));
-        Intent intent = new Intent(this, WriteClaimActivity.class);
-        intent.putExtra("PlayerName", currentPlayer);
-        startActivity(intent);
-    }
-
-
-    public void voteOnClaimRoom(View view){
-        Player currentPlayer = new Player (("Noffff"));
-        currentPlayer.setClaim(new Claim("hej", true));
-        Room currRoom = new Room ();
-        Claim currClaim = new Claim("Solen är gul", true);
-        Intent intent = new Intent(this, VoteOnClaimActivity.class);
-        intent.putExtra("PlayerName", currentPlayer);
-        intent.putExtra("roomData", currRoom);
-        intent.putExtra("claimData", currClaim);
-        startActivity(intent);
-    }
-
-    public void waitForPlayers(View view){
-       // Log.i("i funk", "i funk         ");
-        Player currentPlayer = new Player (("Noffff"));
-        Room currRoom = new Room ();
-        currRoom.addPlayer(currentPlayer);
-        Intent intent = new Intent(this, WaitForPlayersActivity.class);
-        intent.putExtra("clientPlayer", currentPlayer);
-        intent.putExtra("roomData", currRoom);
-      //  Log.i("skapat", "skapat");
-        startActivity(intent);
-
-    }
 
     public void unlockMenu() {
         findViewById(R.id.JoinRoom).setEnabled(true);
