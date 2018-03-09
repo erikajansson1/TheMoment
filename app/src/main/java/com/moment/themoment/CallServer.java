@@ -42,6 +42,7 @@ public class CallServer extends AsyncTask<Void, Void, String> {
             } else {
                 // Use "&" sign in GET methods to glue variables.
                 url = new URL(this.serverAdress+this.phpFileName+".php?function="+this.phpFunction+"&jsonobj="+json);
+                //Log.e("Call:",this.serverAdress+this.phpFileName+".php?function="+this.phpFunction+"&jsonobj="+json);
             }
             URLConnection sender = url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(sender.getInputStream()));

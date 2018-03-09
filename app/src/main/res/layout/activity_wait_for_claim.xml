@@ -15,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:indeterminate="false"
-        android:max="30"
+        android:max="90"
         android:progress="0"
         android:progressTint="?attr/actionModeSplitBackground"
         app:layout_constraintEnd_toEndOf="parent"

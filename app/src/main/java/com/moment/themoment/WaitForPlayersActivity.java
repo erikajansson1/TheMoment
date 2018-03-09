@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -36,7 +35,7 @@ public class WaitForPlayersActivity extends AppCompatActivity implements WaitFor
 
     }
 
-    /**
+    /**'
      * Counts down from 30 if not enough peoples already have joined the room.
      */
 
