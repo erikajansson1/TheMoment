@@ -149,15 +149,17 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      * @param room
      */
     public void updateRoom(Room room) {
+        int claimNo = currentRoom.getCurrentClaimNo();
         this.currentRoom = room;
+        this.currentRoom.setCurrentClaimNo(claimNo);
         this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         this.currentClaim = this.currentRoom.getCurrentClaim();
-        Log.e("myclaimID",String.valueOf(clientPlayer.getID()));
-        Log.e("TovoteOnID",String.valueOf(currentClaim.getID()));
-        if (this.currentClaim.getID() == clientPlayer.getClaim().getID()) {
-            Log.e("sendingTO:","TORESULT");
-                this.jumpToResult();
-                return;
+        Integer claimID =  this.currentClaim.getID();
+        Integer playerClaimID = this.clientPlayer.getClaim().getID();
+        if (claimID.intValue() == playerClaimID.intValue()) {
+            //Log.e("sendingTO:","TORESULT");
+            this.jumpToResult();
+            return;
         }
         this.jumpToVoteOnClaim();
     }

@@ -1,5 +1,7 @@
 package com.moment.themoment;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,6 +177,7 @@ public class Room implements Serializable {
     }
 
     public Boolean playerAnsweredCorrect(Player player) {
+        Log.e("playerAnsweredCorrect",String.valueOf(player.answeredCorrect(this.getPreviousClaim())));
         return player.answeredCorrect(this.getPreviousClaim());
     }
 }

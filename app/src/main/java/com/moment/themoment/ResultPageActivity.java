@@ -148,7 +148,10 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
      */
     public void handleRoomUpdate(Room updatedRoom) {
         if(this.newRound) {
+            int claimNo = currentRoom.getCurrentClaimNo();
+
             this.currentRoom = updatedRoom;
+            this.currentRoom.setCurrentClaimNo(claimNo);
             this.currentRoom.replaceCurrPlayer(this.clientPlayer);
             newRound();
         } else {
@@ -164,16 +167,16 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         findViewById(R.id.progressWait).setVisibility(View.GONE);
         findViewById(R.id.textViewWait).setVisibility(View.GONE);
         updatedRoom.replaceCurrPlayer(this.clientPlayer);
-        Boolean iWasCorrect = updatedRoom.playerAnsweredCorrect(this.clientPlayer);
+        Boolean iWasCorrect = currentRoom.playerAnsweredCorrect(this.clientPlayer);
+
 
         Gson g = new Gson();
-        Log.e("room before print",g.toJson(updatedRoom));
+        Log.e("roomBefore",g.toJson(currentRoom));
+        Gson g2 = new Gson();
+        Log.e("roomAfter",g2.toJson(updatedRoom));
 
         ArrayList<Player> playerListClone = new ArrayList(updatedRoom.getPlayerList());
         Collections.sort(playerListClone, new PlayerComparator());
-
-        Gson g2 = new Gson();
-        Log.e("room before print",g2.toJson(updatedRoom));
 
         Log.e("iwasCorrect",String.valueOf(iWasCorrect));
 
@@ -186,14 +189,17 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
             } else {
                // Log.e("claim Bool",String.valueOf(updatedRoom.getPreviousClaim().getAnsw()));
                // Log.e("player Bool",String.valueOf(player.getAnswer()));
-               // Log.e("answered","WRONG!!!");
+              //  Log.e("answered","WRONG!!!");
                 addPlayerResult(player,false);
             }
         }
         //int claimCount = this.currentRoom.getCurrentClaimNo();
+        int claimNo = currentRoom.getCurrentClaimNo();
         this.currentRoom = updatedRoom;
-        //this.currentRoom.setCurrentClaimNo(claimCount);
+        this.currentRoom.setCurrentClaimNo(claimNo);
         //this.currentRoom.replaceCurrPlayer(this.clientPlayer);
+        //this.currentRoom.setCurrentClaimNo(claimCount);
+
         findViewById(R.id.Quit).setEnabled(true);
         findViewById(R.id.NewRound).setEnabled(true);
     }
@@ -308,7 +314,11 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
 
         this.clientPlayer.incrementRound();
         this.currentRoom.setNextClaim();
+        this.roundComplete = false;
         this.newRound = false;
+        findViewById(R.id.Quit).setEnabled(false);
+        findViewById(R.id.NewRound).setEnabled(false);
+
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareRoundDone(clientPlayer,currentRoom,this);
     }
