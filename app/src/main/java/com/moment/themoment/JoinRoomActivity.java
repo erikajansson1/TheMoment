@@ -3,7 +3,6 @@ package com.moment.themoment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,7 +41,7 @@ public class JoinRoomActivity extends AppCompatActivity implements JoinRoomCallb
      //       Log.e("Current claim number", String.valueOf(room.getCurrentClaimNo()));
        //     Log.e("Current Round number", String.valueOf(currLowRound));
 
-            Log.e("test", String.valueOf(room.getNumOfPlayers()));
+            //Log.e("test", String.valueOf(room.getNumOfPlayers()));
             ServerCommunication serverCom = new ServerCommunication(this);
             serverCom.storeJoinRoomPlayersRound(clientPlayer, this);
         }

@@ -138,9 +138,14 @@ public class Room implements Serializable {
      * @return int that is lowest round
      */
     public int getLowestRound( ){
+        //TODO guard for if joining player is index 0
+        //TODO fix uglyness below
         int currLow = playerList.get(0).getRound();
+        if (playerList.get(0).getIsPlayer() && playerList.size() > 1) {
+            currLow = playerList.get(1).getRound();
+        }
         for (int i = 0; i < this.playerList.size(); i++){
-            if(this.playerList.get(i).getIsPlayer() && this.playerList.get(i).getRound() < currLow) {
+            if(!this.playerList.get(i).getIsPlayer() && this.playerList.get(i).getRound() < currLow) {
                     currLow = this.playerList.get(i).getRound();
             }
         }

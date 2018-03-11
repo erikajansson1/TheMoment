@@ -107,7 +107,8 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
     public void claimCallback(boolean result) {
         //TODO if failed many times....maybe somethings wrong?
         if (!result) {
-            sendUpdateToServer(clientPlayer.getClaim());
+            //TODO remove old and dead claim!
+            sendNewClaimToServer(clientPlayer.getClaim());
         } else {
             updatePlayerRound();
         }
