@@ -98,8 +98,22 @@ public class WriteClaimActivity extends AppCompatActivity implements WriteClaimC
      * calls a server update declaring player now has
      * given new claim and updates round counter to signal it
      */
-    public void updatePlayerRound(int id) {
+    public void claimCallback(int id) {
+        //TODO If new claim is failed?
         clientPlayer.getClaim().setID(id);
+        updatePlayerRound();
+    }
+
+    public void claimCallback(boolean result) {
+        //TODO if failed many times....maybe somethings wrong?
+        if (!result) {
+            sendUpdateToServer(clientPlayer.getClaim());
+        } else {
+            updatePlayerRound();
+        }
+    }
+
+    private void updatePlayerRound() {
         clientPlayer.incrementRound();
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareClaimWritten(clientPlayer,this);

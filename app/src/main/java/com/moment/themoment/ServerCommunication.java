@@ -329,7 +329,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
                 callBackUpdatedClaim(output);
                 break;
             case "newClaim":
-                callBackUpdatedClaim(output);
+                callBackCreatedClaim(output);
                 break;
             case "updatePlayerScore":
                 callBackUpdatedPlayer(output);
@@ -529,12 +529,17 @@ public class ServerCommunication implements ServerCommunicationCallback {
 
     private void callBackUpdatedClaim(String output) {
         Log.e("callBackUpdatedClaim", output);
-        if (output == null) {
-            Log.i("CallBackUpdatedClaim", "failed!");           //TODO Handle Failure
-        } else {
-            if (writeClaimCallback != null) {
-                writeClaimCallback.updatePlayerRound(Integer.valueOf(output));
-            }
+        Boolean result = false;
+        if(!output.equals("")) result = true;
+        if (writeClaimCallback != null) {
+            writeClaimCallback.claimCallback(result);
+        }
+    }
+
+    private void callBackCreatedClaim(String output) {
+        Log.e("callBackCreatedClaim", output);
+        if (writeClaimCallback != null) {
+            writeClaimCallback.claimCallback(Integer.valueOf(output));
         }
     }
 

@@ -4,5 +4,6 @@ public interface WriteClaimCallback {
 
     void goToWaitForClaim();
 
-    void updatePlayerRound(int id);
+    void claimCallback(boolean result);
+    void claimCallback(int id);
 }
