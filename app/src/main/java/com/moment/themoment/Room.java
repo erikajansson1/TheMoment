@@ -70,7 +70,7 @@ public class Room implements Serializable {
      */
     public Boolean setNextClaim() {
         if (this.currentClaimNo < (this.playerList.size()-1)) {
-            this.currentClaimNo=+1;
+            this.currentClaimNo+=1;
             return true;
         } else {
             this.currentClaimNo = 0;
