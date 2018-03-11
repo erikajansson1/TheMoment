@@ -1,7 +1,5 @@
 package com.moment.themoment;
 
-import android.util.Log;
-
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -140,7 +138,7 @@ public class Player implements Serializable {
      * @return true or false if correct
      */
     public boolean answeredCorrect(Claim claim) {
-        Log.e("answeredCorrect",String.valueOf(this.answer.equals(claim.getAnsw())));
+        //Log.e("answeredCorrect",String.valueOf(this.answer.equals(claim.getAnsw())));
         return this.answer.equals(claim.getAnsw());
     }
 

@@ -11,8 +11,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -169,19 +167,19 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         updatedRoom.replaceCurrPlayer(this.clientPlayer);
         Boolean iWasCorrect = currentRoom.playerAnsweredCorrect(this.clientPlayer);
 
-
+/*
         Gson g = new Gson();
         Log.e("roomBefore",g.toJson(currentRoom));
         Gson g2 = new Gson();
         Log.e("roomAfter",g2.toJson(updatedRoom));
-
+*/
         ArrayList<Player> playerListClone = new ArrayList(updatedRoom.getPlayerList());
         Collections.sort(playerListClone, new PlayerComparator());
 
-        Log.e("iwasCorrect",String.valueOf(iWasCorrect));
+        //Log.e("iwasCorrect",String.valueOf(iWasCorrect));
 
         for (Player player: playerListClone) {
-            if(player.getIsPlayer() && iWasCorrect) {
+            if(player.getIsPlayer() && iWasCorrect && !this.currentRoom.playerClaimWasLast(this.clientPlayer)) {
                // Log.e("claim Bool",String.valueOf(updatedRoom.getPreviousClaim().getAnsw()));
               //  Log.e("player Bool",String.valueOf(player.getAnswer()));
               //  Log.e("answered","correct");
