@@ -125,18 +125,18 @@
             app:layout_constraintTop_toBottomOf="@+id/userNameInput" />
 
         <ImageButton
-            android:id="@+id/CofnirmBTN"
+            android:id="@+id/JoinRoomBTN"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/confirm"
+            android:contentDescription="@string/Join_Room_Button"
             android:cropToPadding="true"
             android:onClick="confirmRoomSelect"
             android:scaleType="fitCenter"
             android:src="@drawable/button_joinroom"
-            app:srcCompat="@drawable/button_confirm" />
+            app:srcCompat="@drawable/button_joinroom" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -23,7 +23,8 @@
         <TextView
             android:id="@+id/textView10"
             android:layout_width="match_parent"
-            android:layout_height="29dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -40,8 +41,9 @@
         <EditText
             android:id="@+id/theClaim"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="0.1"
             android:ems="10"
             android:inputType="textMultiLine|textPersonName"
             android:selectAllOnFocus="false"
@@ -61,8 +63,9 @@
         <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="32dp"
+            android:layout_weight="0.1"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -79,8 +82,9 @@
         <RadioGroup
             android:id="@+id/TrueFalseGroup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center"
+            android:layout_weight="0.2"
             android:duplicateParentState="false"
             android:textColor="@android:color/background_dark"
             android:textSize="24sp"
@@ -128,17 +132,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/TrueButton" />
         </RadioGroup>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/confirmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/CorrectAnsw"
+            android:cropToPadding="true"
+            android:onClick="saveClaim"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_joinroom"
+            app:srcCompat="@drawable/button_confirm" />
 
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="saveClaim"
-        android:text="@string/confirm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

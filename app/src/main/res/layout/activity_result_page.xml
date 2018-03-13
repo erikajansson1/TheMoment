@@ -10,7 +10,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="125dp"
+        android:layout_marginBottom="80dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,29 +79,43 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/NewRound"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="16dp"
-        android:layout_weight="1"
+    <ImageButton
+        android:id="@+id/newRoundBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="0.2"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/NewRound"
+        android:cropToPadding="true"
         android:onClick="callForRoomUpdate"
-        android:text="@string/NewRound"
-        app:layout_constraintBottom_toTopOf="@+id/Quit"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/Quit"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_weight="1"
-        android:onClick="exitGame"
-        android:text="@string/Quit"
+        android:scaleType="fitEnd"
+        android:src="@drawable/button_joinroom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/button_newround" />
+
+    <ImageButton
+        android:id="@+id/quitBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="0.2"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/Quit"
+        android:cropToPadding="true"
+        android:onClick="exitGame"
+        android:scaleType="fitStart"
+        android:src="@drawable/button_joinroom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/button_quit" />
 
     <ProgressBar
         android:id="@+id/progressWait"

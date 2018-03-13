@@ -26,8 +26,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_page);
-        findViewById(R.id.Quit).setEnabled(false);
-        findViewById(R.id.NewRound).setEnabled(false);
+        findViewById(R.id.quitBtn).setEnabled(false);
+        findViewById(R.id.newRoundBtn).setEnabled(false);
 
         this.clientPlayer = (Player) getIntent().getSerializableExtra("playerData");
         this.currentRoom = (Room) getIntent().getSerializableExtra("roomData");
@@ -199,8 +199,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         //this.currentRoom.replaceCurrPlayer(this.clientPlayer);
         //this.currentRoom.setCurrentClaimNo(claimCount);
 
-        findViewById(R.id.Quit).setEnabled(true);
-        findViewById(R.id.NewRound).setEnabled(true);
+        findViewById(R.id.quitBtn).setEnabled(true);
+        findViewById(R.id.newRoundBtn).setEnabled(true);
     }
 
     /**
@@ -327,8 +327,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         this.currentRoom.setNextClaim();
         this.roundComplete = false;
         this.newRound = false;
-        findViewById(R.id.Quit).setEnabled(false);
-        findViewById(R.id.NewRound).setEnabled(false);
+        findViewById(R.id.quitBtn).setEnabled(false);
+        findViewById(R.id.newRoundBtn).setEnabled(false);
 
         ServerCommunication serverCom = new ServerCommunication(this);
         serverCom.declareRoundDone(clientPlayer,currentRoom,this);
