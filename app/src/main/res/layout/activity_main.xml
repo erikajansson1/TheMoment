@@ -7,18 +7,31 @@
     tools:context="com.moment.themoment.MainActivity">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rootRL"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/background">
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/logo"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.120000005"
+        app:srcCompat="@drawable/logo_clam" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="304dp"
-        android:layout_height="165dp"
+        android:layout_width="0dp"
+        android:layout_height="329dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -28,44 +41,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38">
+        app:layout_constraintVertical_bias="0.9">
 
-        <Button
-            android:id="@+id/JoinRoom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="joinRoom"
-            android:text="@string/Join_Room_Button"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="100dp" />
-
-        <Button
-            android:id="@+id/JRR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:onClick="joinRandomRoom"
-            android:text="@string/Join_Random_Room_Button"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/JoinRoom" />
-
-        <Button
+        <ImageButton
             android:id="@+id/CreateRoom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_weight="0.3"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/createRoom"
             android:onClick="createRoom"
-            android:text="@string/Create_Room_Key"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/JRR" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_createroom" />
+
+        <ImageButton
+            android:id="@+id/JoinRoom"
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/Join_Room_Button"
+            android:onClick="joinRoom"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_joinroom" />
+
+        <ImageButton
+            android:id="@+id/JRR"
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/Join_Random_Room_Button"
+            android:onClick="joinRandomRoom"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_joinrandomroom" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

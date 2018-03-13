@@ -126,4 +126,5 @@
     <string name="notLegitRoomToJoin">Sorry you cant join this room, try again</string>
     <string name="roomNbr">Your room number is:</string>
     <string name="zero">0</string>
+    <string name="logo">logo</string>
 </resources>
