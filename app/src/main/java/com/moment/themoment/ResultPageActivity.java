@@ -312,6 +312,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         Names.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         Names.setGravity(Gravity.CENTER);
         Names.setTextSize(24);
+        Names.setTextColor(0xffffffff);
+        Names.setShadowLayer(5, 10, 10, Color.BLACK);
 
         TextView Scores = new TextView(this);
         Scores.setText(R.string.scores);
@@ -319,6 +321,8 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         Scores.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         Scores.setGravity(Gravity.CENTER);
         Scores.setTextSize(24);
+        Scores.setTextColor(0xffffffff);
+        Scores.setShadowLayer(5, 10, 10, Color.BLACK);
 
         ((LinearLayout) findViewById(R.id.NameList)).addView(Names);
         ((LinearLayout) findViewById(R.id.ScoreList)).addView(Scores);
