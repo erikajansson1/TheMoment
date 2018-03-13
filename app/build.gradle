@@ -6,17 +6,31 @@ android {
         applicationId "com.moment.themoment"
         minSdkVersion 26
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName '1.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
             jniDebuggable false
             renderscriptDebuggable false
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+        /**
+         * The `initWith` property allows you to copy configurations from other build types,
+         * then configure just the settings you want to change. This one copies the debug build
+         * type, and then changes the manifest placeholder and application ID.
+         */
+        staging {
+            initWith debug
+            manifestPlaceholders = [hostName:"internal.example.com"]
+            applicationIdSuffix ".debugStaging"
         }
     }
     buildToolsVersion '26.0.2'
@@ -27,8 +41,21 @@ android {
             applicationId "com.moment.themoment"
             minSdkVersion 26
             targetSdkVersion 26
-            versionCode 1
-            versionName "1.0"
+            versionName 'alpha'
+            versionNameSuffix 'alpha'
+            applicationIdSuffix ".alpha"
+            versionNameSuffix "-alpha"
+            versionCode 2
+        }
+        production {
+            minSdkVersion 26
+            applicationId 'com.moment.themoment'
+            targetSdkVersion 26
+            versionCode 2
+            versionName '1.1'
+            versionNameSuffix 'release'
+            applicationIdSuffix ".release"
+            versionNameSuffix "-release"
         }
     }
 }
