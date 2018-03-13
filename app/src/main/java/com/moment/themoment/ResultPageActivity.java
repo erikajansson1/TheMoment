@@ -1,6 +1,7 @@
 package com.moment.themoment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -228,7 +229,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         playerNameTV.setId(id);
         playerNameTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         playerNameTV.setGravity(Gravity.CENTER);
-        playerNameTV.setTextSize(18);
+        playerNameTV.setTextSize(20);
+        playerNameTV.setTextColor(0xffffffff);
+        playerNameTV.setShadowLayer(5, 10, 10, Color.BLACK);
         return playerNameTV;
     }
 
@@ -251,7 +254,9 @@ public class ResultPageActivity extends AppCompatActivity implements ResultPageC
         playerScoreTV.setId(id);
         playerScoreTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         playerScoreTV.setGravity(Gravity.CENTER);
-        playerScoreTV.setTextSize(18);
+        playerScoreTV.setTextSize(20);
+        playerScoreTV.setTextColor(0xffffffff);
+        playerScoreTV.setShadowLayer(5, 10, 10, Color.BLACK);
         return playerScoreTV;
     }
 
