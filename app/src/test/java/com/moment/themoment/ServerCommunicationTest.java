@@ -28,6 +28,7 @@ public class ServerCommunicationTest {
         String returnString = serverComm.SendToServer(testerJson);
         //Player returnS = gg.fromJson(returnString, Player.class);
         assertEquals(testagainst, returnString);
+
     }
 
 
@@ -48,7 +49,7 @@ public class ServerCommunicationTest {
     /**
      * Checks to see if handles when wrong objects is given to
      */
-    /*
+
     @Test
     public void sendWrongObject(){
         Player test1 = new Player("Fredrik");
@@ -66,7 +67,8 @@ public class ServerCommunicationTest {
         //Player returnS = gg.fromJson(returnString, Player.class);
         assertEquals(testagainst, returnString);
     }
-*/
+
+
     @Test
     public void savePlayertodb() throws Exception{
         assertEquals("", "");
@@ -93,3 +95,4 @@ public class ServerCommunicationTest {
     }
 
 }
+

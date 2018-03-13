@@ -53,23 +53,27 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/userNameInput"
+            android:id="@+id/roomNumberInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/RRNumber"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:labelFor="@+id/userNameInput"
+            android:inputType="number"
+            android:labelFor="@+id/roomNumberInput"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="5"
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
             android:id="@+id/textView2"
@@ -94,27 +98,23 @@
             app:layout_constraintTop_toBottomOf="@+id/roomNumberInput" />
 
         <EditText
-            android:id="@+id/roomNumberInput"
+            android:id="@+id/userNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/RRNumber"
             android:ems="10"
-            android:inputType="number"
-            android:labelFor="@+id/roomNumberInput"
-            android:shadowColor="@android:color/black"
-            android:shadowDx="10"
-            android:shadowDy="10"
-            android:shadowRadius="5"
+            android:inputType="textPersonName"
+            android:labelFor="@+id/userNameInput"
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/execfail"
