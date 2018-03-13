@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.moment.themoment.JoinRoomActivity">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="confirmRoomSelect"
-        android:text="@string/confirm"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,10 +23,11 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="70dp"
+            android:layout_weight="0.1"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -55,10 +44,10 @@
         <EditText
             android:id="@+id/roomNumberInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="0.1"
             android:ems="10"
             android:inputType="number"
             android:labelFor="@+id/roomNumberInput"
@@ -78,11 +67,12 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
 
+            android:layout_weight="0.1"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -100,10 +90,10 @@
         <EditText
             android:id="@+id/userNameInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="0.1"
             android:contentDescription="@string/RRNumber"
             android:ems="10"
             android:inputType="textPersonName"
@@ -119,8 +109,9 @@
         <TextView
             android:id="@+id/execfail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="0.1"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -132,6 +123,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userNameInput" />
+
+        <ImageButton
+            android:id="@+id/CofnirmBTN"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/confirm"
+            android:cropToPadding="true"
+            android:onClick="confirmRoomSelect"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_joinroom"
+            app:srcCompat="@drawable/button_confirm" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

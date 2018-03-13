@@ -6,19 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.moment.themoment.JoinRandomRoomActivity">
 
-    <Button
-        android:id="@+id/joinButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="jumpToWriteClaim"
-        android:text="@string/Join_Room_Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -29,15 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.8">
 
         <TextView
             android:id="@+id/UsernameText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_weight="0.03"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -54,10 +43,10 @@
         <EditText
             android:id="@+id/NameInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="0.05"
             android:ems="10"
             android:inputType="textPersonName"
             android:shadowColor="@android:color/black"
@@ -72,34 +61,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/UsernameText" />
 
-        <Button
+        <ImageButton
             android:id="@+id/saveUsername"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/createRoom"
+            android:cropToPadding="true"
             android:onClick="addUsername"
-            android:shadowColor="@android:color/black"
-            android:shadowDx="10"
-            android:shadowDy="10"
-            android:shadowRadius="5"
-            android:text="@string/saveUserName"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/NameInput" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_saveusername"
+            app:srcCompat="@drawable/button_saveusername" />
 
         <TextView
             android:id="@+id/emptyRoomINfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="0.08"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -116,10 +99,11 @@
         <TextView
             android:id="@+id/roomNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_weight="0.05"
             android:shadowColor="@android:color/black"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -132,6 +116,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emptyRoomINfo" />
+
+        <ImageButton
+            android:id="@+id/joinButton"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/Join_Room_Button"
+            android:cropToPadding="true"
+            android:onClick="jumpToWriteClaim"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_joinroom"
+            app:srcCompat="@drawable/button_joinroom" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
