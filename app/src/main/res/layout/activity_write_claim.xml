@@ -144,7 +144,7 @@
             android:cropToPadding="true"
             android:onClick="saveClaim"
             android:scaleType="fitCenter"
-            android:src="@drawable/button_joinroom"
+            android:src="@drawable/button_confirm"
             app:srcCompat="@drawable/button_confirm" />
 
     </LinearLayout>
