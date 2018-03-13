@@ -18,14 +18,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class WaitForClaimActivity extends AppCompatActivity implements WaitForClaimCallback{
     TextView timeCount;
-    private static final String FORMAT = "%02d";
+    private static final String FORMAT = "%d:%02d";
     Player clientPlayer;
     Room currentRoom;
     Claim currentClaim;
 
     ProgressBar claimProgress;
     Boolean isClaimsDone;
-    int seconds , minutes, numberOfPlayers, roomSize;
+    Long seconds , minutes, numberOfPlayers, roomSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,10 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         }
     }
 
+
+    // TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+     //                           TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+    //"" + String.format(FORMAT, millisUntilFinished/1000)
     /**
      * Starts a timer waiting for other players to finish their claim writing.
      * If people timer reaches end client starts kicking idling players
@@ -97,9 +101,11 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
         final WaitForClaimActivity thisObject = this;
         new CountDownTimer(90000, 1000) {
             public void onTick(long millisUntilFinished) {
-                timeCount.setText("" + String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                minutes = (millisUntilFinished / (60 * 1000));
+                seconds = (millisUntilFinished / 1000) % 60;
+                timeCount.setText( String.format(FORMAT, minutes, seconds));
+
+
                 claimProgress.setProgress(claimProgress.getProgress() + 1);
                 if (isClaimsDone) {
                     cancel();
