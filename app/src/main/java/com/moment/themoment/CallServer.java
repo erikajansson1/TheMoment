@@ -1,7 +1,6 @@
 package com.moment.themoment;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -51,11 +50,11 @@ public class CallServer extends AsyncTask<Void, Void, String> {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            Log.e("DB says",sb.toString());
+            //Log.e("DB says",sb.toString());
             reader.close();
             return sb.toString();
         }catch(Exception e) {
-            Log.e("ExceptionType:",e.getClass().getCanonicalName());
+            //Log.e("ExceptionType:",e.getClass().getCanonicalName());
             e.printStackTrace();
 
         }

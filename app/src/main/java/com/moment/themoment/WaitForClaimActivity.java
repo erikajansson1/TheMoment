@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -57,7 +54,7 @@ public class WaitForClaimActivity extends AppCompatActivity implements WaitForCl
      * @param reply boolean telling if player been kicked or not
      */
     public void stillInTheGame(Boolean reply) {
-        Log.e("log:","im in the game");
+       // Log.e("log:","im in the game");
         if(reply) {
             this.startTimer();
         } else {

@@ -1,7 +1,6 @@
 package com.moment.themoment;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -33,7 +32,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     private String packager(Object... objectV) {
         Gson g = new Gson();
-        Log.e("sending: ",g.toJson(objectV));
+        //Log.e("sending: ",g.toJson(objectV));
         return g.toJson(objectV);
     }
 
@@ -68,7 +67,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     public void savePlayerToDB(Player player, JoinRoomCallback joinRoomCallback) {
         this.joinRoomCallback = joinRoomCallback;
-        Log.i("sending player", packager(player));
+        //Log.i("sending player", packager(player));
         new CallServer(packager(player), "storeToDB", "storePlayer", this).execute();
     }
 
@@ -89,7 +88,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      */
     public void getRandomRoom(int playerID, JoinRandomRoomCallback joinRandomRoomCallback) {
         this.joinRandomRoomCallback = joinRandomRoomCallback;
-        Log.i("sending playerID", String.valueOf(playerID));
+       // Log.i("sending playerID", String.valueOf(playerID));
         new CallServer(packager(playerID), "getFromDB", "getRandomRoom", this).execute();
     }
 
@@ -357,7 +356,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output returns currentClaimNo
      */
     private void callBackUpdateRoundClaimNo(String output) {
-        Log.e("callBackRoundClaimNo:", output);
+      //  Log.e("callBackRoundClaimNo:", output);
         if (resultPageCallback != null) {
             resultPageCallback.checkIfRoundIsFinished(output);
         }
@@ -368,7 +367,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output
      */
     private void callBackUpdateClaimNo(String output) {
-        Log.e("callBackUpdateClaimNo", output);
+     //   Log.e("callBackUpdateClaimNo", output);
         Boolean result = false;
         if(!output.equals("")) result = true;
         if (resultPageCallback != null) {
@@ -381,7 +380,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackIsPlayerInRoom(String output) {
-        Log.e("callBackIsPlayerInRoom", output);
+      //  Log.e("callBackIsPlayerInRoom", output);
         Boolean result = false;
         if(!output.equals("")) result = true;
         if (resultPageCallback != null) {
@@ -396,7 +395,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackRemovedStragglers(String output) {
-        Log.e("callBackRemoStragglers", output);
+     //   Log.e("callBackRemoStragglers", output);
         if (resultPageCallback != null) {
             resultPageCallback.callForRoomUpdate(null);
         } else if (waitForClaimCallback != null) {
@@ -409,7 +408,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackUpdatedPlayer(String output) {
-        Log.e("callBackUpdatedPlayer", output);
+     //   Log.e("callBackUpdatedPlayer", output);
         if (voteOnClaimCallback != null) {
             voteOnClaimCallback.goToResult();
         }
@@ -420,7 +419,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackRemovedPlayer(String output) {
-        Log.e("callBackRemovedPlayer", output);
+      //  Log.e("callBackRemovedPlayer", output);
         if (resultPageCallback != null) {
             resultPageCallback.JumptoMainMenu(output);
         }  else if (waitForClaimCallback != null) {
@@ -433,7 +432,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackIsRoundDone(String output) {
-        Log.e("callBackIsRoundDone", output);
+     //   Log.e("callBackIsRoundDone", output);
         Boolean result = false;
         if(!output.equals("")) result = true;
         if (resultPageCallback != null) {
@@ -448,7 +447,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output boolean deciding outcome
      */
     private void callBackResponse(String output) {
-        Log.e("callBackResponse", output);
+      //  Log.e("callBackResponse", output);
         if (createRoomCallback != null) {
             createRoomCallback.confirmDone(output);
         } else if (resultPageCallback != null) {
@@ -465,7 +464,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output string which contains room id
      */
     private void callBackReturnRoomID(String output) {
-        Log.e("Got output to callback", output);
+     //   Log.e("Got output to callback", output);
         int idToSet = Integer.parseInt(output);
         if (createRoomCallback != null) {
             createRoomCallback.setRoomID(idToSet);
@@ -477,7 +476,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a JSON string containing room, player and claims
      */
     private void callBackReturnRoom(String output) {
-        Log.e("callBackReturnRoom", output);
+       // Log.e("callBackReturnRoom", output);
         Gson gson = new Gson();
         Room room = gson.fromJson(output, Room.class);
         if (joinRandomRoomCallback != null) {
@@ -498,7 +497,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
      * @param output is a numerical value in string form
      */
     private void callBackSetPlayerID(String output) {
-        Log.e("callBackSetPlayerID", output);
+        //Log.e("callBackSetPlayerID", output);
         if (output.equals("Failed")) {
             activity.findViewById(R.id.saveUsername).setEnabled(true);
             //TODO Handle Failure
@@ -528,7 +527,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     private void callBackUpdatedClaim(String output) {
-        Log.e("callBackUpdatedClaim", output);
+        //Log.e("callBackUpdatedClaim", output);
         Boolean result = false;
         if(!output.equals("")) result = true;
         if (writeClaimCallback != null) {
@@ -537,7 +536,7 @@ public class ServerCommunication implements ServerCommunicationCallback {
     }
 
     private void callBackCreatedClaim(String output) {
-        Log.e("callBackCreatedClaim", output);
+        //Log.e("callBackCreatedClaim", output);
         if (writeClaimCallback != null) {
             writeClaimCallback.claimCallback(Integer.valueOf(output));
         }
