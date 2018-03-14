@@ -29,7 +29,7 @@ android {
          */
         staging {
             initWith debug
-            manifestPlaceholders = [hostName:"internal.example.com"]
+            manifestPlaceholders = [hostName: "internal.example.com"]
             applicationIdSuffix ".debugStaging"
         }
     }
@@ -39,21 +39,10 @@ android {
         alpha {
             dimension "release"
             applicationId "com.moment.themoment"
-            minSdkVersion 26
-            targetSdkVersion 26
-            versionName 'alpha'
-            versionNameSuffix 'alpha'
-            applicationIdSuffix ".alpha"
-            versionNameSuffix "-alpha"
-            versionCode 2
-        }
-        production {
-            minSdkVersion 26
-            applicationId 'com.moment.themoment'
-            targetSdkVersion 26
-            versionCode 2
-            versionName '1.1'
-            versionNameSuffix 'release'
+            minSdkVersion 21
+            targetSdkVersion 21
+            versionName '2.1'
+            versionNameSuffix '-release'
             applicationIdSuffix ".release"
             versionNameSuffix "-release"
         }
